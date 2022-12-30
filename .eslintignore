@@ -1,0 +1,12 @@
+/node_modules
+/dist
+/build
+/docs
+/mock
+/public
+/test
+/yarn.lock
+/package-lock.json
+/next.config.js
+.DS_Store
+.vscode
