@@ -1,15 +1,8 @@
-import Head from 'next/head';
-import Layout, { siteTitle } from '../components/layout';
 import utilStyles from '@/styles/utils.module.css';
 import { Button, DatePicker, theme } from 'antd';
-import { useSelector } from 'react-redux';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { authService } from '@/api';
-import zh from '@/language/zh.json';
-import en from '@/language/en.json';
-import { useRouter } from 'next/router';
 import useLanguage from '@/hooks/useLanguage';
-import useLocalStorage from '@/hooks/useLocalStorage';
 
 const { useToken } = theme;
 export default function Home() {
@@ -23,17 +16,22 @@ export default function Home() {
         password: '123123',
       })
       .then((res) => {
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('token', res?.data?.token);
       });
   }, []);
+
+  const handleChangeTheme = () => {
+    document.getElementsByTagName('body')[0].style.setProperty('--primary-color', 'green');
+  };
   return (
-    <Layout home>
+    <div>
+      <h1 className='title'>
+        <a href='#' onClick={handleChangeTheme}>
+          1231232
+        </a>
+      </h1>
       <Button onClick={changeLanguage}>{t.buttonText}</Button>
       <Button type='primary'>123</Button>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
-      <div></div>
       <DatePicker />
       <section className={utilStyles.headingMd} style={{ color: token.colorPrimary }}>
         <p>[Your Self Introduction]</p>
@@ -43,6 +41,6 @@ export default function Home() {
           <a href='https://nextjs.org/learn'>our Next.js tutorial</a>.)
         </p>
       </section>
-    </Layout>
+    </div>
   );
 }

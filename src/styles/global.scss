@@ -1,0 +1,8 @@
+$primary-color: var(--primary-color, #E7232B);
+$background-color-base: var(--background-color-base, #8590A6);
+$background-color-light: var(--background-color-light, #F5F5F5);
+
+:export {
+  primaryColor: $primary-color
+}
+
