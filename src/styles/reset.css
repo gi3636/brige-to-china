@@ -1,0 +1,174 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+font,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dd,
+dl,
+dt,
+li,
+ol,
+ul,
+fieldset,
+form,
+label,
+button,
+legend {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  text-decoration: none;
+}
+/* 字体文件严谨修改，局部需求有变动单独确认 */
+
+body,
+html {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background: rgb(248, 250, 250);
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  transition: all 0.3s ease-in-out;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  visibility: hidden;
+}
+
+img {
+  border: none;
+  display: block;
+}
+
+i,
+em {
+  font-style: normal;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  cursor: pointer;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+}
+
+table {
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+element {
+  -webkit-appearance: none;
+  /*iphone及ipad下输入框默认内阴影*/
+  -webkit-tap-highlight-color: rgba(
+    255,
+    255,
+    255,
+    0
+  ); /*ios和android下触摸元素时出现半透明灰色遮罩*/
+}
+
+element {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+/* ios 设置input 按钮样式会被默认样式覆盖 */
+/* ********旋转屏幕时，字体大小调整的问题********* */
+html,
+body,
+form,
+fieldset,
+p,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  -webkit-text-size-adjust: 100%;
+}
+/* ****Input 的placeholder会出现文本位置偏上的情况*** */
+input {
+  line-height: normal;
+}
+
+a,
+img {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+
+button {
+  border: none;
+  background: transparent;
+}
+
