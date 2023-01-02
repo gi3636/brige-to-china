@@ -23,7 +23,7 @@ function Entry({ Component, pageProps }) {
 
   return (
     <ConfigProvider locale={enUS} theme={antdTheme}>
-      <Layout home>
+      <Layout>
         <Component {...pageProps} />
       </Layout>
     </ConfigProvider>

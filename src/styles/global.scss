@@ -1,8 +1,15 @@
 $primary-color: var(--primary-color, #E7232B);
 $background-color-base: var(--background-color-base, #8590A6);
-$background-color-light: var(--background-color-light, #F5F5F5);
-
+$background-color-light: var(--background-color-light, #ffffff);
+$border-color: var(--border-color, #E0E0E0);
+$border-color-light: var(--border-color-light, #F0F0F0);
+$icon-default-color: var(--gray-color, #8590A6);
+$main-width: 1200px;
 :export {
-  primaryColor: $primary-color
+  primaryColor: $primary-color;
+  backgroundColorBase: $background-color-base;
+  backgroundColorLight: $background-color-light;
+  icon-default-color: $icon-default-color;
+
 }
 

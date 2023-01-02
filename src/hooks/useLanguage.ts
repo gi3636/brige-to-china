@@ -13,18 +13,18 @@ function useLanguage() {
     // 详情看 https://nextjs.org/docs/messages/react-hydration-error
     const defaultLocale = getItem('language') || locale;
     if (defaultLocale !== locale) {
-      changeLocale();
+      changeLocale(defaultLocale);
     }
   }, [locale]);
 
-  function changeLanguage() {
-    changeLocale();
+  function changeLanguage(locale) {
+    changeLocale(locale);
     // 存储本地
-    setItem('language', locale === 'en' ? 'zh' : 'en');
+    setItem('language', locale);
   }
 
-  function changeLocale() {
-    push('/', '/', { locale: locale === 'en' ? 'zh' : 'en' });
+  function changeLocale(locale = 'en') {
+    push('/', '/', { locale: locale });
   }
 
   return {

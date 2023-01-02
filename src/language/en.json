@@ -1,5 +1,13 @@
 {
   "projectName": "Bridge to China",
+  "header": {
+    "home": "Home",
+    "activity": "Activity",
+    "news": "News",
+    "question": "Question",
+    "language": "English"
+  },
+  "login": "Login",
   "title": "i18-nextjs",
   "heading": "Viewing English",
   "buttonText": "Switch to"

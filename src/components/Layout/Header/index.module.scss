@@ -1,4 +1,47 @@
-.header{
-  height: 155px;
+.header {
+  height: 80px;
   background-color: $background-color-light;
+  display: flex;
+  justify-content: center;
+
+  .centerContainer {
+    width: $main-width;
+    display: flex;
+    align-items: center;
+
+    .tabContainer {
+      margin-left: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 400px;
+      height: 100%;
+      padding: 0 20px;
+       div:hover{
+         cursor: pointer;
+         opacity: 0.8;
+         color: $primary-color;
+       }
+    }
+
+    .searchContainer {
+      margin-left: 80px;
+    }
+
+    .loginBtn{
+      width: 80px;
+      height: 40px;
+      margin-left: 50px;
+      border-radius: 50px;
+    }
+    .languageContainer{
+      margin-left: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      padding: 0 20px;
+      cursor: pointer;
+    }
+  }
 }

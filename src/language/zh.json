@@ -1,5 +1,13 @@
 {
   "projectName": "留华桥-问答平台",
+  "header": {
+    "home": "首页",
+    "activity": "活动",
+    "news": "资讯",
+    "question": "问答",
+    "language": "中文"
+  },
+  "login": "登录",
   "title": "中文",
   "heading": "中文 English",
   "buttonText": "中文 123123"
