@@ -4,7 +4,7 @@ import Entry from '@/pages/entry';
 import Head from 'next/head';
 import useLanguage from '@/hooks/useLanguage';
 import 'antd/dist/reset.css';
-
+import '@/styles/customize.css';
 export default function App({ Component, pageProps }) {
   const { t, changeLanguage } = useLanguage();
   return (

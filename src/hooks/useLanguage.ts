@@ -4,7 +4,7 @@ import zh from '@/language/zh.json';
 import en from '@/language/en.json';
 import useLocalStorage from '@/hooks/useLocalStorage';
 function useLanguage() {
-  const { locale, push } = useRouter();
+  const { locale, push, pathname, reload } = useRouter();
   const { getItem, setItem } = useLocalStorage();
   const t = useMemo(() => (locale === 'en' ? en : zh), [locale]);
 
@@ -24,7 +24,7 @@ function useLanguage() {
   }
 
   function changeLocale(locale = 'en') {
-    push('/', '/', { locale: locale });
+    push(pathname, pathname, { locale: locale });
   }
 
   return {

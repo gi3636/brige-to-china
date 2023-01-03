@@ -1,10 +1,17 @@
 const withCss = require('@zeit/next-css');
 const path = require('path');
-// const { i18n } = require('./next-i18next.config');
 //为了配置antd
-console.log("path.join(__dirname, 'styles')", path.join(__dirname, 'src/styles/global.scss'));
 module.exports = withCss({});
 module.exports = {
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/home',
+        permanent: true,
+      },
+    ];
+  },
   experimental: {
     forceSwcTransforms: true,
   },
@@ -17,8 +24,8 @@ module.exports = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'upload.wikimedia.org',
+        protocol: 'http',
+        hostname: 'img.headjia.com',
         port: '',
         // pathname: '/account123/**',
       },

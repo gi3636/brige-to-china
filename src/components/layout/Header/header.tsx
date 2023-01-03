@@ -7,6 +7,7 @@ import useLanguage from '@/hooks/useLanguage';
 import { DownIcon } from '@/components/icons/DownIcon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const { Search } = Input;
 function Header(props) {
@@ -29,7 +30,7 @@ function Header(props) {
     {
       key: 'home',
       label: t.header.home,
-      href: '/',
+      href: '/home',
     },
     {
       key: 'questions',
@@ -51,7 +52,7 @@ function Header(props) {
     <header className={styles.header}>
       <div className={styles.centerContainer}>
         <div>
-          <HeaderLogo width={140} height={100} />
+          <Image priority src='/images/header-icon.svg' width={140} height={140} alt='留华桥' />
         </div>
         <div className={styles.tabContainer}>
           {navItems.map((item) => (

@@ -3,7 +3,7 @@ import { ConfigProvider, theme } from 'antd';
 import enUS from 'antd/locale/en_US';
 import zhCN from 'antd/locale/zh_CN';
 import { useSelector } from 'react-redux';
-import Layout from '@/components/Layout/layout';
+import Layout from '@/components/layout/layout';
 
 // darkAlgorithm为暗色主题，defaultAlgorithm为亮色（默认）主题
 // 注意这里的theme是来自于Ant Design的，而不是store

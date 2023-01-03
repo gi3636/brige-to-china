@@ -1,0 +1,9 @@
+/*react-items-carousel组件 轮播图高度*/
+.sc-bdVaJa,.sc-bwzfXH,.sc-htpNat{
+    height: 100%;
+}
+
+/*antd 水平线*/
+.ant-divider-horizontal{
+    margin: 15px 0;
+}

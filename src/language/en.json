@@ -7,6 +7,12 @@
     "question": "Question",
     "language": "English"
   },
+  "home": {
+    "communityQuestion": "Community Question",
+    "hotQuestion": "Hot Question",
+    "newQuestion": "New Question",
+    "waitAnswer": "Wait Answer"
+  },
   "login": "Login",
   "title": "i18-nextjs",
   "heading": "Viewing English",

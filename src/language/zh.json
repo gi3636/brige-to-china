@@ -7,6 +7,12 @@
     "question": "问答",
     "language": "中文"
   },
+  "home": {
+    "communityQuestion": "社区问答",
+    "hotQuestion": "热门回答",
+    "newQuestion": "最新提问",
+    "waitAnswer": "等我回答"
+  },
   "login": "登录",
   "title": "中文",
   "heading": "中文 English",

@@ -5,6 +5,17 @@ $border-color: var(--border-color, #E0E0E0);
 $border-color-light: var(--border-color-light, #F0F0F0);
 $icon-default-color: var(--gray-color, #8590A6);
 $main-width: 1200px;
+$border-radius: 12px;
+$font-color-base: var(--font-color-base, #000000);
+$font-color-placeholder: var(--font-color-placeholder, #8590A6);
+$line-color: #E0E0E0;
+$font-sm: 12px;
+$font-md: 14px;
+$font-lg: 16px;
+$font-xl: 20px;
+$font-xxl: 24px;
+
+
 :export {
   primaryColor: $primary-color;
   backgroundColorBase: $background-color-base;

@@ -1,0 +1,22 @@
+.tag {
+  display: flex;
+  cursor: pointer;
+
+  &:hover{
+    opacity: .8;
+  }
+  .content {
+    color: $primary-color;
+    padding: 4px 4px 4px 10px;
+    background: rgba(243, 153, 153, 0.3);
+  }
+
+  .rightArrow {
+    width: 0;
+    height: 0;
+    border-top: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 14px solid rgba(243, 153, 153, 0.3);
+  }
+}

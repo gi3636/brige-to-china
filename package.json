@@ -17,6 +17,7 @@
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-items-carousel": "^2.8.0",
     "react-redux": "^8.0.5",
     "sass": "^1.57.1"
   },
