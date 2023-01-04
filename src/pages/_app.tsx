@@ -1,6 +1,6 @@
 import store from '@/store';
 import { Provider } from 'react-redux';
-import Entry from '@/pages/entry';
+import Entry from '@/components/layout/entry';
 import Head from 'next/head';
 import useLanguage from '@/hooks/useLanguage';
 import 'antd/dist/reset.css';

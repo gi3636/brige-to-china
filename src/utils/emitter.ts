@@ -2,7 +2,7 @@
  * 这是设计模式中的发布订阅模式
  */
 class Emitter {
-  listens: { [x: string]: Set<Function> } = {};
+  listens: { [x: string]: Set<any> } = {};
 
   on(name, fn): any {
     let listen = this.listens[name] || new Set();
