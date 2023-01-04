@@ -70,3 +70,17 @@ yarn start # 运行打包后的项目
 
 ## 代码规范
 请看项目根目录下的[代码规范](./代码规范.md)
+
+
+## 技术选型
+
+|          技术          |     说明      |                       官网                        |
+|:--------------------:|:-----------:| :-----------------------------------------------: |
+|        React         | JavaScript库 |      https://reactjs.org/       |
+|       Next.js        |   React框架   |     https://nextjs.org/      |
+|        Axios         |    网络请求库    |  https://axios-http.com/  |
+|         Sass         |   CSS预处理器   | https://sass-lang.com/ |
+|         Antd         |     UI库     |           https://ant.design/             |
+|     React-redux      |   全局状态管理器   |             https://react-redux.js.org/              |
+|    Redux-toolkit     | Redux 开发工具集 |             https://cn.redux.js.org/redux-toolkit/overview/          |
+| React-items-carousel |  第三方轮播图组件   |                 https://kareemaly.github.io/react-items-carousel/               |
