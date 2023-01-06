@@ -1,11 +1,3 @@
-/*
- * @Author: Caesar caesar.b@iscmango.com
- * @Date: 2022-10-19 08:40:36
- * @LastEditors: Caesar caesar.b@iscmango.com
- * @LastEditTime: 2022-11-17 11:10:01
- * @FilePath: /h5/.prettierrc.js
- * @Description: 格式化配置,勿动
- */
 // 禁止修改
 module.exports = {
   printWidth: 120, //单行长度

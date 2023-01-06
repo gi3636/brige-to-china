@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "APP_ENV=development next dev",
+    "dev": "next dev",
     "dev:prod": "APP_ENV=production next dev",
     "build:prod": "APP_ENV=production next build",
     "build": "next build",
