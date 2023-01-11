@@ -1,32 +1,40 @@
 .container {
   width: 100%;
-  margin: auto;
   display: flex;
-
+  position: relative;
 }
 
 .input {
   width: 100%;
   background-color: #f0f2f5;
-  text-align:left;
-  padding: 5px 15px;
-  color:#8590A6;
-  border-style:solid;
-  border-width:2px;
+  padding: 5px 35px 5px 15px;
+  border-style: solid;
+  border-width: 1px;
   border-radius: 37px;
   border-color: #EBEBEB;
-  position: relative;
+  font-size: $font-md;
+  height: 30px;
 
+  &:focus {
+    outline: 1px solid $primary-color;
+    background-color: transparent;
+  }
 }
 
-.input:focus{
-  color:#FF1B1B;
-}
-
-.icon{
-  margin-top: 9px;
+.icon {
+  top: 8px;
+  right: 15px;
+  position: absolute;
   cursor: pointer;
-  position:absolute;
-  margin-left: 180px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+    scale: (1.15);
+
+    svg path {
+      fill: $primary-color;
+    }
+  }
 }
 
