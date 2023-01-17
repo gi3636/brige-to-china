@@ -22,7 +22,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:prettier/recommended',
   ],
-  plugins: ['reazct', 'prettier', '@typescript-eslint'],
+  plugins: ['react', 'prettier', '@typescript-eslint'],
   settings: {
     react: {
       version: 'detect',
