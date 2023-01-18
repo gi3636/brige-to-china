@@ -5,6 +5,7 @@ import useLanguage from '@/hooks/useLanguage';
 import styles from './index.module.scss';
 import Carousel from '@/components/carousel/Carousels';
 import HomeQuestion from '@/page_components/home/HomeQuestion/HomeQuestion';
+import LogoSwiper from "@/components/logoSwiper/logoSwiper";
 const { useToken } = theme;
 
 export default function Home() {
@@ -33,7 +34,10 @@ export default function Home() {
         </div>
         <div className={styles.secondColumn}>第二列</div>
       </div>
-      <div className={styles.schoolIntroduction}>中国大学介绍</div>
+        <div className={styles.schoolIntroduction}>
+          <LogoSwiper/>
+        </div>
+      <div> .</div>
     </div>
   );
 }
