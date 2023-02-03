@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import Tag from '@/components/tag/tag';
+import Tag from '@/components/Tag/tag';
 import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
 import { colors } from '@/styles/colors';
 import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';

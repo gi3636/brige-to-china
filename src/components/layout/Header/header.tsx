@@ -8,9 +8,7 @@ import { DownIcon } from '@/components/icons/DownIcon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import SearchBar from "@/components/searchBar/searchbar";
-
-
+import SearchBar from '@/components/SearchBar/SearchBar';
 
 const { Search } = Input;
 function Header(props) {
@@ -72,7 +70,7 @@ function Header(props) {
           ))}
         </div>
         <div className={styles.searchContainer}>
-          <SearchBar/>
+          <SearchBar />
         </div>
         <div>
           <Button type='primary' className={styles.loginBtn}>

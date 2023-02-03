@@ -1,0 +1,64 @@
+.container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .titleContainer {
+    display: flex;
+    align-items: center;
+  }
+
+  .button {
+    width: 150px;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+    line-height: 35px;
+    border: 1px solid #FF1B1B;
+    border-radius: 45px;
+    background-color: #FF1B1B;
+    color: white;
+    margin-top: 20px;
+    align-self: center;
+  }
+}
+
+
+.tittle {
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+
+.swiper {
+  width: 100%;
+  margin-top: 20px;
+  padding: 5px 30px;
+
+  .schoolItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+
+    .schoolName {
+      margin-top: 15px;
+      font-family: 'Microsoft YaHei', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 28px;
+      color: #000000;
+    }
+  }
+}
+
+
+
+
+
+
