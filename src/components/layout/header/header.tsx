@@ -8,7 +8,7 @@ import { DownIcon } from '@/components/icons/DownIcon';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import SearchBar from '@/components/SearchBar/SearchBar';
+import SearchBar from '@/components/search-bar/SearchBar';
 
 const { Search } = Input;
 function Header(props) {
