@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './index.module.scss';
 import { Divider } from 'antd';
 import Image from 'next/image';
-import QuestionItem from '@/page-components/home/QuestionItem/QuestionItem';
+import QuestionItem from '@/page-components/home/question-item/QuestionItem';
 import useLanguage from '@/hooks/useLanguage';
 
 function HomeQuestion(props) {

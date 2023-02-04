@@ -4,8 +4,8 @@ import { authService } from '@/api';
 import useLanguage from '@/hooks/useLanguage';
 import styles from './index.module.scss';
 import Carousel from '@/components/carousel/Carousels';
-import HomeQuestion from '@/page-components/home/HomeQuestion/HomeQuestion';
-import SchoolSwiper from '@/page-components/home/SchoolSwiper/SchoolSwiper';
+import HomeQuestion from '@/page-components/home/home-question/HomeQuestion';
+import SchoolSwiper from '@/page-components/home/school-swiper/SchoolSwiper';
 const { useToken } = theme;
 
 export default function Home() {
