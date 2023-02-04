@@ -1,0 +1,19 @@
+.modal{
+  min-width: 800px;
+}
+
+.container{
+  min-height: 450px;
+  display: flex;
+  .leftContainer{
+    width: 55%;
+    padding: 40px;
+  }
+  .rightContainer{
+    width: 40%;
+    margin-top: 40px;
+    margin-left: 30px;
+  }
+
+
+}

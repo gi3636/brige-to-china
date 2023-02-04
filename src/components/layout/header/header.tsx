@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { Button, Dropdown, Input, MenuProps } from 'antd';
-import { HeaderLogo } from '@/components/icons/HeaderLogo';
 import { EarthIcon } from '@/components/icons/EarthIcon';
 import useLanguage from '@/hooks/useLanguage';
 import { DownIcon } from '@/components/icons/DownIcon';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import SearchBar from '@/components/search-bar/SearchBar';
+import LoginModal from '@/components/modal/login/LoginModal';
 
 const { Search } = Input;
 function Header(props) {
   const { t, changeLanguage } = useLanguage();
   const router = useRouter();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const showModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
+
   const items: MenuProps['items'] = [
     {
       key: 'zh',
@@ -49,6 +63,7 @@ function Header(props) {
       href: '/news',
     },
   ];
+
   return (
     <header className={styles.header}>
       <div className={styles.centerContainer}>
@@ -73,7 +88,7 @@ function Header(props) {
           <SearchBar />
         </div>
         <div>
-          <Button type='primary' className={styles.loginBtn}>
+          <Button type='primary' className={styles.loginBtn} onClick={showModal}>
             {t.login}
           </Button>
         </div>
@@ -89,6 +104,7 @@ function Header(props) {
           </Dropdown>
         </div>
       </div>
+      <LoginModal isOpen={isOpen} handleOk={handleOk} handleCancel={handleCancel} />
     </header>
   );
 }
