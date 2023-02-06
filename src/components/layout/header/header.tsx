@@ -98,7 +98,7 @@ function Header(props) {
           <Dropdown menu={{ items }}>
             <div className={styles.languageContainer}>
               <EarthIcon width={20} height={20} color='#8590A6' />
-              <span style={{ color: '#8590A6', padding: 2, marginRight: 4 }}>{t.header.language}</span>
+              <span style={{ color: '#8590A6', padding: 2, marginRight: 4, minWidth: 40 }}>{t.header.language}</span>
               <DownIcon width={13} height={13} color='#8590A6'></DownIcon>
             </div>
           </Dropdown>

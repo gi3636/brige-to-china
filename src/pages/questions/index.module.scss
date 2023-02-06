@@ -1,0 +1,246 @@
+.container {
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+
+  .mainContent {
+    width: $main-width;
+    display: flex;
+
+    .leftContainer, .rightContainer {
+      border-radius: 20px;
+    }
+
+    .leftContainer {
+      width: 60%;
+      background: #fff;
+      padding: 20px;
+
+      .navBar {
+        display: flex;
+        flex-direction: row;
+
+        .navItem {
+          font-family: 'Microsoft YaHei', sans-serif;
+          margin-right: 30px;
+          font-size: 16px;
+          color: #000000;
+          cursor: pointer;
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+
+        .active {
+          color: $primary-color;
+          font-weight: bold;
+        }
+
+        .timeSort {
+          margin-left: auto;
+          color: #8590A6;
+          cursor: pointer;
+
+          &:hover {
+            color: $primary-color;
+
+            svg path {
+              stroke: $primary-color;
+            }
+          }
+
+          &:active {
+            opacity: .6;
+          }
+        }
+      }
+
+      .questionList {
+        margin-top: 20px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+
+        .questionItem {
+          display: flex;
+          flex-direction: column;
+
+          .questionHeader {
+            display: flex;
+            align-items: center;
+
+            .questionAuthor {
+              margin-left: 10px;
+              font-family: 'Microsoft YaHei', sans-serif;
+              font-weight: 700;
+              font-size: 15px;
+              cursor: pointer;
+              &:hover{
+                opacity: .8;
+              }
+            }
+
+            .questionAvatar {
+              img {
+                border-radius: 50%;
+              }
+            }
+
+            .questionDate {
+              margin-left: auto;
+              font-family: 'Microsoft YaHei', sans-serif;
+              font-size: 12px;
+              color: #8590A6;
+            }
+
+
+          }
+
+          .questionTitle {
+            margin-top: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            letter-spacing: 0.05em;
+            &:hover{
+                cursor: pointer;
+                color: $primary-color;
+            }
+          }
+
+          .questionContent {
+            margin-top: 8px;
+            width: 100%;
+            font-size: 14px;
+            color: #000000;
+            line-height: 20px;
+
+
+            .questionTag {
+              display: flex;
+              flex-direction: row;
+
+              .tagItem {
+                font-family: 'Microsoft YaHei', sans-serif;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+                color: #8590A6;
+                margin-right: 10px;
+                cursor: pointer;
+
+                &:hover {
+                  color: $primary-color;
+                }
+              }
+            }
+          }
+
+          .bestAnswerContainer {
+            padding: 20px;
+
+            .bestAnswerItem {
+              position: relative;
+              background: #F0F2F5;
+              border-radius: 10px;
+              padding: 10px;
+
+              .bg {
+                position: absolute;
+                top: 0;
+              }
+
+              .bestTag {
+                margin-left: 50px;
+                font-weight: 700;
+                font-size: 13px;
+                color: #FF1B1B;
+              }
+
+              .bestAnswerContainer {
+                margin-top: 4px;
+                .bestAnswerHeader {
+                  display: flex;
+                  align-items: center;
+
+                  .avatar {
+                    img {
+                      border-radius: 50%;
+                    }
+                  }
+
+                  .author {
+                    margin-left: 10px;
+                    font-family: 'Microsoft YaHei', sans-serif;
+                    font-weight: 700;
+                    font-size: 15px;
+                  }
+
+                  .date {
+                    margin-left: auto;
+                    font-family: 'Microsoft YaHei', sans-serif;
+                    font-size: 12px;
+                    color: #8590A6;
+                  }
+                }
+
+                .content {
+                  margin-left: 50px;
+                  font-size: 14px;
+                  color: #000000;
+                  line-height: 20px;
+                }
+              }
+            }
+          }
+
+          .questionFooter{
+            display: flex;
+
+            .tagList{
+              display: flex;
+            }
+            .actionContainer{
+              margin-left: auto;
+              min-width: 150px;
+              display: flex;
+              color: #8590A6;
+              align-items: center;
+
+              & > div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 20px;
+                cursor: pointer;
+                &:hover {
+                  color: $primary-color;
+                  svg path{
+                    fill: $primary-color;
+                  }
+                }
+              }
+
+              .count {
+                font-size: 14px;
+                margin-top: 2px;
+                margin-left: 4px;
+              }
+            }
+
+          }
+
+
+        }
+      }
+    }
+
+    .rightContainer {
+      width: 35%;
+      margin-left: 20px;
+      background: white;
+    }
+  }
+}
