@@ -18,11 +18,15 @@
       height: 100%;
       padding: 0 20px;
       font-size: 17px;
+      line-height: 30px;
        div:hover{
          cursor: pointer;
          opacity: 0.8;
          color: $primary-color;
        }
+      div:active{
+        opacity: 0.6;
+      }
     }
 
     .searchContainer {

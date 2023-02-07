@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import SearchBar from '@/components/search-bar/SearchBar';
 import LoginModal from '@/components/modal/login/LoginModal';
+import { colors } from '@/styles/colors';
 
 const { Search } = Input;
 function Header(props) {
@@ -72,10 +73,11 @@ function Header(props) {
         </div>
         <div className={styles.tabContainer}>
           {navItems.map((item) => (
-            // <Link href={item.href} key={item.key}>
-            //   {item.label}
-            // </Link>
             <div
+              style={{
+                color: router.pathname === item.href ? colors.primaryColor : '#8590A6',
+                borderBottom: router.pathname === item.href ? `2px solid ${colors.primaryColor}` : 'none',
+              }}
               key={item.key}
               onClick={() => {
                 router.push(item.href);

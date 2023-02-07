@@ -1,19 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { FireIcon } from '@/components/icons/FireIcon';
 import { SortIcon } from '@/components/icons/SortIcon';
-import Image from 'next/image';
-import MetalImage from '@/../public/images/medal.png';
-import Tag from '@/components/tag/tag';
-import { Divider } from 'antd';
-import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
+import { Button, Image, Input, Radio, Select, SelectProps } from 'antd';
 import { colors } from '@/styles/colors';
-import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
-import { EyeOutlineIcon } from '@/components/icons/EyeOutlineIcon';
+import QuestionItem from '@/page-components/question/question-item/QuestionItem';
+import { ImageOutlineIcon } from '@/components/icons/ImageOutlineIcon';
+import ImageItem from '@/page-components/question/image-item/ImageItem';
+import { HandIcon } from '@/components/icons/HandIcon';
+
 function QuestionsPage(props) {
   const [currentIndex, setCurrentIndex] = React.useState(1);
-
+  const [value, setValue] = useState(false);
+  const [images, setImages] = useState([
+    {
+      id: 1,
+      src: 'https://img.iplaysoft.com/wp-content/uploads/2019/free-images/free_stock_photo.jpg',
+    },
+    {
+      id: 2,
+      src: 'https://img95.699pic.com/photo/50136/1351.jpg_wh300.jpg',
+    },
+    {
+      id: 3,
+      src: 'https://img95.699pic.com/photo/50046/5562.jpg_wh300.jpg',
+    },
+    {
+      id: 3,
+      src: 'http://static.runoob.com/images/demo/demo3.jpg',
+    },
+  ]);
+  const handleCheck = () => {
+    setValue(!value);
+  };
   let questionList = [
+    {
+      id: 1,
+    },
     {
       id: 1,
     },
@@ -22,64 +45,20 @@ function QuestionsPage(props) {
     },
   ];
 
+  const handleCloseImage = (index) => {
+    images.splice(index, 1);
+    setImages([...images]);
+  };
+  const renderImagesList = () => {
+    return images.map((item, index) => {
+      return (
+        <ImageItem onClose={handleCloseImage.bind(null, index)} key={index} src={item.src} height={65} width={90} />
+      );
+    });
+  };
   const renderQuestionList = () => {
     return questionList.map((item, index) => {
-      return (
-        <div className={styles.questionItem} key={index}>
-          <div className={styles.questionHeader}>
-            <div className={styles.questionAvatar}>
-              <Image src='http://img.headjia.com/2022/0528205227134881.jpg' alt='' width={40} height={40} />
-            </div>
-            <div className={styles.questionAuthor}>飞翔的Fei</div>
-            <div className={styles.questionDate}>编辑于2022-12-18 13:46</div>
-          </div>
-          <div className={styles.questionTitle}>申请大学时需要准备什么材料？</div>
-          <div className={styles.questionContent}>
-            大家好，目前我正就读高三，如果想在本科去中国留学的话请问，我目前可以做怎么样的材料准备？？
-          </div>
-          <div className={styles.bestAnswerContainer}>
-            <div className={styles.bestAnswerItem}>
-              <Image className={styles.bg} src={MetalImage} width={40} height={40} alt={''} />
-              <div className={styles.bestTag}>【最佳答案】【置顶】</div>
-              <div className={styles.bestAnswerContainer}>
-                <div className={styles.bestAnswerHeader}>
-                  <div className={styles.avatar}>
-                    <Image src='http://img.headjia.com/2022/0528205227134881.jpg' alt='' width={40} height={40} />
-                  </div>
-                  <div className={styles.author}>Miki学姐</div>
-                  <div className={styles.date}>2022-12-18 13:46</div>
-                </div>
-                <div className={styles.content}>
-                  你好，飞翔的fei. 我之前在学习区上传过一个清单。你可以在我的主页找到。这几天也会有留学部的info
-                  session，你也可以及时关注一下动态。我觉得目前你最需要做的是把学术成绩提上去，把汉语考试考出来。加油哦！{' '}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.questionFooter}>
-            <div className={styles.tagList}>
-              <Tag title='留学准备' />
-              <Tag title='留学生活' />
-            </div>
-            <div className={styles.actionContainer}>
-              <div>
-                <EyeOutlineIcon height={16} width={16} color={colors.iconDefaultColor} />
-                <span className={styles.count}>20</span>
-              </div>
-              <div>
-                <CommentOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
-                <span className={styles.count}>20</span>
-              </div>
-              <div>
-                <LikeOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
-                <span className={styles.count}>20</span>
-              </div>
-            </div>
-          </div>
-
-          <Divider style={{ background: '#E5E5E5' }} />
-        </div>
-      );
+      return <QuestionItem key={index} />;
     });
   };
   let navList = [
@@ -100,6 +79,20 @@ function QuestionsPage(props) {
       name: '我的关注',
     },
   ];
+
+  const options: SelectProps['options'] = [];
+
+  for (let i = 10; i < 36; i++) {
+    options.push({
+      value: i.toString(36) + i,
+      label: i.toString(36) + i,
+    });
+  }
+
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
@@ -121,10 +114,51 @@ function QuestionsPage(props) {
               <span style={{ marginLeft: 4 }}>切换为时间排序</span>
             </div>
           </div>
-
           <div className={styles.questionList}>{renderQuestionList()}</div>
+          <div className={styles.loadMore}>加载更多</div>
         </div>
-        <div className={styles.rightContainer}>right</div>
+        <div className={styles.rightContainer}>
+          <div className={styles.postQuestion}>
+            <div className={styles.postQuestionHeader}>
+              <div className={styles.title}>
+                <HandIcon width={20} height={20} />
+                <span style={{ marginLeft: 3 }}>我要提问</span>
+              </div>
+              <div className={styles.anonymous}>
+                <Radio onClick={handleCheck} checked={value}>
+                  匿名
+                </Radio>
+              </div>
+            </div>
+            <div className={styles.postQuestionBody}>
+              <Input className={styles.titleInput} placeholder='请输入标题' />
+              <Input.TextArea className={styles.contentInput} rows={8} placeholder='请输入问题' />
+              <div style={{ marginTop: 10 }}>
+                <Select
+                  placeholder={'添加标签'}
+                  mode='tags'
+                  style={{ width: '100%' }}
+                  onChange={handleChange}
+                  tokenSeparators={[',']}
+                  options={options}
+                />
+              </div>
+              {images.length > 0 ? (
+                <div className={styles.imageList}>
+                  <Image.PreviewGroup>{renderImagesList()}</Image.PreviewGroup>
+                </div>
+              ) : null}
+              <div className={styles.actionContainer}>
+                <div className={styles.uploadBtn}>
+                  <ImageOutlineIcon width={22} height={22} color={colors.iconDefaultColor} />
+                </div>
+              </div>
+            </div>
+            <Button type='primary' className={styles.postBtn}>
+              发布问题
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
