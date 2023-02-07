@@ -11,7 +11,6 @@ interface ImageItemProps {
   onClose?: () => void;
 }
 function ImageItem({ src, width = '100%', height = '100%', onClose }: ImageItemProps) {
-  const [visible, setVisible] = useState(false);
   return (
     <div className={styles.imageItem}>
       <CloseCircleOutlined className={styles.closeBtn} onClick={onClose} />
@@ -21,11 +20,6 @@ function ImageItem({ src, width = '100%', height = '100%', onClose }: ImageItemP
         width={width}
         height={height}
         preview={{
-          visible,
-          src: src,
-          onVisibleChange: (value) => {
-            setVisible(value);
-          },
           mask: (
             <div>
               <EyeOutlineIcon width={20} height={20} color={'#fff'} />
