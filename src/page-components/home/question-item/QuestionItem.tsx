@@ -30,11 +30,11 @@ function QuestionItem(props) {
         </div>
         <div className={styles.actionContainer}>
           <div>
-            <CommentOutlineIcon height={18} width={18} color={colors.iconDefaultColor} />
+            <CommentOutlineIcon height={15} width={15} color={colors.iconDefaultColor} />
             <span className={styles.count}>20</span>
           </div>
           <div>
-            <LikeOutlineIcon height={18} width={18} color={colors.iconDefaultColor} />
+            <LikeOutlineIcon height={15} width={15} color={colors.iconDefaultColor} />
             <span className={styles.count}>20</span>
           </div>
         </div>

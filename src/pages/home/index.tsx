@@ -37,7 +37,6 @@ export default function Home() {
       <div className={styles.schoolIntroduction}>
         <SchoolSwiper />
       </div>
-      <div> .</div>
     </div>
   );
 }

@@ -6,7 +6,7 @@
 
   .header {
     font-weight: 700;
-    font-size: 24px;
+    font-size: 22px;
     line-height: 32px;
     letter-spacing: 0.05em;
   }
@@ -16,10 +16,8 @@
     margin-top: 10px;
 
     & > div {
-      font-size: 20px;
       margin-right: 30px;
-      font-style: normal;
-      font-weight: 400;
+      font-size: 18px;
 
       &:hover {
         color: $primary-color;

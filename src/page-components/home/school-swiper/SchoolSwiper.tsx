@@ -4,6 +4,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import styles from './index.module.scss';
 import { Navigation } from 'swiper';
+import { Button } from 'antd';
 
 const SchoolSwiper: React.FunctionComponent = () => {
   const schoolList = [
@@ -48,7 +49,9 @@ const SchoolSwiper: React.FunctionComponent = () => {
         className={styles.swiper}>
         {renderSchoolList}
       </Swiper>
-      <div className={styles.button}>查看更多</div>
+      <Button type='primary' className={styles.button}>
+        查看更多
+      </Button>
     </div>
   );
 };

@@ -6,6 +6,7 @@
     line-height: 28px;
     font-weight: 400;
     display: flex;
+    align-items: center;
     padding-bottom: 12px;
 
     img {
@@ -21,16 +22,14 @@
 
       .name {
         font-weight: 400;
-        font-size: $font-xl;
+        font-size: 18px;
         line-height: 150%;
-
       }
 
       .time {
-        font-weight: 400;
         font-size: $font-sm;
-        line-height: 16px;
         color: $font-color-placeholder;
+        line-height:16px;
       }
     }
   }
@@ -38,14 +37,12 @@
   .questionContent {
     .title {
       font-weight: 700;
-      font-size: $font-xl;
+      font-size: 18px;
     }
 
     .content {
       margin-top: 8px;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 24px;
+      font-size: 15px;
     }
   }
 
@@ -72,6 +69,7 @@
       }
 
       .count {
+        font-size: 14px;
         margin-top: 2px;
         margin-left: 4px;
       }
