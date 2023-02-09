@@ -9,8 +9,12 @@ import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
 import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
 import { Divider } from 'antd';
 import BestAnswerItem from '@/page-components/question/best-answer-item/BestAnswerItem';
+import Link from 'next/link';
 
-function QuestionItem(props) {
+interface QuestionItemProps {
+  question: any;
+}
+function QuestionItem({ question }: QuestionItemProps) {
   return (
     <div className={styles.questionItem}>
       <div className={styles.questionHeader}>
@@ -20,7 +24,9 @@ function QuestionItem(props) {
         <div className={styles.questionAuthor}>飞翔的Fei</div>
         <div className={styles.questionDate}>编辑于2022-12-18 13:46</div>
       </div>
-      <div className={styles.questionTitle}>申请大学时需要准备什么材料？</div>
+      <div className={styles.questionTitle}>
+        <Link href={`/questions/${question?.id}`}> {question?.title || '申请大学时需要准备什么材料？'}</Link>
+      </div>
       <div className={styles.questionContent}>
         大家好，目前我正就读高三，如果想在本科去中国留学的话请问，我目前可以做怎么样的材料准备？？
       </div>

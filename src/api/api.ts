@@ -45,8 +45,7 @@ api.interceptors.response.use(
         return Promise.reject(res);
       }
     } catch (e) {
-      message.destroy();
-      message.warning('网络异常');
+      // message.warning('网络异常');
       return;
     }
   },

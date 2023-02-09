@@ -8,10 +8,13 @@ import QuestionItem from '@/page-components/question/question-item/QuestionItem'
 import { ImageOutlineIcon } from '@/components/icons/ImageOutlineIcon';
 import ImageItem from '@/page-components/question/image-item/ImageItem';
 import { HandIcon } from '@/components/icons/HandIcon';
+import { getQuestionList } from '@/api/question';
+import axios from 'axios';
 
-function QuestionsPage(props) {
+function QuestionsPage({ questionList }) {
   const [currentIndex, setCurrentIndex] = React.useState(1);
   const [value, setValue] = useState(false);
+
   const [images, setImages] = useState([
     {
       id: 1,
@@ -33,17 +36,17 @@ function QuestionsPage(props) {
   const handleCheck = () => {
     setValue(!value);
   };
-  let questionList = [
-    {
-      id: 1,
-    },
-    {
-      id: 1,
-    },
-    {
-      id: 1,
-    },
-  ];
+  // let questionList = [
+  //   {
+  //     id: 1,
+  //   },
+  //   {
+  //     id: 1,
+  //   },
+  //   {
+  //     id: 1,
+  //   },
+  // ];
 
   const handleCloseImage = (index) => {
     images.splice(index, 1);
@@ -58,7 +61,7 @@ function QuestionsPage(props) {
   };
   const renderQuestionList = () => {
     return questionList.map((item, index) => {
-      return <QuestionItem key={index} />;
+      return <QuestionItem question={item} key={index} />;
     });
   };
   let navList = [
@@ -162,6 +165,58 @@ function QuestionsPage(props) {
       </div>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  // const res = await getQuestionList({
+  //   pageSize: 40,
+  //   currentPage: 1,
+  //   type: 1,
+  // })
+  const res = await axios('http://localhost:9999/question/list/test', {
+    method: 'GET',
+    headers: {
+      token:
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiY3JlYXRlZCI6MTY3NTYwNzY3NDkzOCwiaWQiOjIsImV4cCI6MTY3NjIxMjQ3NH0.zHfkvC6FNnLIrTDDu310z5oKNnPeeSaqMOJ_I2Crn5yId28UPZsc9bdVZm2s2O2H4EpkF9h16wFXxA37rnUP9g',
+    },
+  });
+
+  // const res = await axios.post(
+  //   'http://localhost:9999/question/list',
+  //   {
+  //     pageSize: 40,
+  //     currentPage: 1,
+  //     type: 1,
+  //   },
+  //   {
+  //     headers: {
+  //       token:
+  //         'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiY3JlYXRlZCI6MTY3NTYwNzY3NDkzOCwiaWQiOjIsImV4cCI6MTY3NjIxMjQ3NH0.zHfkvC6FNnLIrTDDu310z5oKNnPeeSaqMOJ_I2Crn5yId28UPZsc9bdVZm2s2O2H4EpkF9h16wFXxA37rnUP9g',
+  //     },
+  //   },
+  // );
+
+  const questionList = res?.data?.data || [
+    {
+      id: 1,
+    },
+    {
+      id: 2,
+    },
+    {
+      id: 3,
+    },
+  ];
+  // By returning { props: { posts } }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      questionList,
+    },
+    revalidate: 5,
+  };
 }
 
 export default QuestionsPage;

@@ -5,6 +5,7 @@ import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
 import { colors } from '@/styles/colors';
 import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
 import styles from './index.module.scss';
+import { getQuestionList } from '@/api/question';
 function QuestionItem(props) {
   return (
     <div className={styles.questionItem}>
