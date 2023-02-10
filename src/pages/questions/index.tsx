@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { FireIcon } from '@/components/icons/FireIcon';
 import { SortIcon } from '@/components/icons/SortIcon';
@@ -14,7 +14,7 @@ import axios from 'axios';
 function QuestionsPage({ questionList }) {
   const [currentIndex, setCurrentIndex] = React.useState(1);
   const [value, setValue] = useState(false);
-
+  // const [questionList, setQuestionList] = useState([]);
   const [images, setImages] = useState([
     {
       id: 1,
@@ -33,20 +33,19 @@ function QuestionsPage({ questionList }) {
       src: 'http://static.runoob.com/images/demo/demo3.jpg',
     },
   ]);
+  //
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await getQuestionList({});
+  //     console.log('result', result);
+  //     setQuestionList(result?.data);
+  //   };
+  //   fetchData();
+  // }, []);
+
   const handleCheck = () => {
     setValue(!value);
   };
-  // let questionList = [
-  //   {
-  //     id: 1,
-  //   },
-  //   {
-  //     id: 1,
-  //   },
-  //   {
-  //     id: 1,
-  //   },
-  // ];
 
   const handleCloseImage = (index) => {
     images.splice(index, 1);
@@ -60,7 +59,7 @@ function QuestionsPage({ questionList }) {
     });
   };
   const renderQuestionList = () => {
-    return questionList.map((item, index) => {
+    return questionList?.map((item, index) => {
       return <QuestionItem question={item} key={index} />;
     });
   };

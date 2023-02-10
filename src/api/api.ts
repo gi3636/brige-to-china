@@ -14,7 +14,12 @@ api = axios.create({
 // 请求拦截器
 api.interceptors.request.use(function (config) {
   const token = localStorage.getItem('token');
-  if (token) config.headers.token = `${token}`;
+  config.headers.token =
+    'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiY3JlYXRlZCI6MTY3NTYwNzY3NDkzOCwiaWQiOjIsImV4cCI6MTY3NjIxMjQ3NH0.zHfkvC6FNnLIrTDDu310z5oKNnPeeSaqMOJ_I2Crn5yId28UPZsc9bdVZm2s2O2H4EpkF9h16wFXxA37rnUP9g';
+  // if (token) {
+  //   console.log('token', token);
+  //   config.headers.token = `${token}`;
+  // }
   return config;
 });
 
@@ -45,7 +50,7 @@ api.interceptors.response.use(
         return Promise.reject(res);
       }
     } catch (e) {
-      // message.warning('网络异常');
+      message.warning('网络异常');
       return;
     }
   },
