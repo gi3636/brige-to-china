@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Radio } from 'antd';
+import { Button, Form, Input, message, Radio } from 'antd';
 import styles from './index.module.scss';
+import { login } from '@/api/auth';
+import { authService } from '@/api';
+import { useDispatch } from 'react-redux';
+import { updateUser } from '@/store/user/slice';
+import { emitter } from '@/utils/app-emitter';
 type RequiredMark = boolean | 'optional';
 interface Props {
   isLogin: boolean;
 }
 function LoginForm({ isLogin }: Props) {
   const [form] = Form.useForm();
-
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const initialValues = {
     username: 'test',
     password: '123456',
   };
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+  const onFinish = async (values: any) => {
+    setLoading(true);
+    try {
+      let res = await login(values);
+      if (res.code == 200) {
+        dispatch(updateUser(res.data));
+        localStorage.setItem('token', res?.data?.token);
+        message.success('登录成功');
+        emitter.fire('closeLoginModal');
+      }
+      console.log(res);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -49,7 +67,7 @@ function LoginForm({ isLogin }: Props) {
           </Form.Item>
         )}
         <Form.Item>
-          <Button type='primary' className={styles.submitBtn} htmlType='submit'>
+          <Button type='primary' className={styles.submitBtn} htmlType='submit' loading={loading}>
             {isLogin ? '登录' : '注册'}
           </Button>
         </Form.Item>

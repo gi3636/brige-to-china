@@ -9,20 +9,6 @@ import SchoolSwiper from '@/page-components/home/school-swiper/SchoolSwiper';
 const { useToken } = theme;
 
 export default function Home() {
-  const { t, changeLanguage } = useLanguage();
-  const { token } = useToken();
-
-  useEffect(() => {
-    authService
-      .login({
-        username: 'franky',
-        password: '123123',
-      })
-      .then((res) => {
-        localStorage.setItem('token', res?.data?.token);
-      });
-  }, []);
-
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>

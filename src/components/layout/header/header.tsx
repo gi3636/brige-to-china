@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { Button, Dropdown, Input, MenuProps } from 'antd';
+import { Avatar, Button, Dropdown, Input, MenuProps } from 'antd';
 import { EarthIcon } from '@/components/icons/EarthIcon';
 import useLanguage from '@/hooks/useLanguage';
 import { DownIcon } from '@/components/icons/DownIcon';
@@ -9,11 +9,14 @@ import Image from 'next/image';
 import SearchBar from '@/components/search-bar/SearchBar';
 import LoginModal from '@/components/modal/login/LoginModal';
 import { colors } from '@/styles/colors';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 function Header(props) {
   const { t, changeLanguage } = useLanguage();
   const router = useRouter();
+
+  const user = useSelector((state: any) => state.user);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,6 +36,19 @@ function Header(props) {
     {
       key: 'zh',
       label: <span>中文</span>,
+      onClick: () => changeLanguage('zh'),
+    },
+    {
+      key: 'en',
+      label: <span>English</span>,
+      onClick: () => changeLanguage('en'),
+    },
+  ];
+
+  const avatarItems: MenuProps['items'] = [
+    {
+      key: 'zh',
+      label: <span>登出</span>,
       onClick: () => changeLanguage('zh'),
     },
     {
@@ -86,16 +102,12 @@ function Header(props) {
             </div>
           ))}
         </div>
+
+        {/*TODO: 登入后显示用户头像和操作菜单*/}
+        {/*<div className={styles.navContainer}>已登录显示</div>*/}
         <div className={styles.searchContainer}>
           <SearchBar />
         </div>
-        <div>
-          <Button type='primary' className={styles.loginBtn} onClick={showModal}>
-            {t.login}
-          </Button>
-        </div>
-        {/*TODO: 登入后显示用户头像和操作菜单*/}
-        {/*<div className={styles.navContainer}>已登录显示</div>*/}
         <div>
           <Dropdown menu={{ items }}>
             <div className={styles.languageContainer}>
@@ -105,6 +117,22 @@ function Header(props) {
             </div>
           </Dropdown>
         </div>
+
+        {user?.token ? (
+          <div>
+            <Dropdown menu={{ items }}>
+              <div className={styles.avatarBox}>
+                <Avatar size={40} src={user.avatar} />
+              </div>
+            </Dropdown>
+          </div>
+        ) : (
+          <div>
+            <Button type='primary' className={styles.loginBtn} onClick={showModal}>
+              {t.login}
+            </Button>
+          </div>
+        )}
       </div>
       <LoginModal isOpen={isOpen} handleOk={handleOk} handleCancel={handleCancel} />
     </header>

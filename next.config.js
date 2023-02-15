@@ -3,6 +3,7 @@ const path = require('path');
 //为了配置antd
 module.exports = withCss({});
 module.exports = {
+  port: 3001,
   async redirects() {
     return [
       {

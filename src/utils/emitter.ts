@@ -47,5 +47,4 @@ class Emitter {
   }
 }
 
-export default Emitter;
 export { Emitter };

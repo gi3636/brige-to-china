@@ -32,12 +32,21 @@
     .searchContainer {
       margin-left: 80px;
     }
+    .avatarBox{
+      margin-left: 10px;
+      border-radius: 50%;
+      box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
+      cursor: pointer;
+      &:hover{
+        opacity: 0.8;
+      }
+    }
 
     .loginBtn{
       width: 80px;
       height: 35px;
       font-size: 14px;
-      margin-left: 50px;
+      margin-left: 20px;
       border-radius: 40px;
     }
     .languageContainer{

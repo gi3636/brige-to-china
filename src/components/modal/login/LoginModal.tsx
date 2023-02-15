@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal, Tabs, TabsProps } from 'antd';
 import styles from './index.module.scss';
 import LoginBody from '@/components/modal/login/component/login-body/LoginBody';
+import { emitter } from '@/utils/app-emitter';
 interface Props {
   isOpen: boolean;
   handleOk: () => void;
@@ -11,6 +12,12 @@ function LoginModal({ isOpen, handleOk, handleCancel }: Props) {
   const onChange = (key: string) => {
     console.log(key);
   };
+
+  useEffect(() => {
+    emitter.singleton('closeLoginModal', () => {
+      handleCancel();
+    });
+  }, []);
 
   const items: TabsProps['items'] = [
     {
