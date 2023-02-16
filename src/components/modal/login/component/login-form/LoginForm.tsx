@@ -2,35 +2,32 @@ import React, { useState } from 'react';
 import { Button, Form, Input, message, Radio } from 'antd';
 import styles from './index.module.scss';
 import { login } from '@/api/auth';
-import { authService } from '@/api';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '@/store/user/slice';
 import { emitter } from '@/utils/app-emitter';
+import useRequest from '@/hooks/useRequest';
 type RequiredMark = boolean | 'optional';
 interface Props {
   isLogin: boolean;
 }
 function LoginForm({ isLogin }: Props) {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  let { run, loading } = useRequest();
+
   const initialValues = {
     username: 'test',
     password: '123456',
   };
+
   const onFinish = async (values: any) => {
-    setLoading(true);
-    try {
-      let res = await login(values);
-      if (res.code == 200) {
-        dispatch(updateUser(res.data));
-        localStorage.setItem('token', res?.data?.token);
-        message.success('登录成功');
-        emitter.fire('closeLoginModal');
-      }
-      console.log(res);
-    } finally {
-      setLoading(false);
+    let res = await run(login(values));
+    console.log(res);
+    if (res.code == 200) {
+      dispatch(updateUser(res.data));
+      localStorage.setItem('token', res?.data?.token);
+      message.success('登录成功');
+      emitter.fire('closeLoginModal');
     }
   };
 

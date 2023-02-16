@@ -1,6 +1,7 @@
 /** @format */
 
 import { createSlice } from '@reduxjs/toolkit';
+import { USER_INFO } from '@/constants';
 
 const initialState = {
   // username: '123',
@@ -12,7 +13,7 @@ const UserSlice = createSlice({
   reducers: {
     updateUser: (state, action) => {
       const data = action.payload;
-      localStorage.setItem('userInfo', JSON.stringify(data));
+      localStorage.setItem(USER_INFO, JSON.stringify(data));
       return {
         ...state,
         ...data,

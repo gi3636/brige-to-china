@@ -122,7 +122,8 @@ function Header(props) {
           <div>
             <Dropdown menu={{ items }}>
               <div className={styles.avatarBox}>
-                <Avatar size={40} src={user.avatar} />
+                {/*<Avatar size={40} src={user.avatar} />*/}
+                <Avatar size={45} src={'https://p4.itc.cn/images01/20210823/e8dbc692952d48e0bda94c5536006a58.jpeg'} />
               </div>
             </Dropdown>
           </div>

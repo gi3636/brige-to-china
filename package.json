@@ -9,6 +9,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix --quiet ./"
   },
   "dependencies": {
+    "@next/swc-darwin-arm64": "^13.1.6",
     "@reduxjs/toolkit": "^1.9.1",
     "@zeit/next-css": "^1.0.1",
     "antd": "^5.2.1",
