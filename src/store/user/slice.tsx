@@ -19,7 +19,13 @@ const UserSlice = createSlice({
         ...data,
       };
     },
-    userLogout: (state) => initialState,
+    userLogout: (state) => {
+      localStorage.removeItem(USER_INFO);
+      localStorage.removeItem('token');
+      return {
+        ...initialState,
+      };
+    },
   },
 });
 export const { updateUser, userLogout } = UserSlice.actions;

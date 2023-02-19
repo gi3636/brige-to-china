@@ -10,6 +10,7 @@ import SearchBar from '@/components/search-bar/SearchBar';
 import LoginModal from '@/components/modal/login/LoginModal';
 import { colors } from '@/styles/colors';
 import { useSelector } from 'react-redux';
+import LoginAvatar from '@/components/layout/header/component/login-avatar/LoginAvatar';
 
 const { Search } = Input;
 function Header(props) {
@@ -119,14 +120,7 @@ function Header(props) {
         </div>
 
         {user?.token ? (
-          <div>
-            <Dropdown menu={{ items }}>
-              <div className={styles.avatarBox}>
-                {/*<Avatar size={40} src={user.avatar} />*/}
-                <Avatar size={45} src={'https://p4.itc.cn/images01/20210823/e8dbc692952d48e0bda94c5536006a58.jpeg'} />
-              </div>
-            </Dropdown>
-          </div>
+          <LoginAvatar />
         ) : (
           <div>
             <Button type='primary' className={styles.loginBtn} onClick={showModal}>

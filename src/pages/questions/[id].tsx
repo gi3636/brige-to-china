@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
-import styles from '@/page-components/question/question-item/index.module.scss';
 import Image from 'next/image';
 import BestAnswerItem from '@/page-components/question/best-answer-item/BestAnswerItem';
 import Tag from '@/components/tag/tag';
@@ -9,8 +8,9 @@ import { EyeOutlineIcon } from '@/components/icons/EyeOutlineIcon';
 import { colors } from '@/styles/colors';
 import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
 import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
-import { Divider } from 'antd';
-import './id.module.scss';
+import { Button, Divider } from 'antd';
+import styles from './id.module.scss';
+import { HeartOutlined } from '@ant-design/icons';
 function QuestionDetailPage({ question }) {
   console.log('question', question);
   return (
@@ -28,30 +28,47 @@ function QuestionDetailPage({ question }) {
           <div className={styles.questionContent}>
             大家好，目前我正就读高三，如果想在本科去中国留学的话请问，我目前可以做怎么样的材料准备？？
           </div>
-          <div className={styles.bestAnswerContainer}>
-            <BestAnswerItem />
+          <div className={styles.tagList}>
+            <Tag title='留学准备' />
+            <Tag title='留学生活' />
           </div>
-          <div className={styles.questionFooter}>
-            <div className={styles.tagList}>
-              <Tag title='留学准备' />
-              <Tag title='留学生活' />
+          <div className={styles.actionContainer}>
+            <div>
+              <CommentOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
+              <span className={styles.count}>20</span>
             </div>
-            <div className={styles.actionContainer}>
-              <div>
-                <EyeOutlineIcon height={16} width={16} color={colors.iconDefaultColor} />
-                <span className={styles.count}>20</span>
-              </div>
-              <div>
-                <CommentOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
-                <span className={styles.count}>20</span>
-              </div>
-              <div>
-                <LikeOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
-                <span className={styles.count}>20</span>
+            <div>
+              <LikeOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
+              <span className={styles.count}>20</span>
+            </div>
+            <div>
+              <HeartOutlined height={16} width={16} color={colors.iconDefaultColor} />
+              <span className={styles.count}>20</span>
+            </div>
+            <Button type='primary' className={styles.answerBtn}>
+              写回答
+            </Button>
+          </div>
+        </div>
+
+        <div className={styles.answerContainer}>
+          <div className={styles.answerHeader}>
+            <div>全部回答 45</div>
+          </div>
+          <Divider />
+
+          <div className={styles.answerList}>
+            <div className={styles.answerItem}>
+              <div className={styles.answerHeader}>
+                <div>头像</div>
+                <div>名字</div>
+                <Button type='default' danger>
+                  已采用 23
+                </Button>
+                <div>【最佳答案】</div>
               </div>
             </div>
           </div>
-          <Divider style={{ background: '#E5E5E5' }} />
         </div>
       </div>
     </div>
@@ -65,10 +82,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const res = await axios(`http://localhost:9999/question/detail/${questionId}`, {
     method: 'GET',
-    headers: {
-      token:
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiY3JlYXRlZCI6MTY3NTYwNzY3NDkzOCwiaWQiOjIsImV4cCI6MTY3NjIxMjQ3NH0.zHfkvC6FNnLIrTDDu310z5oKNnPeeSaqMOJ_I2Crn5yId28UPZsc9bdVZm2s2O2H4EpkF9h16wFXxA37rnUP9g',
-    },
   });
   console.log('res', res);
 
