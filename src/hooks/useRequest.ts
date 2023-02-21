@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '@/api/api';
-import axios, { AxiosRequestConfig } from 'axios';
-// interface useAxiosProps {}
+import { AxiosRequestConfig } from 'axios';
 
 function useRequest(axiosConfig?: AxiosRequestConfig) {
   const [loading, setLoading] = useState(false);

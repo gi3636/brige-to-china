@@ -1,9 +1,9 @@
-.container{
+.container {
   display: flex;
   justify-content: center;
 
   .body {
-    width: $main-width;
+    width: $main-width-sm;
 
     .questionItem {
       margin-top: 20px;
@@ -98,16 +98,18 @@
         color: #8590A6;
         align-items: center;
 
-        .answerBtn{
+        .answerBtn {
           margin-left: auto;
 
         }
+
         & > div {
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           margin-right: 20px;
+
           &:hover {
             color: $primary-color;
 
@@ -127,11 +129,204 @@
 
     }
 
-    .answerContainer{
+    .answerContainer {
       margin-top: 20px;
       background: white;
       border-radius: 10px;
       padding: 15px;
+
+      .answerList {
+        padding: 10px;
+
+        .answerItem {
+          margin-bottom: 30px;
+          .answerHeader {
+            display: flex;
+            align-items: center;
+
+            .avatar {
+              img {
+                border-radius: 50%;
+              }
+            }
+
+            .name {
+              margin-left: 10px;
+              font-family: 'Microsoft YaHei', sans-serif;
+              font-weight: 700;
+              font-size: 15px;
+              cursor: pointer;
+
+              &:hover {
+                opacity: .8;
+              }
+
+            }
+
+            .use {
+              border-radius: 8px;
+              padding: 5px 10px;
+              font-size: 14px;
+              color: $primary-color;
+              margin-left: 10px;
+              border: 1px solid $primary-color;
+            }
+
+            .toolBtn {
+              margin-left: auto;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              margin-right: 10px;
+              padding: 5px;
+
+              &:hover {
+                border-radius: 10px;
+                background: rgba(0, 0, 0, 0.05);
+                color: $primary-color;
+
+                svg path {
+                  fill: $primary-color;
+                }
+              }
+            }
+
+            .bestTitle {
+              color: #FF1B1B;
+              font-size: 14px;
+              font-weight: 700;
+            }
+          }
+
+          .answerBody {
+            padding-left: 50px;
+
+            .answerContent {
+              margin-top: 6px;
+              font-size: 14px;
+              color: #000000;
+              line-height: 20px;
+            }
+
+            .actionContainer {
+              margin-top: 10px;
+              display: flex;
+              color: #8590A6;
+              align-items: center;
+
+              .date {
+                margin-left: auto;
+                font-family: 'Microsoft YaHei', sans-serif;
+                font-size: 12px;
+                color: #8590A6;
+
+                &:hover {
+                  cursor: default;
+                  color: #8590A6;
+                }
+              }
+
+              & > div {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                margin-right: 20px;
+
+                &:hover {
+                  color: $primary-color;
+
+                  svg path {
+                    fill: $primary-color;
+                  }
+                }
+              }
+
+              .count {
+                font-size: 14px;
+                margin-top: 2px;
+                margin-left: 4px;
+              }
+            }
+
+            .commentContainer {
+              margin-top: 20px;
+              display: flex;
+            }
+
+            .commentList {
+              margin-top: 10px;
+              padding: 20px;
+              border-radius: 10px;
+              border: 1px solid #E5E5E5;
+
+              .count {
+                font-size: 16px;
+                color: #8590A6;
+              }
+
+              .commentItem {
+                padding-bottom: 25px;
+                .commentHeader {
+                  display: flex;
+                  align-items: center;
+
+                  .name {
+                    margin-left: 10px;
+                    font-family: 'Microsoft YaHei', sans-serif;
+                    font-weight: 700;
+                    font-size: 15px;
+                    cursor: pointer;
+
+                    &:hover {
+                      opacity: .8;
+                    }
+                  }
+
+                  .toolBtn {
+                    margin-left: auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    margin-right: 10px;
+                    padding: 5px;
+
+                    &:hover {
+                      border-radius: 10px;
+                      background: rgba(0, 0, 0, 0.05);
+                      color: $primary-color;
+
+                      svg path {
+                        fill: $primary-color;
+                      }
+                    }
+                  }
+                }
+
+                .commentBody {
+                  padding-left: 50px;
+
+                  .commentContent {
+                    font-size: 15px;
+                    color: #000000;
+                  }
+
+                  .time {
+                    margin-top: 10px;
+                    font-size: 12px;
+                    color: #8590A6;
+                  }
+
+
+                }
+              }
+            }
+          }
+
+        }
+      }
     }
 
   }
