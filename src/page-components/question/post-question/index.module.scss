@@ -1,0 +1,105 @@
+.postQuestion {
+  padding: 20px;
+  border-radius: 12px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+
+  .postQuestionHeader {
+    display: flex;
+    align-items: center;
+
+    .title {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .anonymous {
+      margin-left: auto;
+    }
+  }
+
+  .postQuestionBody {
+
+    :global {
+      .ant-select-selector {
+        padding: 3px 5px;
+      }
+
+      .ant-form-item {
+        margin-bottom: 12px;
+      }
+
+      .ant-select-selection-item {
+        height: 25px;
+        border: 1px solid rgba(231, 35, 43, 0.06);
+        background-color: rgba(231, 35, 43, 0.08);
+        color: $primary-color;
+
+        svg {
+          fill: $primary-color;
+
+          &:hover {
+            opacity: .8;
+          }
+        }
+
+      }
+    }
+
+    .titleInput {
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 10px;
+      line-height: 25px;
+    }
+
+    .contentInput {
+      font-size: 14px;
+      line-height: 24px;
+      color: #000000;
+    }
+
+    .imageList {
+      display: flex;
+      margin-top: 10px;
+      overflow-x: auto;
+
+      & > div {
+        margin-right: 8px;
+      }
+    }
+
+    .actionContainer {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+
+      .uploadBtn {
+        padding: 4px;
+        font-size: 14px;
+        color: #8590A6;
+        cursor: pointer;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background-color: rgba(231, 35, 43, 0.08);
+          //color: $primary-color;
+          svg path {
+            fill: $primary-color;
+          }
+
+          opacity: .8;
+        }
+      }
+    }
+  }
+
+  .postBtn {
+    margin-top: 4px;
+  }
+}
