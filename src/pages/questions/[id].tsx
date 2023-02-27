@@ -12,6 +12,7 @@ import { Button, Divider, Input } from 'antd';
 import styles from './id.module.scss';
 import { EllipsisOutlined, HeartOutlined } from '@ant-design/icons';
 import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
+import { globalConfig } from '@/globalConfig';
 function QuestionDetailPage({ question }) {
   console.log('question', question);
   return (
@@ -205,7 +206,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const questionId = params?.id;
 
-  const res = await axios(`http://localhost:9999/question/detail/${questionId}`, {
+  const res = await axios(`${globalConfig.devBaseUrl}/question/detail/${questionId}`, {
     method: 'GET',
   });
   console.log('res', res);
