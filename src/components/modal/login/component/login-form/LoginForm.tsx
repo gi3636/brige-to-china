@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, message, Radio } from 'antd';
 import styles from './index.module.scss';
-import { login } from '@/api/auth';
+import { login, register } from '@/api/auth';
 import { useDispatch } from 'react-redux';
 import { updateUser } from '@/store/user/slice';
 import { emitter } from '@/utils/app-emitter';
@@ -21,13 +21,17 @@ function LoginForm({ isLogin }: Props) {
   };
 
   const onFinish = async (values: any) => {
-    let res = await run(login(values));
+    let res = await run(isLogin ? login(values) : register(values));
     console.log(res);
-    if (res.code == 200) {
+    if (isLogin && res.code == 200) {
       dispatch(updateUser(res.data));
       localStorage.setItem('token', res?.data?.token);
       message.success('登录成功');
       emitter.fire('closeLoginModal');
+    }
+    if (!isLogin && res.code == 200) {
+      form.resetFields();
+      message.success('注册成功');
     }
   };
 
@@ -42,8 +46,7 @@ function LoginForm({ isLogin }: Props) {
         form={form}
         layout='vertical'
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        initialValues={initialValues}>
+        onFinishFailed={onFinishFailed}>
         <Form.Item label='账号' name='username' rules={[{ required: true, message: 'Please input your username!' }]}>
           <Input placeholder='邮箱/手机号' />
         </Form.Item>

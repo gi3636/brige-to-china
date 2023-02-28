@@ -2,17 +2,16 @@ import React from 'react';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import BestAnswerItem from '@/page-components/question/best-answer-item/BestAnswerItem';
 import Tag from '@/components/tag/tag';
-import { EyeOutlineIcon } from '@/components/icons/EyeOutlineIcon';
 import { colors } from '@/styles/colors';
 import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
 import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
 import { Button, Divider, Input } from 'antd';
 import styles from './id.module.scss';
-import { EllipsisOutlined, HeartOutlined } from '@ant-design/icons';
+import { HeartOutlined } from '@ant-design/icons';
 import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
 import { globalConfig } from '@/globalConfig';
+
 function QuestionDetailPage({ question }) {
   console.log('question', question);
   return (

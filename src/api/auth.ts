@@ -1,6 +1,4 @@
 /** @format */
-import { api } from './api';
-import useRequest from '@/hooks/useRequest';
 
 export function login(param) {
   return {
@@ -10,5 +8,9 @@ export function login(param) {
   };
 }
 export function register(param) {
-  return api.post('auth/register', param);
+  return {
+    url: 'auth/register',
+    method: 'post',
+    data: param,
+  };
 }

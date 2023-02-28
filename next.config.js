@@ -30,6 +30,12 @@ module.exports = {
         port: '',
         // pathname: '/account123/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatars1.githubusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   //添加语言环境

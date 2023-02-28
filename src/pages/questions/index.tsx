@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './index.module.scss';
 import { FireIcon } from '@/components/icons/FireIcon';
 import { SortIcon } from '@/components/icons/SortIcon';
@@ -10,12 +10,11 @@ import { globalConfig } from '@/globalConfig';
 function QuestionsPage({ questionList }) {
   const [currentIndex, setCurrentIndex] = React.useState(1);
   console.log('questionList', questionList);
-
-  const renderQuestionList = () => {
+  const renderQuestionList = useMemo(() => {
     return questionList?.map((item, index) => {
       return <QuestionItem question={item} key={index} />;
     });
-  };
+  }, [questionList]);
   let navList = [
     {
       id: 1,
@@ -56,7 +55,7 @@ function QuestionsPage({ questionList }) {
               <span style={{ marginLeft: 4 }}>切换为时间排序</span>
             </div>
           </div>
-          <div className={styles.questionList}>{renderQuestionList()}</div>
+          <div className={styles.questionList}>{renderQuestionList}</div>
           <div className={styles.loadMore}>加载更多</div>
         </div>
         <div className={styles.rightContainer}>
@@ -66,54 +65,6 @@ function QuestionsPage({ questionList }) {
     </div>
   );
 }
-
-// export async function getStaticProps() {
-//   // Call an external API endpoint to get posts.
-//   // You can use any data fetching library
-//   // const res = await getQuestionList({
-//   //   pageSize: 40,
-//   //   currentPage: 1,
-//   //   type: 1,
-//   // })
-//   const res = await axios(`${globalConfig.devBaseUrl}question/list/test`, {
-//     method: 'GET',
-//   });
-//
-//   // const res = await axios.post(
-//   //   'http://localhost:9999/question/list',
-//   //   {
-//   //     pageSize: 40,
-//   //     currentPage: 1,
-//   //     type: 1,
-//   //   },
-//   //   {
-//   //     headers: {
-//   //       token:
-//   //         'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiY3JlYXRlZCI6MTY3NTYwNzY3NDkzOCwiaWQiOjIsImV4cCI6MTY3NjIxMjQ3NH0.zHfkvC6FNnLIrTDDu310z5oKNnPeeSaqMOJ_I2Crn5yId28UPZsc9bdVZm2s2O2H4EpkF9h16wFXxA37rnUP9g',
-//   //     },
-//   //   },
-//   // );
-//
-//   const questionList = res?.data?.data || [
-//     {
-//       id: 1,
-//     },
-//     {
-//       id: 2,
-//     },
-//     {
-//       id: 3,
-//     },
-//   ];
-//   // By returning { props: { posts } }, the Blog component
-//   // will receive `posts` as a prop at build time
-//   return {
-//     props: {
-//       questionList,
-//     },
-//     revalidate: 5,
-//   };
-// }
 
 export async function getServerSideProps(context) {
   const { page } = context.query;
