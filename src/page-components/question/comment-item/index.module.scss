@@ -1,0 +1,56 @@
+.commentItem {
+  padding-bottom: 25px;
+  .commentHeader {
+    display: flex;
+    align-items: center;
+
+    .name {
+      margin-left: 10px;
+      font-family: 'Microsoft YaHei', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+
+      &:hover {
+        opacity: .8;
+      }
+    }
+
+    .toolBtn {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-right: 10px;
+      padding: 5px;
+
+      &:hover {
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.05);
+        color: $primary-color;
+
+        svg path {
+          fill: $primary-color;
+        }
+      }
+    }
+  }
+
+  .commentBody {
+    padding-left: 50px;
+
+    .commentContent {
+      font-size: 15px;
+      color: #000000;
+    }
+
+    .time {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #8590A6;
+    }
+
+
+  }
+}

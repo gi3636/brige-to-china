@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 
 function useRequest(axiosConfig?: AxiosRequestConfig) {
   const [loading, setLoading] = useState(false);
-  const [res, setRes] = useState<any>(null);
+  const [data, setData] = useState<any>(null);
   const [err, setErr] = useState<any>(null);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ function useRequest(axiosConfig?: AxiosRequestConfig) {
     setLoading(true);
     return api(config)
       .then((_res) => {
-        setRes(res);
+        setData(_res);
         return _res;
       })
       .catch((_err) => {
@@ -32,6 +32,6 @@ function useRequest(axiosConfig?: AxiosRequestConfig) {
       });
   }
 
-  return { loading, err, res, run };
+  return { loading, err, data, run };
 }
 export default useRequest;

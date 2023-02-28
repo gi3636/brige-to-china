@@ -2,8 +2,9 @@
 
 import { Emitter } from './emitter';
 
-enum EmitterType {
+export enum EmitterType {
   logout,
+  updateAnswerList,
 }
 class AppEmitter extends Emitter {
   type = EmitterType;
