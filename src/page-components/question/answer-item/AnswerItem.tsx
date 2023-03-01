@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
 import { colors } from '@/styles/colors';
 import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
-import { Button, message } from 'antd';
+import { Button, message, Spin } from 'antd';
 import CommentList from '@/page-components/question/comment-list/CommentList';
 import { useSelector } from 'react-redux';
 import { formatToDateTime, isLogin } from '@/utils';
@@ -19,7 +19,7 @@ function AnswerItem({ item, isAuthor }) {
   const [commentListData, setCommentListData] = React.useState<any[]>([]);
   const [showCommentList, setShowCommentList] = React.useState(false);
   const { run, data, loading } = useRequest();
-  const { run: runCommentList, data: commentList } = useRequest();
+  const { run: runCommentList, data: commentList, loading: commentLoading } = useRequest();
 
   const handleClickUse = async (status) => {
     let res = await run(
@@ -97,7 +97,11 @@ function AnswerItem({ item, isAuthor }) {
         <div className={styles.commentContainer}>
           {showComment ? <CommentInput answerData={answerData} setAnswerData={setAnswerData} /> : null}
         </div>
-        {showCommentList ? <CommentList data={commentList?.data} /> : null}
+        {showCommentList ? (
+          <Spin spinning={commentLoading}>
+            <CommentList data={commentList?.data} />
+          </Spin>
+        ) : null}
       </div>
     </div>
   );

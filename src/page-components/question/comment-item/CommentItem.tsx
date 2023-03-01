@@ -3,8 +3,9 @@ import styles from './index.module.scss';
 import Image from 'next/image';
 import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
 import { colors } from '@/styles/colors';
+import { formatToDateTime } from '@/utils';
 
-function CommentItem(props) {
+function CommentItem({ item }) {
   return (
     <div className={styles.commentItem}>
       <div className={styles.commentHeader}>
@@ -15,15 +16,15 @@ function CommentItem(props) {
           width={40}
           height={40}
         />
-        <div className={styles.name}>名字</div>
+        <div className={styles.name}>{item?.nickname}</div>
         <div className={styles.toolBtn}>
           <EllipsisIcon width={23} height={23} color={colors.iconDefaultColor} />
         </div>
       </div>
       <div className={styles.commentBody}>
-        <div className={styles.commentContent}>请问可以分享一下留学经验吗？</div>
+        <div className={styles.commentContent}>{item?.content}</div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div className={styles.time}>2022-12-18 13:46</div>
+          <div className={styles.time}>{formatToDateTime(item?.updatedTime)}</div>
         </div>
       </div>
     </div>

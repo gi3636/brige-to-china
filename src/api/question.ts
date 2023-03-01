@@ -37,3 +37,7 @@ export function unlikeQuestion(param) {
     data: param,
   };
 }
+
+export function getQuestionDetail(id) {
+  return api.get(`/question/detail/${id}`);
+}

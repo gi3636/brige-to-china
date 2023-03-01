@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
@@ -15,7 +15,7 @@ import { formatToDateTime, isLogin } from '@/utils';
 import useRequest from '@/hooks/useRequest';
 import { addAnswer } from '@/api/answer';
 import { emitter, EmitterType } from '@/utils/app-emitter';
-import { likeQuestion, unlikeQuestion } from '@/api/question';
+import { getQuestionDetail, likeQuestion, unlikeQuestion } from '@/api/question';
 
 function QuestionDetailPage({ item }) {
   const user = useSelector((state: any) => state.user);
@@ -23,6 +23,14 @@ function QuestionDetailPage({ item }) {
   const isAuthor = user?.id === item?.userId; // 是否是作者
   const text = useRef('');
   const { run, loading } = useRequest();
+
+  useEffect(() => {
+    getQuestionDetail(item.id).then((res) => {
+      if (res.code == 200) {
+        setQuestionData(res.data);
+      }
+    });
+  }, []);
   const handleAnswerQuestion = () => {
     Modal.info({
       maskClosable: true,
@@ -56,11 +64,13 @@ function QuestionDetailPage({ item }) {
       message.error('请先登录');
       return;
     }
-    setQuestionData({
+    let newData = {
       ...questionData,
       likeStatus: status,
       likeCount: status ? questionData.likeCount + 1 : questionData.likeCount - 1,
-    });
+    };
+    setQuestionData(newData);
+
     let res = status ? likeQuestion({ questionId: item?.id }) : unlikeQuestion({ questionId: item?.id });
     run(res).then((result) => {
       if (result?.code != 200) {
@@ -102,7 +112,7 @@ function QuestionDetailPage({ item }) {
               ) : (
                 <LikeOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
               )}
-              <span className={styles.count}>{item?.likeCount}</span>
+              <span className={styles.count}>{questionData?.likeCount}</span>
             </div>
             <div>
               <HeartOutlined height={16} width={16} color={colors.iconDefaultColor} />
@@ -124,7 +134,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const questionId = params?.id;
 
-  const res = await axios(`${globalConfig.devBaseUrl}/question/detail/${questionId}`, {
+  const res = await axios(`${globalConfig.devBaseUrl}/question/seoDetail/${questionId}`, {
     method: 'GET',
   });
   console.log('res', res);

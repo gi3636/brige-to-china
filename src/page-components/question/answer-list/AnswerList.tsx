@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import styles from './index.module.scss';
 import { Divider, Spin } from 'antd';
 import useRequest from '@/hooks/useRequest';
@@ -30,18 +30,16 @@ function AnswerList({ questionId, isAuthor }: Props) {
     emitter.singleton(EmitterType.updateAnswerList, loadAnswerList);
   }, []);
 
-  console.log('answerData', answerData);
-
-  const renderAnswerList = () => {
+  const renderAnswerList = useMemo(() => {
     return answerData?.list.map((item) => <AnswerItem key={item.id} item={item} isAuthor={isAuthor} />);
-  };
+  }, [answerData?.list, isAuthor]);
 
   return (
     <Spin spinning={loading}>
       <div className={styles.answerContainer}>
         <div>全部回答 {answerData?.total || 0}</div>
         <Divider />
-        <div className={styles.answerList}>{renderAnswerList()}</div>
+        <div className={styles.answerList}>{renderAnswerList}</div>
       </div>
     </Spin>
   );
