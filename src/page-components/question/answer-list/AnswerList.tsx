@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styles from './index.module.scss';
-import { Divider, Input } from 'antd';
-import Image from 'next/image';
-import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
-import { colors } from '@/styles/colors';
-import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
-import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
-import CommentList from '@/page-components/question/comment-list/CommentList';
+import { Divider, Spin } from 'antd';
 import useRequest from '@/hooks/useRequest';
 import { getAnswerList } from '@/api/answer';
 import AnswerItem from '@/page-components/question/answer-item/AnswerItem';
 import { emitter, EmitterType } from '@/utils/app-emitter';
-import { Emitter } from '@/utils/emitter';
 
 interface Props {
   questionId: string;
@@ -44,11 +37,13 @@ function AnswerList({ questionId, isAuthor }: Props) {
   };
 
   return (
-    <div className={styles.answerContainer}>
-      <div>全部回答 {answerData?.total}</div>
-      <Divider />
-      <div className={styles.answerList}>{renderAnswerList()}</div>
-    </div>
+    <Spin spinning={loading}>
+      <div className={styles.answerContainer}>
+        <div>全部回答 {answerData?.total || 0}</div>
+        <Divider />
+        <div className={styles.answerList}>{renderAnswerList()}</div>
+      </div>
+    </Spin>
   );
 }
 

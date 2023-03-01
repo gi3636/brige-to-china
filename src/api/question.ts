@@ -13,3 +13,27 @@ export function postQuestion(param: PostQuestionParam) {
     data: param,
   };
 }
+
+/**
+ * 点赞
+ * @param param
+ */
+export function likeQuestion(param) {
+  return {
+    url: '/question/like',
+    method: 'post',
+    data: param,
+  };
+}
+
+/**
+ * 取消赞
+ * @param param
+ */
+export function unlikeQuestion(param) {
+  return {
+    url: '/question/unlike',
+    method: 'post',
+    data: param,
+  };
+}

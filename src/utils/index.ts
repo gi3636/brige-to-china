@@ -17,4 +17,8 @@ export function formatToDate(date, format = DATE_FORMAT): string {
   return dayjs(date).format(format);
 }
 
+export function isLogin(): boolean {
+  return !!localStorage.getItem('token');
+}
+
 export const dateUtil = dayjs;

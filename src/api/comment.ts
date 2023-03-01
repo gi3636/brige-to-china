@@ -5,3 +5,11 @@ export function getCommentList(param) {
     data: param,
   };
 }
+
+export function sendComment(param) {
+  return {
+    url: '/comment/add',
+    method: 'post',
+    data: param,
+  };
+}

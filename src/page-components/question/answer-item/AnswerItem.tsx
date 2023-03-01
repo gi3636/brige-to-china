@@ -4,28 +4,45 @@ import Image from 'next/image';
 import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
 import { colors } from '@/styles/colors';
 import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
-import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
-import { Input } from 'antd';
+import { Button, message } from 'antd';
 import CommentList from '@/page-components/question/comment-list/CommentList';
-import { Button } from 'antd';
 import { useSelector } from 'react-redux';
-import { formatToDateTime } from '@/utils';
+import { formatToDateTime, isLogin } from '@/utils';
 import useRequest from '@/hooks/useRequest';
 import { getCommentList } from '@/api/comment';
+import { useAnswer } from '@/api/answer';
+import CommentInput from '@/page-components/question/comment-input/CommentInput';
 
 function AnswerItem({ item, isAuthor }) {
-  const user = useSelector((state: any) => state.user);
+  const [answerData, setAnswerData] = React.useState<any>(item);
   const [showComment, setShowComment] = React.useState(false);
   const [commentListData, setCommentListData] = React.useState<any[]>([]);
   const [showCommentList, setShowCommentList] = React.useState(false);
   const { run, data, loading } = useRequest();
-  const comment = React.useRef<any>('');
+  const { run: runCommentList, data: commentList } = useRequest();
+
+  const handleClickUse = async (status) => {
+    let res = await run(
+      useAnswer({
+        id: item.id,
+        status,
+      }),
+    );
+    if (res.code == 200) {
+      setAnswerData({
+        ...answerData,
+        useStatus: status,
+        useCount: status ? answerData.useCount + 1 : answerData.useCount - 1,
+      });
+      message.success(status ? '采用成功' : '取消采用成功');
+    }
+  };
 
   useEffect(() => {
     if (showCommentList) {
-      run(getCommentList({ answerId: item.id, currentPage: 1, pageSize: 10 }));
+      runCommentList(getCommentList({ answerId: item.id, currentPage: 1, pageSize: 10 }));
     }
-  }, [showComment]);
+  }, [showCommentList]);
   return (
     <div className={styles.answerItem}>
       <div className={styles.answerHeader}>
@@ -40,26 +57,26 @@ function AnswerItem({ item, isAuthor }) {
         <div className={styles.toolBtn}>
           {isAuthor ? (
             <EllipsisIcon width={23} height={23} color={colors.iconDefaultColor} />
-          ) : item.useStatus ? (
-            <Button size='middle' type='primary'>
-              已采用{item?.useCount || ''}
+          ) : answerData.useStatus ? (
+            <Button size='middle' type='primary' onClick={handleClickUse.bind(null, 0)} loading={loading}>
+              已采用{answerData?.useCount || ''}
             </Button>
           ) : (
-            <Button size='middle' danger>
-              采用{item?.useCount || ''}
+            <Button size='middle' danger onClick={handleClickUse.bind(null, 1)} loading={loading}>
+              采用{answerData?.useCount || ''}
             </Button>
           )}
         </div>
       </div>
       <div className={styles.answerBody}>
-        <div className={styles.answerContent}>{item?.content}</div>
+        <div className={styles.answerContent}>{answerData?.content}</div>
         <div className={styles.actionContainer}>
           <div
             onClick={() => {
               setShowCommentList(!showCommentList);
             }}>
             <CommentOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
-            <span className={styles.count}>{item?.commentCount}</span>
+            <span className={styles.count}>{answerData?.commentCount}</span>
           </div>
           {/*<div>*/}
           {/*  <LikeOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />*/}
@@ -67,34 +84,20 @@ function AnswerItem({ item, isAuthor }) {
           {/*</div>*/}
           <div
             onClick={() => {
+              if (!isLogin()) {
+                message.error('请先登录');
+                return;
+              }
               setShowComment(!showComment);
             }}>
             回复
           </div>
-          <div className={styles.date}>{formatToDateTime(item.updatedTime)}</div>
+          <div className={styles.date}>{formatToDateTime(answerData.updatedTime)}</div>
         </div>
         <div className={styles.commentContainer}>
-          {showComment ? (
-            <>
-              <Image
-                style={{ borderRadius: '50%', marginRight: 10 }}
-                src={user?.avatar}
-                alt=''
-                width={40}
-                height={40}
-              />
-              <Input
-                onPressEnter={() => {
-                  console.log('comment.current', comment.current);
-                }}
-                onChange={(e) => {
-                  comment.current = e.target.value;
-                }}
-              />
-            </>
-          ) : null}
+          {showComment ? <CommentInput answerData={answerData} setAnswerData={setAnswerData} /> : null}
         </div>
-        {showCommentList ? <CommentList data={data?.data} /> : null}
+        {showCommentList ? <CommentList data={commentList?.data} /> : null}
       </div>
     </div>
   );
