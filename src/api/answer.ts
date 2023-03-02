@@ -1,3 +1,5 @@
+import { api } from '@/api/api';
+
 export function getAnswerList(param) {
   return {
     url: '/answer/list',
@@ -24,4 +26,12 @@ export function useAnswer(param) {
     method: 'post',
     data: param,
   };
+}
+
+/**
+ * 删除回答
+ * @param param
+ */
+export function delAnswer(param) {
+  return api.post('/answer/delete', param);
 }

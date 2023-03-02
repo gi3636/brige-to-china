@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import styles from './index.module.scss';
-import { Divider, Spin } from 'antd';
+import { Divider, Pagination, Spin } from 'antd';
 import useRequest from '@/hooks/useRequest';
 import { getAnswerList } from '@/api/answer';
 import AnswerItem from '@/page-components/question/answer-item/AnswerItem';
@@ -14,16 +14,21 @@ interface Props {
 function AnswerList({ questionId, isAuthor }: Props) {
   const { run, data, loading } = useRequest();
   const answerData = data?.data;
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   const loadAnswerList = () => {
     run(
       getAnswerList({
         questionId,
-        currentPage: 1,
+        currentPage: currentPage,
         pageSize: 10,
       }),
     );
   };
+
+  useEffect(() => {
+    loadAnswerList();
+  }, [currentPage]);
 
   useEffect(() => {
     loadAnswerList();
@@ -40,6 +45,18 @@ function AnswerList({ questionId, isAuthor }: Props) {
         <div>全部回答 {answerData?.total || 0}</div>
         <Divider />
         <div className={styles.answerList}>{renderAnswerList}</div>
+        {answerData?.total > 3 && (
+          <div className={styles.paginationContainer}>
+            <Pagination
+              current={currentPage}
+              total={answerData?.total}
+              pageSize={2}
+              onChange={(page) => {
+                setCurrentPage(page);
+              }}
+            />
+          </div>
+        )}
       </div>
     </Spin>
   );

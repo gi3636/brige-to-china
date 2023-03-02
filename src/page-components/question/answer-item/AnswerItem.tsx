@@ -4,22 +4,22 @@ import Image from 'next/image';
 import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
 import { colors } from '@/styles/colors';
 import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
-import { Button, message, Spin } from 'antd';
+import { Button, Dropdown, MenuProps, message, Spin } from 'antd';
 import CommentList from '@/page-components/question/comment-list/CommentList';
 import { useSelector } from 'react-redux';
 import { formatToDateTime, isLogin } from '@/utils';
 import useRequest from '@/hooks/useRequest';
 import { getCommentList } from '@/api/comment';
-import { useAnswer } from '@/api/answer';
+import { delAnswer, useAnswer } from '@/api/answer';
 import CommentInput from '@/page-components/question/comment-input/CommentInput';
+import { setBestAnswer } from '@/api/question';
+import { emitter, EmitterType } from '@/utils/app-emitter';
 
 function AnswerItem({ item, isAuthor }) {
   const [answerData, setAnswerData] = React.useState<any>(item);
   const [showComment, setShowComment] = React.useState(false);
-  const [commentListData, setCommentListData] = React.useState<any[]>([]);
   const [showCommentList, setShowCommentList] = React.useState(false);
   const { run, data, loading } = useRequest();
-  const { run: runCommentList, data: commentList, loading: commentLoading } = useRequest();
 
   const handleClickUse = async (status) => {
     let res = await run(
@@ -37,12 +37,37 @@ function AnswerItem({ item, isAuthor }) {
       message.success(status ? '采用成功' : '取消采用成功');
     }
   };
-
-  useEffect(() => {
-    if (showCommentList) {
-      runCommentList(getCommentList({ answerId: item.id, currentPage: 1, pageSize: 10 }));
+  const handleSetBestAnswer = async () => {
+    let res = await setBestAnswer({
+      questionId: item.questionId,
+      answerId: item.id,
+    });
+    if (res.code == 200) {
+      message.success('设置成功');
     }
-  }, [showCommentList]);
+  };
+
+  const handleDelete = async () => {
+    let res = await delAnswer({ id: item.id });
+    if (res.code == 200) {
+      emitter.fire(EmitterType.updateAnswerList);
+      message.success('删除成功');
+    }
+  };
+
+  const items: MenuProps['items'] = [
+    {
+      label: '设置为最佳回答',
+      key: '0',
+      onClick: handleSetBestAnswer,
+    },
+    {
+      label: '删除',
+      key: '1',
+      onClick: handleDelete,
+    },
+  ];
+
   return (
     <div className={styles.answerItem}>
       <div className={styles.answerHeader}>
@@ -56,7 +81,11 @@ function AnswerItem({ item, isAuthor }) {
 
         <div className={styles.toolBtn}>
           {isAuthor ? (
-            <EllipsisIcon width={23} height={23} color={colors.iconDefaultColor} />
+            <Dropdown menu={{ items }} trigger={['click']}>
+              <div>
+                <EllipsisIcon width={23} height={23} color={colors.iconDefaultColor} />
+              </div>
+            </Dropdown>
           ) : answerData.useStatus ? (
             <Button size='middle' type='primary' onClick={handleClickUse.bind(null, 0)} loading={loading}>
               已采用{answerData?.useCount || ''}
@@ -92,16 +121,12 @@ function AnswerItem({ item, isAuthor }) {
             }}>
             回复
           </div>
-          <div className={styles.date}>{formatToDateTime(answerData.updatedTime)}</div>
+          <div className={styles.date}>{formatToDateTime(answerData.createdTime)}</div>
         </div>
         <div className={styles.commentContainer}>
           {showComment ? <CommentInput answerData={answerData} setAnswerData={setAnswerData} /> : null}
         </div>
-        {showCommentList ? (
-          <Spin spinning={commentLoading}>
-            <CommentList data={commentList?.data} />
-          </Spin>
-        ) : null}
+        {showCommentList ? <CommentList item={item} /> : null}
       </div>
     </div>
   );

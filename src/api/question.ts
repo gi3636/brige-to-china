@@ -41,3 +41,11 @@ export function unlikeQuestion(param) {
 export function getQuestionDetail(id) {
   return api.get(`/question/detail/${id}`);
 }
+
+/**
+ * 设置最佳答案
+ * @param param
+ */
+export function setBestAnswer(param) {
+  return api.post('/question/setBestAnswer', param);
+}
