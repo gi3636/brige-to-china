@@ -91,11 +91,11 @@ function QuestionDetailPage({ item }) {
             <div className={styles.questionAvatar}>
               <Image src={questionData.avatar} alt='' width={40} height={40} />
             </div>
-            <div className={styles.questionAuthor}>{item?.nickname}</div>
-            <div className={styles.questionDate}>编辑于{formatToDateTime(item?.updatedTime)}</div>
+            <div className={styles.questionAuthor}>{questionData?.nickname}</div>
+            <div className={styles.questionDate}>编辑于{formatToDateTime(questionData?.updatedTime)}</div>
           </div>
-          <div className={styles.questionTitle}>{item?.title || '申请大学时需要准备什么材料？'}</div>
-          <div className={styles.questionContent}>{item?.content}</div>
+          <div className={styles.questionTitle}>{questionData?.title || '申请大学时需要准备什么材料？'}</div>
+          <div className={styles.questionContent}>{questionData?.content}</div>
           <div className={styles.tagList}>
             {questionData.tags?.map((tag) => {
               return <Tag key={tag.id} title={tag} />;
