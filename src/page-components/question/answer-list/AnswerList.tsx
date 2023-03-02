@@ -45,12 +45,11 @@ function AnswerList({ questionId, isAuthor }: Props) {
         <div>全部回答 {answerData?.total || 0}</div>
         <Divider />
         <div className={styles.answerList}>{renderAnswerList}</div>
-        {answerData?.total > 3 && (
+        {answerData?.total > 10 && (
           <div className={styles.paginationContainer}>
             <Pagination
               current={currentPage}
               total={answerData?.total}
-              pageSize={2}
               onChange={(page) => {
                 setCurrentPage(page);
               }}
