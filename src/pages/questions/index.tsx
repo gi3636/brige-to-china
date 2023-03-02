@@ -69,7 +69,10 @@ function QuestionsPage({ questionList }) {
 export async function getServerSideProps(context) {
   const { page } = context.query;
   console.log('page', page);
-  const res = await axios.post(`${globalConfig.devBaseUrl}/question/list`, {
+  console.log('process.env.APP_ENV', process.env.APP_ENV);
+  let appEnv = process.env.APP_ENV;
+  let baseUrl = appEnv === 'development' ? globalConfig.devBaseUrl : globalConfig.prodBaseUrl;
+  const res = await axios.post(`${baseUrl}/question/list`, {
     currentPage: page || 1,
     type: 1,
     date: 0,
