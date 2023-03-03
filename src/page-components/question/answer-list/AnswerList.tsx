@@ -16,6 +16,14 @@ function AnswerList({ questionId, isAuthor }: Props) {
   const answerData = data?.data;
   const [currentPage, setCurrentPage] = React.useState(1);
 
+  useEffect(() => {
+    emitter.singleton(EmitterType.updateAnswerList, loadAnswerList);
+  }, []);
+
+  useEffect(() => {
+    loadAnswerList();
+  }, [currentPage]);
+
   const loadAnswerList = () => {
     run(
       getAnswerList({
@@ -25,15 +33,6 @@ function AnswerList({ questionId, isAuthor }: Props) {
       }),
     );
   };
-
-  useEffect(() => {
-    loadAnswerList();
-  }, [currentPage]);
-
-  useEffect(() => {
-    loadAnswerList();
-    emitter.singleton(EmitterType.updateAnswerList, loadAnswerList);
-  }, []);
 
   const renderAnswerList = useMemo(() => {
     return answerData?.list.map((item) => <AnswerItem key={item.id} item={item} isAuthor={isAuthor} />);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styles from './index.module.scss';
 import Image from 'next/image';
 import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
@@ -9,17 +9,50 @@ import CommentList from '@/page-components/question/comment-list/CommentList';
 import { useSelector } from 'react-redux';
 import { formatToDateTime, isLogin } from '@/utils';
 import useRequest from '@/hooks/useRequest';
-import { getCommentList } from '@/api/comment';
+import { getCommentList, sendComment } from '@/api/comment';
 import { delAnswer, useAnswer } from '@/api/answer';
-import CommentInput from '@/page-components/question/comment-input/CommentInput';
+import ReplyInput from '@/page-components/question/reply-input/ReplyInput';
 import { setBestAnswer } from '@/api/question';
 import { emitter, EmitterType } from '@/utils/app-emitter';
+import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
 
 function AnswerItem({ item, isAuthor }) {
   const [answerData, setAnswerData] = React.useState<any>(item);
   const [showComment, setShowComment] = React.useState(false);
   const [showCommentList, setShowCommentList] = React.useState(false);
-  const { run, data, loading } = useRequest();
+  const { run, loading } = useRequest();
+  const { run: runReply, loading: replyLoading } = useRequest();
+  const commentLock = React.useRef(false);
+  const handleSendComment = async (text, clearText) => {
+    if (!text) {
+      message.error('请输入评论内容');
+      commentLock.current = false;
+      return;
+    }
+    if (!commentLock.current) {
+      commentLock.current = true;
+      try {
+        let res = await runReply(
+          sendComment({
+            answerId: answerData.id,
+            content: text,
+          }),
+        );
+        if (res.code == 200) {
+          emitter.fire(EmitterType.updateCommentList);
+          clearText();
+          increaseCommentCount();
+          message.success('发送成功');
+        }
+      } finally {
+        commentLock.current = false;
+      }
+    }
+  };
+
+  const increaseCommentCount = useCallback(() => {
+    setAnswerData({ ...answerData, commentCount: answerData.commentCount + 1 });
+  }, [answerData]);
 
   const handleClickUse = async (status) => {
     let res = await run(
@@ -34,6 +67,7 @@ function AnswerItem({ item, isAuthor }) {
         useStatus: status,
         useCount: status ? answerData.useCount + 1 : answerData.useCount - 1,
       });
+
       message.success(status ? '采用成功' : '取消采用成功');
     }
   };
@@ -57,6 +91,11 @@ function AnswerItem({ item, isAuthor }) {
 
   const items: MenuProps['items'] = [
     {
+      label: answerData.useStatus ? '取消采用' : '采用',
+      key: '2',
+      onClick: handleClickUse.bind(null, answerData.useStatus ? 0 : 1),
+    },
+    {
       label: '设置为最佳回答',
       key: '0',
       onClick: handleSetBestAnswer,
@@ -76,12 +115,15 @@ function AnswerItem({ item, isAuthor }) {
         </div>
         <div className={styles.name}>{item.nickname}</div>
 
-        {/*<div className={styles.use}>已采用{item?.useCount || ''}</div>*/}
+        {isAuthor && answerData.useCount > 0 ? (
+          <div className={styles.use}>已采用{answerData?.useCount || ''}</div>
+        ) : null}
+
         {item.isBestAnswer ? <div className={styles.bestTitle}>【最佳答案】</div> : null}
 
         <div className={styles.toolBtn}>
           {isAuthor ? (
-            <Dropdown menu={{ items }} trigger={['click']}>
+            <Dropdown menu={{ items }} trigger={['click']} placement={'bottom'} arrow>
               <div>
                 <EllipsisIcon width={23} height={23} color={colors.iconDefaultColor} />
               </div>
@@ -107,10 +149,6 @@ function AnswerItem({ item, isAuthor }) {
             <CommentOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
             <span className={styles.count}>{answerData?.commentCount}</span>
           </div>
-          {/*<div>*/}
-          {/*  <LikeOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />*/}
-          {/*  <span className={styles.count}>{item?.useCount}</span>*/}
-          {/*</div>*/}
           <div
             onClick={() => {
               if (!isLogin()) {
@@ -124,9 +162,9 @@ function AnswerItem({ item, isAuthor }) {
           <div className={styles.date}>{formatToDateTime(answerData.createdTime)}</div>
         </div>
         <div className={styles.commentContainer}>
-          {showComment ? <CommentInput answerData={answerData} setAnswerData={setAnswerData} /> : null}
+          {showComment ? <ReplyInput onSend={handleSendComment} loading={replyLoading} /> : null}
         </div>
-        {showCommentList ? <CommentList item={item} /> : null}
+        {showCommentList ? <CommentList item={item} increaseCommentCount={increaseCommentCount} /> : null}
       </div>
     </div>
   );

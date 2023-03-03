@@ -98,7 +98,7 @@ function QuestionDetailPage({ item }) {
           <div className={styles.questionContent}>{questionData?.content}</div>
           <div className={styles.tagList}>
             {questionData.tags?.map((tag) => {
-              return <Tag key={tag.id} title={tag} />;
+              return <Tag key={tag} title={tag} />;
             })}
           </div>
           <div className={styles.actionContainer}>
