@@ -1,20 +1,18 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import styles from './index.module.scss';
 import Image from 'next/image';
 import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
 import { colors } from '@/styles/colors';
 import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
-import { Button, Dropdown, MenuProps, message, Spin } from 'antd';
+import { Button, Dropdown, MenuProps, message } from 'antd';
 import CommentList from '@/page-components/question/comment-list/CommentList';
-import { useSelector } from 'react-redux';
 import { formatToDateTime, isLogin } from '@/utils';
 import useRequest from '@/hooks/useRequest';
-import { getCommentList, sendComment } from '@/api/comment';
+import { sendComment } from '@/api/comment';
 import { delAnswer, useAnswer } from '@/api/answer';
 import ReplyInput from '@/page-components/question/reply-input/ReplyInput';
 import { setBestAnswer } from '@/api/question';
 import { emitter, EmitterType } from '@/utils/app-emitter';
-import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
 
 function AnswerItem({ item, isAuthor }) {
   const [answerData, setAnswerData] = React.useState<any>(item);
@@ -164,7 +162,9 @@ function AnswerItem({ item, isAuthor }) {
         <div className={styles.commentContainer}>
           {showComment ? <ReplyInput onSend={handleSendComment} loading={replyLoading} /> : null}
         </div>
-        {showCommentList ? <CommentList item={item} increaseCommentCount={increaseCommentCount} /> : null}
+        {showCommentList ? (
+          <CommentList item={item} increaseCommentCount={increaseCommentCount} isAuthor={isAuthor} />
+        ) : null}
       </div>
     </div>
   );

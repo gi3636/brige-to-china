@@ -7,7 +7,7 @@ import useRequest from '@/hooks/useRequest';
 import ReplyInput from '@/page-components/question/reply-input/ReplyInput';
 import { emitter, EmitterType } from '@/utils/app-emitter';
 
-function CommentList({ item, increaseCommentCount }) {
+function CommentList({ item, increaseCommentCount, isAuthor }) {
   const [currentPage, setCurrentPage] = useState(1);
   const { run, data, loading } = useRequest();
   const { run: runReply, loading: replyLoading } = useRequest();
@@ -63,7 +63,7 @@ function CommentList({ item, increaseCommentCount }) {
   };
 
   const renderCommentList = useMemo(() => {
-    return commentListData?.list.map((item) => <CommentItem key={item.id} item={item} />);
+    return commentListData?.list.map((item) => <CommentItem key={item.id} item={item} isAuthor={isAuthor} />);
   }, [commentListData?.list]);
 
   return (

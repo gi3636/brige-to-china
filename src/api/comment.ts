@@ -1,3 +1,5 @@
+import { api } from '@/api/api';
+
 export function getCommentList(param) {
   return {
     url: '/comment/list',
@@ -12,4 +14,12 @@ export function sendComment(param) {
     method: 'post',
     data: param,
   };
+}
+
+/**
+ * 评论点赞
+ * @param param
+ */
+export function likeComment(param) {
+  return api.post('/comment/like', param);
 }

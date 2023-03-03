@@ -44,6 +44,19 @@
     .commentContent {
       font-size: 15px;
       color: #000000;
+
+      .reply{
+        font-size: 14px;
+        color: #8590A6;
+        cursor: pointer;
+      }
+
+      .nickname{
+        margin-right: 13px;
+        margin-left: 3px;
+        font-size: 15px;
+        font-weight: 500;
+      }
     }
 
     .time {
