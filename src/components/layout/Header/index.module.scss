@@ -3,7 +3,10 @@
   background-color: $background-color-light;
   display: flex;
   justify-content: center;
-
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   .centerContainer {
     width: $main-width;
     display: flex;

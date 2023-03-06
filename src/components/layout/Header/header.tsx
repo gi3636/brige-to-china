@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import SearchBar from '@/components/SearchBar/SearchBar';
+import {absolutePathToPage} from "next/dist/shared/lib/page-path/absolute-path-to-page";
 
 const { Search } = Input;
 function Header(props) {
@@ -69,8 +70,8 @@ function Header(props) {
             </div>
           ))}
         </div>
-        <div className={styles.searchContainer}>
-          <SearchBar />
+        <div className={styles.searchContainer} >
+          <SearchBar/>
         </div>
         <div>
           <Button type='primary' className={styles.loginBtn}>

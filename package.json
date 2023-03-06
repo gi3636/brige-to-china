@@ -9,6 +9,7 @@
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix --quiet ./"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "@reduxjs/toolkit": "^1.9.1",
     "@zeit/next-css": "^1.0.1",
     "antd": "^5.1.1",
@@ -19,8 +20,7 @@
     "react-dom": "18.2.0",
     "react-items-carousel": "^2.8.0",
     "react-redux": "^8.0.5",
-    "sass": "^1.57.1",
-    "swiper": "^8.4.1"
+    "sass": "^1.57.1"
   },
   "devDependencies": {
     "@types/node": "18.11.18",

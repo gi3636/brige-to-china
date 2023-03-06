@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   position: relative;
+
 }
 
 .input {
@@ -36,5 +37,45 @@
       fill: $primary-color;
     }
   }
+}
+
+.dataResult{
+  position: absolute;
+  margin-top: 14.5%;
+  width: 180px;
+  height: 220px;
+  border-style: solid;
+  border-top: none;
+  border-color: rgb(231,35,43);
+  border-width: thin;
+  background-color:  white;
+  box-shadow: black;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-size: $font-md;
+  margin-left: 5%;
+}
+
+.dataResult::-webkit-scrollbar{
+  display: none;
+}
+
+.dataResult li {
+  text-align: left;
+  display: inline-block;
+
+}
+
+.dataResult li:hover {
+    background-color: #EBEBEB;
+    height: inherit;
+    width: 80%;
+
+
+}
+
+
+#clearBtn{
+  cursor: pointer;
 }
 
