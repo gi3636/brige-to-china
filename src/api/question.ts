@@ -49,3 +49,39 @@ export function getQuestionDetail(id) {
 export function setBestAnswer(param) {
   return api.post('/question/setBestAnswer', param);
 }
+
+/**
+ * 获取标签列表
+ * @param param
+ */
+export function getTagList(param) {
+  return {
+    url: '/tag/list',
+    method: 'post',
+    data: param,
+  };
+}
+
+/**
+ * 生成标签
+ * @param param
+ */
+export function generateTag(param) {
+  return {
+    url: '/tag/autoComplete',
+    method: 'post',
+    data: param,
+  };
+}
+
+/**
+ * 生成标签
+ * @param param
+ */
+export function generateTitle(param) {
+  return {
+    url: '/question/generateTitle',
+    method: 'post',
+    data: param,
+  };
+}
