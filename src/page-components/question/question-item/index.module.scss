@@ -51,8 +51,10 @@
     font-size: 14px;
     color: #000000;
     line-height: 20px;
-
-
+    &:hover{
+      cursor: pointer;
+      color: $primary-color;
+    }
     .questionTag {
       display: flex;
       flex-direction: row;

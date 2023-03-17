@@ -18,23 +18,25 @@ interface QuestionItemProps {
 }
 function QuestionItem({ question }: QuestionItemProps) {
   const router = useRouter();
-  const handleNavigateToQuestion = (href) => {
-    router.push(href);
+  const navigateQuestion = (id) => {
+    window.open(`/questions/${id}`, '_blank');
   };
 
   return (
     <div className={styles.questionItem}>
       <div className={styles.questionHeader}>
         <div className={styles.questionAvatar}>
-          <Image src={question?.avatar} alt='' width={40} height={40} />
+          <Image src={question?.avatar || ''} alt='' width={40} height={40} />
         </div>
         <div className={styles.questionAuthor}>{question?.nickname || '测试'}</div>
-        <div className={styles.questionDate}>编辑于{formatToDateTime(question.updatedTime)}</div>
+        <div className={styles.questionDate}>{formatToDateTime(question.createdTime)}</div>
       </div>
-      <div className={styles.questionTitle} onClick={handleNavigateToQuestion.bind(null, `/questions/${question?.id}`)}>
+      <div className={styles.questionTitle} onClick={navigateQuestion.bind(null, question?.id)}>
         {question?.title}
       </div>
-      <div className={styles.questionContent}>{question?.content}</div>
+      <div className={styles.questionContent} onClick={navigateQuestion.bind(null, question?.id)}>
+        {question?.content}
+      </div>
       {question?.bestAnswer ? (
         <div className={styles.bestAnswerContainer}>
           <BestAnswerItem item={question?.bestAnswer} />

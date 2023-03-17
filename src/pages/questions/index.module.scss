@@ -65,6 +65,27 @@
 
       }
 
+      .pageContainer {
+        padding: 0 20px;
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .page {
+          font-size: 14px;
+        }
+
+        .pageItem {
+          font-size: 14px;
+          color: #8590A6;
+          cursor: pointer;
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+      }
+
       .loadMore {
         text-align: center;
 

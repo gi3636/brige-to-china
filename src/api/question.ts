@@ -3,7 +3,11 @@ import { api } from './api';
 import { PostQuestionParam } from '@/types/request';
 
 export function getQuestionList(param) {
-  return api.get('/question/list/test', param);
+  return {
+    url: '/question/list',
+    method: 'post',
+    data: param,
+  };
 }
 
 export function postQuestion(param: PostQuestionParam) {
