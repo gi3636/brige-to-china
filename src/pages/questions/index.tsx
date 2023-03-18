@@ -30,10 +30,58 @@ const navList = [
 ];
 function QuestionsPage({ list }) {
   const router = useRouter();
-  const { page, type } = router.query;
-  const [currentIndex, setCurrentIndex] = React.useState(type || 1);
+  const [currentIndex, setCurrentIndex] = React.useState(1);
+  const [page, setPage] = React.useState(1);
   const [questionList, setQuestionList] = React.useState(list || []);
+  const [total, setTotal] = React.useState(0);
   const { run, loading } = useRequest();
+  const [desc, setDesc] = React.useState(false);
+
+  useEffect(() => {
+    const { page, type } = router.query;
+    setCurrentIndex(+(type || 1));
+    setPage(+(page || 1));
+  }, []);
+
+  useEffect(() => {
+    loadQuestionList();
+  }, [currentIndex, page]);
+
+  useEffect(() => {
+    handleSortByTime();
+  }, [desc]);
+
+  const loadQuestionList = () => {
+    run(getQuestionList({ currentPage: page, type: currentIndex, pageSize: 8 })).then((res) => {
+      setQuestionList(res?.data?.list || []);
+      setTotal(res?.data?.total || 0);
+    });
+  };
+
+  const handleTabChange = (index) => {
+    setCurrentIndex(index);
+    router.push(`/questions?type=${index}&page=1`, undefined, { shallow: true });
+  };
+
+  const nextPage = () => {
+    setPage(page + 1);
+    router.push(`/questions?type=${currentIndex}&page=${page + 1}`, undefined, { shallow: true });
+  };
+  const prevPage = () => {
+    setPage(page - 1);
+    router.push(`/questions?type=${currentIndex}&page=${page - 1}`, undefined, { shallow: true });
+  };
+
+  const handleSortByTime = () => {
+    let newList = questionList.sort((a, b) => {
+      if (desc) {
+        return a.createdTime - b.createdTime;
+      } else {
+        return b.createdTime - a.createdTime;
+      }
+    });
+    setQuestionList([...newList]);
+  };
 
   const renderQuestionList = useMemo(() => {
     return questionList?.map((item, index) => {
@@ -41,29 +89,6 @@ function QuestionsPage({ list }) {
     });
   }, [questionList]);
 
-  useEffect(() => {
-    loadQuestionList();
-  }, [type, page]);
-  const loadQuestionList = () => {
-    const { page, type } = router.query;
-    run(getQuestionList({ currentPage: +page! || 1, type: type || 1, pageSize: 10 })).then((res) => {
-      setQuestionList(res?.data?.list || []);
-    });
-  };
-
-  const handleTabChange = (index) => {
-    setCurrentIndex(index);
-    router.push(`/questions?page=1&type=${index}`);
-  };
-
-  const nextPage = () => {
-    const { page, type } = router.query;
-    router.push(`/questions?page=${(+page! || 1) + 1}&type=${type || 1}`);
-  };
-  const prevPage = () => {
-    const { page, type } = router.query;
-    router.push(`/questions?page=${(+page! || 2) - 1}&type=${type || 1}`);
-  };
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
@@ -80,7 +105,7 @@ function QuestionsPage({ list }) {
                 </div>
               );
             })}
-            <div className={styles.timeSort}>
+            <div className={styles.timeSort} onClick={setDesc.bind(null, !desc)}>
               <SortIcon height={14} width={14} color='#8590A6' />
               <span style={{ marginLeft: 4 }}>切换为时间排序</span>
             </div>
@@ -89,7 +114,7 @@ function QuestionsPage({ list }) {
             <div className={styles.questionList}>{renderQuestionList}</div>
           </Spin>
           <div className={styles.pageContainer}>
-            {page && +page > 1 ? (
+            {page > 1 ? (
               <div className={styles.pageItem} onClick={prevPage}>
                 上一页
               </div>
@@ -97,10 +122,14 @@ function QuestionsPage({ list }) {
               <div></div>
             )}
 
-            <div className={styles.page}>1</div>
-            <div className={styles.pageItem} onClick={nextPage}>
-              下一页
-            </div>
+            <div className={styles.page}>{page}</div>
+            {total > page * 5 ? (
+              <div className={styles.pageItem} onClick={nextPage}>
+                下一页
+              </div>
+            ) : (
+              <div />
+            )}
           </div>
         </div>
         <div className={styles.rightContainer}>
@@ -119,7 +148,7 @@ export async function getServerSideProps(context) {
     currentPage: page || 1,
     type: type || 1,
     date: 0,
-    pageSize: 10,
+    pageSize: 5,
   });
   console.log('res', res.data);
   const list = res?.data?.data?.list || [];

@@ -17,7 +17,6 @@ interface QuestionItemProps {
   question: any;
 }
 function QuestionItem({ question }: QuestionItemProps) {
-  const router = useRouter();
   const navigateQuestion = (id) => {
     window.open(`/questions/${id}`, '_blank');
   };
