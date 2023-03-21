@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './index.module.scss';
 import Image from 'next/image';
 import { EllipsisIcon } from '@/components/icons/EllipsisIcon';
@@ -8,12 +8,13 @@ import { LikeFilled, LikeOutlined } from '@ant-design/icons';
 import { emitter } from '@/utils/app-emitter';
 import { useSelector } from 'react-redux';
 import { message } from 'antd';
-import { run } from 'next/dist/server/web/sandbox';
 import { likeComment } from '@/api/comment';
+import {getAddView} from "@/api/question";
 
 function CommentItem({ item, isAuthor }) {
   const user = useSelector((state: any) => state.user);
   const [commentData, setCommentData] = React.useState<any>(item);
+  const [views, setViews] = React.useState<any>(item);
   const handleShowReply = () => {
     if (user?.id === item?.userId) {
       message.error('不能回复自己的评论');
@@ -47,6 +48,26 @@ function CommentItem({ item, isAuthor }) {
     }
   };
 
+  useEffect(() => {
+    let timer;
+    getAddView(item.id).then((res) => {
+      if (res.code === 200) {
+        timer = setTimeout(() => {
+          // 使用回调函数来更新状态
+          setViews((prevViews) => ({
+            ...prevViews,
+            viewCount: prevViews.viewCount + 1,
+          }));
+        }, 15000);
+      }
+    });
+
+    return () => {
+      // 清除定时器
+      clearTimeout(timer);
+    };
+  }, []); // 添加空数组作为依赖
+
   return (
     <div className={styles.commentItem}>
       <div className={styles.commentHeader}>
@@ -60,7 +81,7 @@ function CommentItem({ item, isAuthor }) {
         <div className={styles.name}>{item?.nickname}</div>
         {isAuthor && (
           <div className={styles.toolBtn}>
-            <EllipsisIcon width={23} height={23} color={colors.iconDefaultColor} />
+            <EllipsisIcon width={23} height={23} color={colors.iconDefaultColor} /><p>view:{views}</p>
           </div>
         )}
       </div>
@@ -102,5 +123,5 @@ function CommentItem({ item, isAuthor }) {
     </div>
   );
 }
-
 export default CommentItem;
+

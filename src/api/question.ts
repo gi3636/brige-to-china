@@ -85,3 +85,8 @@ export function generateTitle(param) {
     data: param,
   };
 }
+
+
+export function getAddView(id) {
+  return api.get(`/question/addView/${id}`);
+}

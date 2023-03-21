@@ -23,3 +23,6 @@ export function sendComment(param) {
 export function likeComment(param) {
   return api.post('/comment/like', param);
 }
+
+
+
