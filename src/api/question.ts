@@ -47,6 +47,14 @@ export function getQuestionDetail(id) {
 }
 
 /**
+ * 获取相关问题
+ * @param param
+ */
+export function getRelativeQuestion(param) {
+  return api.post(`/question/related`, param);
+}
+
+/**
  * 设置最佳答案
  * @param param
  */

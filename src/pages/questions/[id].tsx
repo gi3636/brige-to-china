@@ -15,11 +15,12 @@ import { formatToDateTime, isLogin } from '@/utils';
 import useRequest from '@/hooks/useRequest';
 import { addAnswer } from '@/api/answer';
 import { emitter, EmitterType } from '@/utils/app-emitter';
-import { getQuestionDetail, likeQuestion, unlikeQuestion } from '@/api/question';
+import { getQuestionDetail, getRelativeQuestion, likeQuestion, unlikeQuestion } from '@/api/question';
 
 function QuestionDetailPage({ item }) {
   const user = useSelector((state: any) => state.user);
   const [questionData, setQuestionData] = React.useState(item);
+  const [relativeQuestionList, setRelativeQuestionList] = React.useState([] as any);
   const isAuthor = user?.id === item?.userId; // 是否是作者
   const text = useRef('');
   const { run, loading } = useRequest();
@@ -30,7 +31,19 @@ function QuestionDetailPage({ item }) {
         setQuestionData(res.data);
       }
     });
+
+    getRelativeQuestion({
+      currentPage: 1,
+      pageSize: 6,
+      keyword: item.title + item.content,
+    }).then((res) => {
+      if (res.code == 200) {
+        let list = res.data.list.filter((ele) => ele.id != item.id);
+        setRelativeQuestionList(list);
+      }
+    });
   }, []);
+
   const handleAnswerQuestion = () => {
     Modal.info({
       maskClosable: true,
@@ -85,45 +98,68 @@ function QuestionDetailPage({ item }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.body}>
-        <div className={styles.questionItem}>
-          <div className={styles.questionHeader}>
-            <div className={styles.questionAvatar}>
-              <Image src={questionData.avatar} alt='' width={40} height={40} />
+      <div className={styles.left}>
+        <div className={styles.body}>
+          <div className={styles.questionItem}>
+            <div className={styles.questionHeader}>
+              <div className={styles.questionAvatar}>
+                <Image src={questionData.avatar} alt='' width={40} height={40} />
+              </div>
+              <div className={styles.questionAuthor}>{questionData?.nickname}</div>
+              <div className={styles.questionDate}>编辑于{formatToDateTime(questionData?.updatedTime)}</div>
             </div>
-            <div className={styles.questionAuthor}>{questionData?.nickname}</div>
-            <div className={styles.questionDate}>编辑于{formatToDateTime(questionData?.updatedTime)}</div>
-          </div>
-          <div className={styles.questionTitle}>{questionData?.title || '申请大学时需要准备什么材料？'}</div>
-          <div className={styles.questionContent}>{questionData?.content}</div>
-          <div className={styles.tagList}>
-            {questionData.tags?.map((tag) => {
-              return <Tag key={tag} title={tag} />;
-            })}
-          </div>
-          <div className={styles.actionContainer}>
-            <div
-              style={{ color: questionData.likeStatus ? colors.primaryColor : colors.iconDefaultColor }}
-              onClick={() => {
-                handleLike(!questionData.likeStatus);
-              }}>
-              {questionData.likeStatus ? (
-                <LikeFilled height={14} width={14} />
-              ) : (
-                <LikeOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
-              )}
-              <span className={styles.count}>{questionData?.likeCount}</span>
+            <div className={styles.questionTitle}>{questionData?.title || '申请大学时需要准备什么材料？'}</div>
+            <div className={styles.questionContent}>{questionData?.content}</div>
+            <div className={styles.tagList}>
+              {questionData.tags?.map((tag) => {
+                return <Tag key={tag} title={tag} />;
+              })}
             </div>
-            <div>
-              <HeartOutlined height={16} width={16} color={colors.iconDefaultColor} />
-              <span className={styles.count}>{item?.favoriteCount}</span>
+            <div className={styles.actionContainer}>
+              <div
+                style={{ color: questionData.likeStatus ? colors.primaryColor : colors.iconDefaultColor }}
+                onClick={() => {
+                  handleLike(!questionData.likeStatus);
+                }}>
+                {questionData.likeStatus ? (
+                  <LikeFilled height={14} width={14} />
+                ) : (
+                  <LikeOutlineIcon height={14} width={14} color={colors.iconDefaultColor} />
+                )}
+                <span className={styles.count}>{questionData?.likeCount}</span>
+              </div>
+              <div>
+                <HeartOutlined height={16} width={16} color={colors.iconDefaultColor} />
+                <span className={styles.count}>{item?.favoriteCount}</span>
+              </div>
+              <Button type='primary' className={styles.answerBtn} onClick={handleAnswerQuestion}>
+                写回答
+              </Button>
             </div>
-            <Button type='primary' className={styles.answerBtn} onClick={handleAnswerQuestion}>
-              写回答
-            </Button>
           </div>
+          <AnswerList questionId={item?.id} isAuthor={isAuthor} />
         </div>
-        <AnswerList questionId={item?.id} isAuthor={isAuthor} />
+      </div>
+      <div className={styles.right}>
+        {/*相关问题*/}
+        <div className={styles.relativeQuestion}>
+          <div className={styles.title}>
+            <Image priority src='/images/question.svg' width={48} height={36} alt='' style={{ paddingRight: 10 }} />
+            相关问题
+          </div>
+          {relativeQuestionList.map((item) => {
+            return (
+              <li
+                className={styles.item}
+                key={item.id}
+                onClick={() => {
+                  window.open(`/questions/${item.id}`, '_blank');
+                }}>
+                {item.title}
+              </li>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
