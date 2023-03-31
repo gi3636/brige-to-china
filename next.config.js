@@ -36,6 +36,12 @@ module.exports = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'dummyimage.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   //添加语言环境
