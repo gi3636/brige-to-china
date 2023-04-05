@@ -10,6 +10,18 @@ export function getQuestionList(param) {
   };
 }
 
+/**
+ * 搜索问题
+ * @param param
+ */
+export function searchQuestion(param) {
+  return {
+    url: '/question/search',
+    method: 'post',
+    data: param,
+  };
+}
+
 export function postQuestion(param: PostQuestionParam) {
   return {
     url: '/question/add',

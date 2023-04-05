@@ -39,6 +39,7 @@ function QuestionsPage({ list }) {
 
   useEffect(() => {
     const { page, type } = router.query;
+    console.log('123123', router.query);
     setCurrentIndex(+(type || 1));
     setPage(+(page || 1));
   }, []);
@@ -119,9 +120,9 @@ function QuestionsPage({ list }) {
           <div className={styles.questionList}>
             {loading ? (
               <>
-                <Skeleton avatar paragraph={{ rows: 4 }} />
-                <Skeleton avatar paragraph={{ rows: 4 }} />
-                <Skeleton avatar paragraph={{ rows: 4 }} />
+                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                <Skeleton active avatar paragraph={{ rows: 4 }} />
+                <Skeleton active avatar paragraph={{ rows: 4 }} />
               </>
             ) : (
               renderQuestionList
