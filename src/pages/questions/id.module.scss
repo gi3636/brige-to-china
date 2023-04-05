@@ -152,10 +152,11 @@
         border-bottom: 1px solid #E5E5E5;
       }
 
-      .item{
+      .item {
         margin-top: 10px;
         cursor: pointer;
-        &:hover{
+
+        &:hover {
           color: $primary-color;
         }
       }

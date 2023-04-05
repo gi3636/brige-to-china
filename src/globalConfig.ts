@@ -23,7 +23,7 @@ export const globalConfig = {
   SESSION_LOGIN_INFO: 'userLoginInfo',
   uploadUrl: '',
   downloadUrl: 'https://video.sakuraoy.top/',
-  devBaseUrl: 'http://36.26.69.161:9999',
+  devBaseUrl: 'http://127.0.0.1:9999',
   prodBaseUrl: 'http://36.26.69.161:9999',
   devWsUrl: 'ws://127.0.0.1:9000/ws',
   prodWsUrl: 'ws://36.26.69.161:9000/ws',

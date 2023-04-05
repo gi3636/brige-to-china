@@ -166,7 +166,6 @@ function QuestionDetailPage({ item }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log('context', context);
   const { params } = context;
   const questionId = params?.id;
   let appEnv = process.env.APP_ENV;

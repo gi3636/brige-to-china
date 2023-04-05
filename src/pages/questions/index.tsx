@@ -9,7 +9,7 @@ import { globalConfig } from '@/globalConfig';
 import { useRouter } from 'next/router';
 import { getQuestionList } from '@/api/question';
 import useRequest from '@/hooks/useRequest';
-import { Spin } from 'antd';
+import { Skeleton, Spin } from 'antd';
 const navList = [
   {
     id: 1,
@@ -32,8 +32,8 @@ function QuestionsPage({ list }) {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = React.useState(1);
   const [page, setPage] = React.useState(1);
-  const [questionList, setQuestionList] = React.useState(list || []);
-  const [total, setTotal] = React.useState(0);
+  const [questionList, setQuestionList] = React.useState([]);
+  const [totalPage, setTotalPage] = React.useState(0);
   const { run, loading } = useRequest();
   const [desc, setDesc] = React.useState(false);
 
@@ -53,8 +53,12 @@ function QuestionsPage({ list }) {
 
   const loadQuestionList = () => {
     run(getQuestionList({ currentPage: page, type: currentIndex, pageSize: 8 })).then((res) => {
+      if (res?.code != 200) {
+        return;
+      }
+      console.log('res', res);
       setQuestionList(res?.data?.list || []);
-      setTotal(res?.data?.total || 0);
+      setTotalPage(+res?.data?.totalPage || 0);
     });
   };
 
@@ -73,11 +77,11 @@ function QuestionsPage({ list }) {
   };
 
   const handleSortByTime = () => {
-    let newList = questionList.sort((a, b) => {
+    let newList = questionList.sort((a: any, b: any) => {
       if (desc) {
-        return a.createdTime - b.createdTime;
+        return a?.createdTime - b?.createdTime;
       } else {
-        return b.createdTime - a.createdTime;
+        return b?.createdTime - a?.createdTime;
       }
     });
     setQuestionList([...newList]);
@@ -85,7 +89,7 @@ function QuestionsPage({ list }) {
 
   const renderQuestionList = useMemo(() => {
     return questionList?.map((item, index) => {
-      return <QuestionItem question={item} key={index} />;
+      return <QuestionItem question={item} key={index} isLast={index == questionList.length - 1} />;
     });
   }, [questionList]);
 
@@ -110,9 +114,21 @@ function QuestionsPage({ list }) {
               <span style={{ marginLeft: 4 }}>切换为时间排序</span>
             </div>
           </div>
-          <Spin spinning={loading}>
-            <div className={styles.questionList}>{renderQuestionList}</div>
-          </Spin>
+          {/*<Spin spinning={loading}>*/}
+
+          <div className={styles.questionList}>
+            {loading ? (
+              <>
+                <Skeleton avatar paragraph={{ rows: 4 }} />
+                <Skeleton avatar paragraph={{ rows: 4 }} />
+                <Skeleton avatar paragraph={{ rows: 4 }} />
+              </>
+            ) : (
+              renderQuestionList
+            )}
+          </div>
+
+          {/*</Spin>*/}
           <div className={styles.pageContainer}>
             {page > 1 ? (
               <div className={styles.pageItem} onClick={prevPage}>
@@ -123,7 +139,7 @@ function QuestionsPage({ list }) {
             )}
 
             <div className={styles.page}>{page}</div>
-            {total > page * 5 ? (
+            {totalPage > page ? (
               <div className={styles.pageItem} onClick={nextPage}>
                 下一页
               </div>

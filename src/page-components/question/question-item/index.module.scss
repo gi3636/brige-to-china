@@ -29,52 +29,55 @@
       font-size: 12px;
       color: #8590A6;
     }
-
-
   }
+  .questionBody{
 
-  .questionTitle {
-    margin-top: 10px;
-    font-weight: 700;
-    font-size: 16px;
-    display: flex;
-    letter-spacing: 0.05em;
     &:hover{
       cursor: pointer;
-      color: $primary-color;
+      .questionTitle, .questionContent{
+        color: $primary-color;
+      }
     }
-  }
-
-  .questionContent {
-    margin-top: 8px;
-    width: 100%;
-    font-size: 14px;
-    color: #000000;
-    line-height: 20px;
-    &:hover{
-      cursor: pointer;
-      color: $primary-color;
-    }
-    .questionTag {
+    .questionTitle {
+      margin-top: 10px;
+      font-weight: 700;
+      font-size: 16px;
       display: flex;
-      flex-direction: row;
+      letter-spacing: 0.05em;
 
-      .tagItem {
-        font-family: 'Microsoft YaHei', sans-serif;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 20px;
-        color: #8590A6;
-        margin-right: 10px;
-        cursor: pointer;
+    }
 
-        &:hover {
-          color: $primary-color;
+    .questionContent {
+      margin-top: 8px;
+      width: 100%;
+      font-size: 14px;
+      color: #000000;
+      line-height: 20px;
+
+      .questionTag {
+        display: flex;
+        flex-direction: row;
+
+        .tagItem {
+          font-family: 'Microsoft YaHei', sans-serif;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 20px;
+          color: #8590A6;
+          margin-right: 10px;
+          cursor: pointer;
+
+          &:hover {
+            color: $primary-color;
+          }
         }
       }
     }
   }
+
+
+
 
   .bestAnswerContainer {
     padding: 10px;
@@ -99,13 +102,6 @@
         align-items: center;
         justify-content: center;
         margin-left: 20px;
-        cursor: pointer;
-        &:hover {
-          color: $primary-color;
-          svg path{
-            fill: $primary-color;
-          }
-        }
       }
 
       .count {
