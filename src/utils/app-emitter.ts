@@ -6,6 +6,7 @@ export enum EmitterType {
   logout,
   updateAnswerList,
   updateCommentList,
+  searchQuestion,
 }
 class AppEmitter extends Emitter {
   type = EmitterType;

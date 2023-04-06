@@ -3,36 +3,62 @@ import styles from './index.module.scss';
 import useRequest from '@/hooks/useRequest';
 import { searchQuestion } from '@/api/question';
 import QuestionItem from '@/page-components/question/question-item/QuestionItem';
-import { usePathname } from 'next/navigation';
+import { emitter, EmitterType } from '@/utils/app-emitter';
+import { Empty, Skeleton } from 'antd';
+import Pagination from '@/components/pagination';
+import { useRouter } from 'next/router';
 
 function SearchPage() {
   const [questionList, setQuestionList] = React.useState([]);
-  const [totalPage, setTotalPage] = React.useState(0);
+  const [total, setTotal] = React.useState(0);
   const [page, setPage] = React.useState(1);
   const [keyword, setKeyword] = React.useState(''); // 搜索关键字
   const { run, loading } = useRequest();
-
+  const router = useRouter();
   useEffect(() => {
     let keyword = getQueryParam('keyword');
-    loadQuestionList(keyword);
+    let page = getQueryParam('page');
+    setKeyword(keyword || '');
+    if (page) {
+      setPage(+page || 1);
+    }
+    emitter.singleton(EmitterType.searchQuestion, (keyword) => {
+      setKeyword(keyword || '');
+    });
   }, []);
 
   function getQueryParam(name) {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window?.location?.search);
     return urlParams.get(name);
   }
 
-  const loadQuestionList = (keyword) => {
-    run(searchQuestion({ currentPage: page, pageSize: 8, keyword: keyword })).then((res) => {
+  const loadQuestionList = () => {
+    run(searchQuestion({ currentPage: page, pageSize: 5, keyword: keyword })).then((res) => {
       if (res?.code != 200) {
         return;
       }
       setQuestionList(res?.data?.list || []);
-      setTotalPage(+res?.data?.totalPage || 0);
+      setTotal(+res?.data?.total || 0);
     });
   };
 
+  useEffect(() => {
+    loadQuestionList();
+  }, [page, keyword]);
+
+  const nextPage = () => {
+    setPage(page + 1);
+    router.push(`/search?keyword=${keyword}&page=${page + 1}`);
+  };
+  const prevPage = () => {
+    setPage(page - 1);
+    router.push(`/search?keyword=${keyword}&page=${page - 1}`);
+  };
+
   const renderQuestionList = useMemo(() => {
+    if (!questionList?.length) {
+      return <Empty description='暂无数据' />;
+    }
     return questionList?.map((item, index) => {
       return <QuestionItem question={item} key={index} isLast={index == questionList.length - 1} />;
     });
@@ -41,31 +67,19 @@ function SearchPage() {
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
-        <div className={styles.searchTitle}>搜索结果</div>
-        <div className={styles.questionList}>{renderQuestionList}</div>
+        <div className={styles.searchTitle}>搜索结果({total})</div>
+        <div className={styles.questionList}>
+          {loading ? <Skeleton active avatar paragraph={{ rows: 4 }} /> : renderQuestionList}
+          <Pagination
+            totalPage={total / 5}
+            page={page}
+            total={total}
+            nextPageClick={nextPage}
+            prevPageClick={prevPage}
+          />
+        </div>
       </div>
     </div>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   const { keyword, page } = context.query;
-//   let appEnv = process.env.APP_ENV;
-//   let baseUrl = appEnv === 'development' ? globalConfig.devBaseUrl : globalConfig.prodBaseUrl;
-//   const res = await axios.post(`${baseUrl}/question/search`, {
-//     keyword,
-//     currentPage: page || 1,
-//     pageSize: 5,
-//   });
-//   console.log('res', res.data);
-//   const list = res?.data?.data?.list || [];
-//
-//   return {
-//     props: {
-//       list,
-//       page: parseInt(page),
-//     },
-//   };
-// }
-
 export default SearchPage;

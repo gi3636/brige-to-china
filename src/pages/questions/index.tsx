@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { getQuestionList } from '@/api/question';
 import useRequest from '@/hooks/useRequest';
 import { Skeleton, Spin } from 'antd';
+import Pagination from '@/components/pagination';
 const navList = [
   {
     id: 1,
@@ -33,7 +34,7 @@ function QuestionsPage({ list }) {
   const [currentIndex, setCurrentIndex] = React.useState(1);
   const [page, setPage] = React.useState(1);
   const [questionList, setQuestionList] = React.useState([]);
-  const [totalPage, setTotalPage] = React.useState(0);
+  const [total, setTotal] = React.useState(0);
   const { run, loading } = useRequest();
   const [desc, setDesc] = React.useState(false);
 
@@ -59,7 +60,7 @@ function QuestionsPage({ list }) {
       }
       console.log('res', res);
       setQuestionList(res?.data?.list || []);
-      setTotalPage(+res?.data?.totalPage || 0);
+      setTotal(+res?.data?.total || 0);
     });
   };
 
@@ -130,24 +131,12 @@ function QuestionsPage({ list }) {
           </div>
 
           {/*</Spin>*/}
-          <div className={styles.pageContainer}>
-            {page > 1 ? (
-              <div className={styles.pageItem} onClick={prevPage}>
-                上一页
-              </div>
-            ) : (
-              <div></div>
-            )}
-
-            <div className={styles.page}>{page}</div>
-            {totalPage > page ? (
-              <div className={styles.pageItem} onClick={nextPage}>
-                下一页
-              </div>
-            ) : (
-              <div />
-            )}
-          </div>
+          <Pagination
+            totalPage={total / 8}
+            page={page}
+            total={total}
+            nextPageClick={nextPage}
+            prevPageClick={prevPage}></Pagination>
         </div>
         <div className={styles.rightContainer}>
           <PostQuestion />
