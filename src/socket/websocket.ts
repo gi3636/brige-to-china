@@ -82,23 +82,19 @@ export const webSocket = new ImWebSocket((type) => {
   switch (type) {
     case SocketEvent.message:
       return (res) => {
-        console.log('res', res);
-        console.log('message');
+        console.log('ws message事件->', res.data);
       };
     case SocketEvent.open:
       return (res) => {
         webSocket.send(JSON.stringify(createMessage(MessageActionEnum.connect)));
-        console.log('res', res);
-        console.log('open');
+        console.log('ws open事件->初始化');
       };
     case SocketEvent.close:
       return (res) => {
-        console.log('res', res);
         console.log('close');
       };
     case SocketEvent.error:
       return (res) => {
-        console.log('res', res);
         console.log('error');
       };
   }

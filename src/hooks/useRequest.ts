@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { api } from '@/api/api';
-import axios, { AxiosRequestConfig, Canceler } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 function useRequest(axiosConfig?: AxiosRequestConfig) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>(null);
   const [err, setErr] = useState<any>(null);
   let previousRequest = useRef<any>(null);
+  let isCancel = false;
   useEffect(() => {
     previousRequest.current = null;
     if (axiosConfig) {
@@ -21,34 +22,37 @@ function useRequest(axiosConfig?: AxiosRequestConfig) {
   async function handleRequest(config: AxiosRequestConfig) {
     if (previousRequest.current) {
       previousRequest.current?.cancel('取消前一个请求');
+      previousRequest.current = null;
     }
     setLoading(true);
-    const { CancelToken } = axios;
-    const source = CancelToken.source();
-    previousRequest.current = source;
+    if (!previousRequest.current) {
+      const { CancelToken } = axios;
+      previousRequest.current = CancelToken.source();
+    }
+
     return api({
       ...config,
-      cancelToken: source.token,
+      cancelToken: previousRequest.current.token,
     })
       .then((_res) => {
-        previousRequest.current = null;
         setData(_res);
         return _res;
       })
       .catch((_err) => {
         if (axios.isCancel(_err)) {
+          isCancel = true;
           setTimeout(() => {
             setLoading(true);
           });
           console.log('请求已被取消：', _err.message);
         }
-        previousRequest.current = null;
-
         setErr(err);
         return _err;
       })
       .finally(() => {
-        setLoading(false);
+        if (!isCancel) {
+          setLoading(false);
+        }
       });
   }
 

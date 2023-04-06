@@ -30,7 +30,6 @@ function Entry({ Component, pageProps }) {
       if (!webSocket.connection) {
         webSocket.connect();
       }
-      console.log('userInfo', userInfo);
       dispatch(updateUser(JSON.parse(userInfo)));
     }
   }, []);

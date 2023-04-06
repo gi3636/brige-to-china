@@ -51,7 +51,6 @@ export interface ChatMsg {
 export function createMessage(type: MessageActionEnum, content?: ChatMsg, extend?: string): Message {
   let userInfo: any = localStorage.getItem(USER_INFO) || '{}';
   userInfo = JSON.parse(userInfo);
-  console.log('userInfo:', userInfo);
   switch (type) {
     case MessageActionEnum.connect:
       return {

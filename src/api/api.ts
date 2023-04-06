@@ -15,7 +15,6 @@ api = axios.create({
 api.interceptors.request.use(function (config) {
   const token = localStorage.getItem('token');
   if (token) {
-    console.log('token', token);
     config.headers.token = `${token}`;
   }
   return config;
@@ -40,6 +39,11 @@ api.interceptors.response.use(
     return res.data;
   },
   function (res) {
+    //如果是取消的请求，不做任何处理
+    if (axios.isCancel(res)) {
+      return Promise.reject(res);
+    }
+    console.log('res', res);
     message.warning('网络异常');
     return Promise.reject(res);
   },
