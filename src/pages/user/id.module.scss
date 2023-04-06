@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  .mainContent {
+    width: $main-width;
+    padding-top: 20px;
+
+    .header {
+      border-radius: 10px;
+      background: white;
+      position: relative;
+
+      .userAvatar {
+        position: absolute;
+        top: 40%;
+        left: 40px;
+        border-radius: 50%;
+      }
+
+      .userDetailBox {
+        padding-left: 200px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        .follow, .fans {
+          font-size: 15px;
+        }
+
+        .editBtn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 40px;
+          padding: 10px 20px;
+          border-radius: 14px;
+          border: 1px solid #000000;
+          font-size: 12px;
+          &:hover {
+            background-color: #F0F2F5;
+            cursor: pointer;
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+}

@@ -42,6 +42,12 @@ module.exports = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'thumb.photo-ac.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   //添加语言环境
