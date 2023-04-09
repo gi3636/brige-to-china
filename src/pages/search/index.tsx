@@ -7,6 +7,7 @@ import { emitter, EmitterType } from '@/utils/app-emitter';
 import { Empty, Skeleton } from 'antd';
 import Pagination from '@/components/pagination';
 import { useRouter } from 'next/router';
+import { getQueryParam } from '@/utils';
 
 function SearchPage() {
   const [questionList, setQuestionList] = React.useState([]);
@@ -26,11 +27,6 @@ function SearchPage() {
       setKeyword(keyword || '');
     });
   }, []);
-
-  function getQueryParam(name) {
-    const urlParams = new URLSearchParams(window?.location?.search);
-    return urlParams.get(name);
-  }
 
   const loadQuestionList = () => {
     run(searchQuestion({ currentPage: page, pageSize: 5, keyword: keyword })).then((res) => {

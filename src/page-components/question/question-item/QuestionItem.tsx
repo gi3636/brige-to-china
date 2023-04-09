@@ -9,29 +9,44 @@ import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
 import { Divider } from 'antd';
 import BestAnswerItem from '@/page-components/question/best-answer-item/BestAnswerItem';
 import { formatToDateTime } from '@/utils';
+import Link from 'next/link';
 
 interface QuestionItemProps {
   question: any;
   isLast?: boolean;
 }
 function QuestionItem({ question, isLast }: QuestionItemProps) {
-  const navigateQuestion = (id) => {
-    window.open(`/questions/${id}`, '_blank');
-  };
-
   return (
     <div className={styles.questionItem}>
       <div className={styles.questionHeader}>
         <div className={styles.questionAvatar}>
           <Image src={question?.avatar || ''} alt='' width={40} height={40} />
         </div>
-        <div className={styles.questionAuthor}>{question?.nickname || '测试'}</div>
+        <Link
+          className={styles.questionAuthor}
+          href={{
+            pathname: '/user/[userId]',
+            query: {
+              userId: question?.userId,
+            },
+          }}
+          target='_blank'>
+          {question?.nickname || '测试'}
+        </Link>
         <div className={styles.questionDate}>{formatToDateTime(question.createdTime)}</div>
       </div>
-      <div className={styles.questionBody} onClick={navigateQuestion.bind(null, question?.id)}>
+      <Link
+        className={styles.questionBody}
+        href={{
+          pathname: '/questions/[questionId]',
+          query: {
+            questionId: question.id,
+          },
+        }}
+        target='_blank'>
         <div className={styles.questionTitle}>{question?.title}</div>
         <div className={styles.questionContent}>{question?.content}</div>
-      </div>
+      </Link>
       {question?.bestAnswer ? (
         <div className={styles.bestAnswerContainer}>
           <BestAnswerItem item={question?.bestAnswer} />

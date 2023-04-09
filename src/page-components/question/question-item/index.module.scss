@@ -7,12 +7,15 @@
     align-items: center;
 
     .questionAuthor {
+      color: #000000;
+      text-decoration: none;
       margin-left: 10px;
       font-family: 'Microsoft YaHei', sans-serif;
       font-weight: 700;
       font-size: 15px;
       cursor: pointer;
       &:hover{
+        color: $primary-color;
         opacity: .8;
       }
     }
@@ -31,7 +34,8 @@
     }
   }
   .questionBody{
-
+    text-decoration: none;
+    color: black;
     &:hover{
       cursor: pointer;
       .questionTitle, .questionContent{

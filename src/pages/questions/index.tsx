@@ -40,7 +40,6 @@ function QuestionsPage({ list }) {
 
   useEffect(() => {
     const { page, type } = router.query;
-    console.log('123123', router.query);
     setCurrentIndex(+(type || 1));
     setPage(+(page || 1));
   }, []);

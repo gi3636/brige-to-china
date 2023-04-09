@@ -17,7 +17,7 @@ module.exports = {
     forceSwcTransforms: true,
   },
   swcMinify: true,
-  reactStrictMode: true,
+  reactStrictMode: false,
   env: {
     APP_ENV: process.env.APP_ENV,
   },
@@ -46,6 +46,12 @@ module.exports = {
         protocol: 'https',
         hostname: 'thumb.photo-ac.com',
         port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: '36.26.69.161',
+        port: '9000',
         pathname: '/**',
       },
     ],

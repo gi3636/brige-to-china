@@ -43,6 +43,11 @@ api.interceptors.response.use(
     if (axios.isCancel(res)) {
       return Promise.reject(res);
     }
+    if (res.response?.data?.code) {
+      console.log('res', res);
+      message.error(res.response.data.message || '测试');
+      return Promise.reject(res);
+    }
     console.log('res', res);
     message.warning('网络异常');
     return Promise.reject(res);
