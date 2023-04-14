@@ -8,7 +8,7 @@ import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
 import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
 import { Divider } from 'antd';
 import BestAnswerItem from '@/page-components/question/best-answer-item/BestAnswerItem';
-import { formatToDateTime } from '@/utils';
+import { convertFileUrl, formatToDateTime } from '@/utils';
 import Link from 'next/link';
 
 interface QuestionItemProps {
@@ -20,7 +20,7 @@ function QuestionItem({ question, isLast }: QuestionItemProps) {
     <div className={styles.questionItem}>
       <div className={styles.questionHeader}>
         <div className={styles.questionAvatar}>
-          <Image src={question?.avatar || ''} alt='' width={40} height={40} />
+          <Image src={convertFileUrl(question?.avatar) || ''} alt='' width={40} height={40} />
         </div>
         <Link
           className={styles.questionAuthor}
