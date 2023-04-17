@@ -2,15 +2,17 @@ import React, { useEffect } from 'react';
 import styles from './id.module.scss';
 import Image from 'next/image';
 import type { TabsProps } from 'antd';
-import { message, Tabs } from 'antd';
+import { Form, message, Modal, Tabs } from 'antd';
 import { useRouter } from 'next/router';
 import useRequest from '@/hooks/useRequest';
-import { getUserDetail, editUserInfo } from '@/api/user';
+import { editUserInfo, getUserDetail } from '@/api/user';
 import { GetServerSideProps } from 'next';
 import { convertFileUrl } from '@/utils';
 import { uploadFile } from '@/api/file';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '@/store/user/slice';
+import ProForm from '@/components/pro-form';
+import { fields } from '@/pages/user/tableData';
 
 function UserDetailPage() {
   const router = useRouter();
@@ -20,7 +22,8 @@ function UserDetailPage() {
   const [userDetail, setUserDetail] = React.useState({} as any);
   const { run, loading } = useRequest();
   const { run: runFile, loading: loadingFile } = useRequest();
-
+  const form = Form.useForm()[0];
+  const [openEditModal, setOpenEditModal] = React.useState(false);
   useEffect(() => {
     run(getUserDetail({ id })).then((res) => {
       if (res.code == 200) {
@@ -76,6 +79,22 @@ function UserDetailPage() {
       });
     }
   };
+  const handleOpenEditModal = () => {
+    form.setFieldsValue(userDetail);
+    setOpenEditModal(true);
+  };
+
+  const handleEditUserInfo = () => {
+    form.validateFields().then((values) => {
+      run(editUserInfo(values)).then((res) => {
+        if (res.code == 200) {
+          setOpenEditModal(false);
+          setUserDetail({ ...userDetail, ...values });
+          message.success('更新成功');
+        }
+      });
+    });
+  };
 
   const onChange = (key: string) => {
     console.log(key);
@@ -120,10 +139,13 @@ function UserDetailPage() {
             </div>
             <div className={styles.follow}>关注 {userDetail?.followCount || 0}</div>
             <div className={styles.fans}>粉丝 {userDetail?.fansCount || 0}</div>
-            <div className={styles.editBtn}>编辑个人资料</div>
+            {userDetail?.id == user?.id ? (
+              <div className={styles.editBtn} onClick={handleOpenEditModal}>
+                编辑个人资料
+              </div>
+            ) : null}
           </div>
           <div className={styles.userAvatar}>
-            {/*<Avatar size={100} src='https://thumb.photo-ac.com/56/564d7708097fcf9e3afc35d896da492d_t.jpeg' />*/}
             <Image
               style={{ borderRadius: '50%' }}
               src={convertFileUrl(userDetail.avatar)}
@@ -145,6 +167,14 @@ function UserDetailPage() {
           </div>
         </div>
       </div>
+      <Modal
+        title='编辑资料'
+        confirmLoading={loading}
+        open={openEditModal}
+        onCancel={setOpenEditModal.bind(null, false)}
+        onOk={handleEditUserInfo}>
+        <ProForm fields={fields} form={form} />
+      </Modal>
     </div>
   );
 }

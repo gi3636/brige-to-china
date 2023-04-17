@@ -46,16 +46,16 @@
         }
 
         &:hover {
-          cursor: pointer;
 
           .editCoverBox {
             display: flex;
+            cursor: pointer;
+            &:active {
+              opacity: .8;
+            }
           }
         }
 
-        &:active {
-          opacity: .8;
-        }
 
       }
 
@@ -88,7 +88,6 @@
         left: 40px;
         border-radius: 50%;
 
-
         .uploadAvatar {
           position: absolute;
           top: 0;
@@ -108,8 +107,6 @@
         }
 
         &:hover {
-          cursor: pointer;
-
           .uploadAvatar {
             height: 100%;
             display: flex;
@@ -119,12 +116,10 @@
             background: rgba(0, 0, 0, 0.2);
             cursor: pointer;
             color: white;
-
+            &:active {
+              opacity: .8;
+            }
           }
-        }
-
-        &:active {
-          opacity: .8;
         }
       }
 
