@@ -6,7 +6,7 @@ import { colors } from '@/styles/colors';
 import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
 import { Button, Dropdown, MenuProps, message } from 'antd';
 import CommentList from '@/page-components/question/comment-list/CommentList';
-import { formatToDateTime, isLogin } from '@/utils';
+import { convertFileUrl, formatToDateTime, isLogin } from '@/utils';
 import useRequest from '@/hooks/useRequest';
 import { sendComment } from '@/api/comment';
 import { delAnswer, useAnswer } from '@/api/answer';
@@ -109,7 +109,7 @@ function AnswerItem({ item, isAuthor }) {
     <div className={styles.answerItem}>
       <div className={styles.answerHeader}>
         <div className={styles.avatar}>
-          <Image src={item?.avatar} alt='' width={40} height={40} />
+          <Image src={convertFileUrl(item?.avatar)} alt='' width={40} height={40} />
         </div>
         <div className={styles.name}>{item.nickname}</div>
 

@@ -23,3 +23,15 @@ export function editUserInfo(param) {
     data: param,
   };
 }
+
+/**
+ * 获取用户详情
+ * @param param
+ */
+export function getUserAction(param) {
+  return {
+    url: '/user/userAction/list',
+    method: 'post',
+    data: param,
+  };
+}

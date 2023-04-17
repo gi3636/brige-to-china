@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '@/store/user/slice';
 import ProForm from '@/components/pro-form';
 import { fields } from '@/pages/user/tableData';
+import UserAction from '@/page-components/user/user-action';
 
 function UserDetailPage() {
   const router = useRouter();
@@ -103,8 +104,8 @@ function UserDetailPage() {
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: `动态 1`,
-      children: `Content of Tab Pane 1`,
+      label: `动态`,
+      children: <UserAction userId={id} />,
     },
   ];
   return (

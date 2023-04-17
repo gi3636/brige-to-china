@@ -1,0 +1,17 @@
+.container{
+  .actionItem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .title{
+      margin-left: 3px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .date{
+        font-size: 12px;
+        color: #999;
+    }
+  }
+}

@@ -11,7 +11,7 @@ import { EditOutlined, HeartOutlined, LikeFilled } from '@ant-design/icons';
 import { globalConfig } from '@/globalConfig';
 import AnswerList from '@/page-components/question/answer-list/AnswerList';
 import { useSelector } from 'react-redux';
-import { formatToDateTime, isLogin } from '@/utils';
+import { convertFileUrl, formatToDateTime, isLogin } from '@/utils';
 import useRequest from '@/hooks/useRequest';
 import { addAnswer } from '@/api/answer';
 import { emitter, EmitterType } from '@/utils/app-emitter';
@@ -103,7 +103,7 @@ function QuestionDetailPage({ item }) {
           <div className={styles.questionItem}>
             <div className={styles.questionHeader}>
               <div className={styles.questionAvatar}>
-                <Image src={questionData.avatar} alt='' width={40} height={40} />
+                <Image src={convertFileUrl(questionData.avatar)} alt='' width={40} height={40} />
               </div>
               <div className={styles.questionAuthor}>{questionData?.nickname}</div>
               <div className={styles.questionDate}>编辑于{formatToDateTime(questionData?.updatedTime)}</div>
