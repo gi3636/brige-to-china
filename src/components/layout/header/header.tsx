@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Avatar, Button, Dropdown, Input, MenuProps } from 'antd';
+import { Avatar, Badge, Button, Dropdown, Input, MenuProps } from 'antd';
 import { EarthIcon } from '@/components/icons/EarthIcon';
 import useLanguage from '@/hooks/useLanguage';
 import { DownIcon } from '@/components/icons/DownIcon';
@@ -11,12 +11,31 @@ import LoginModal from '@/components/modal/login/LoginModal';
 import { colors } from '@/styles/colors';
 import { useSelector } from 'react-redux';
 import LoginAvatar from '@/components/layout/header/component/login-avatar/LoginAvatar';
+import { BellOutlined, MessageOutlined } from '@ant-design/icons';
+import NotificationList from '@/components/layout/header/component/notification-list';
+import { getNotificationList } from '@/api/notification';
+import useRequest from '@/hooks/useRequest';
 
 const { Search } = Input;
 function Header(props) {
   const { t, changeLanguage } = useLanguage();
   const router = useRouter();
+  const { run, loading } = useRequest();
+  const [notificationList, setNotificationList] = React.useState<any[]>([]);
 
+  useEffect(() => {
+    run(
+      getNotificationList({
+        currentPage: 1,
+        pageSize: 10,
+        channelType: 1,
+      }),
+    ).then((res) => {
+      console.log('res', res);
+      if (res.code != 200) return;
+      setNotificationList(res?.data?.list);
+    });
+  }, []);
   const user = useSelector((state: any) => state.user);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -108,6 +127,18 @@ function Header(props) {
         {/*<div className={styles.navContainer}>已登录显示</div>*/}
         <div className={styles.searchContainer}>
           <SearchBar />
+        </div>
+        <div style={{ marginLeft: 30, display: 'flex', justifyContent: 'space-around' }}>
+          <Dropdown
+            dropdownRender={() => {
+              return <NotificationList notificationList={notificationList} />;
+            }}>
+            <Badge dot={true}>
+              <BellOutlined style={{ fontSize: 28, color: colors.iconDefaultColor }} />
+            </Badge>
+          </Dropdown>
+
+          <MessageOutlined style={{ fontSize: 25, color: colors.iconDefaultColor, marginLeft: 20 }} />
         </div>
         <div>
           <Dropdown menu={{ items }}>
