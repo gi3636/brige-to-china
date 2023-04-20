@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Avatar, Badge, Button, Dropdown, Input, MenuProps } from 'antd';
+import { Badge, Button, Dropdown, Input, MenuProps } from 'antd';
 import { EarthIcon } from '@/components/icons/EarthIcon';
 import useLanguage from '@/hooks/useLanguage';
 import { DownIcon } from '@/components/icons/DownIcon';
@@ -15,27 +15,38 @@ import { BellOutlined, MessageOutlined } from '@ant-design/icons';
 import NotificationList from '@/components/layout/header/component/notification-list';
 import { getNotificationList } from '@/api/notification';
 import useRequest from '@/hooks/useRequest';
+import { getDialogList } from '@/api/message';
+import DialogList from '@/components/layout/header/component/dialog-list';
 
 const { Search } = Input;
 function Header(props) {
   const { t, changeLanguage } = useLanguage();
   const router = useRouter();
   const { run, loading } = useRequest();
-  const [notificationList, setNotificationList] = React.useState<any[]>([]);
+  const [notificationList, setNotificationList] = useState<any[]>([]);
+  const [dialogList, setDialogList] = useState([]);
 
   useEffect(() => {
-    run(
-      getNotificationList({
-        currentPage: 1,
-        pageSize: 10,
-        channelType: 1,
-      }),
-    ).then((res) => {
-      console.log('res', res);
+    getNotificationList({
+      currentPage: 1,
+      pageSize: 10,
+      channelType: 1,
+    }).then((res) => {
       if (res.code != 200) return;
       setNotificationList(res?.data?.list);
     });
+
+    getDialogList({
+      currentPage: 1,
+      pageSize: 10,
+      channelType: 1,
+    }).then((res) => {
+      console.log('res', res);
+      if (res.code != 200) return;
+      setDialogList(res?.data?.list);
+    });
   }, []);
+
   const user = useSelector((state: any) => state.user);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -130,6 +141,8 @@ function Header(props) {
         </div>
         <div style={{ marginLeft: 30, display: 'flex', justifyContent: 'space-around' }}>
           <Dropdown
+            placement='bottom'
+            arrow
             dropdownRender={() => {
               return <NotificationList notificationList={notificationList} />;
             }}>
@@ -137,8 +150,16 @@ function Header(props) {
               <BellOutlined style={{ fontSize: 28, color: colors.iconDefaultColor }} />
             </Badge>
           </Dropdown>
-
-          <MessageOutlined style={{ fontSize: 25, color: colors.iconDefaultColor, marginLeft: 20 }} />
+          <Dropdown
+            placement='bottom'
+            arrow
+            dropdownRender={() => {
+              return <DialogList dialogList={dialogList} />;
+            }}>
+            <Badge dot={true}>
+              <MessageOutlined style={{ fontSize: 25, color: colors.iconDefaultColor, marginLeft: 20 }} />
+            </Badge>
+          </Dropdown>
         </div>
         <div>
           <Dropdown menu={{ items }}>

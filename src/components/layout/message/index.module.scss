@@ -1,0 +1,12 @@
+.container {
+  position: fixed;
+  bottom: 0;
+  right: 10%;
+  z-index: 1;
+
+  .messageBoxList {
+    display: flex;
+    gap: 10px;
+  }
+
+}

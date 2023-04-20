@@ -4,6 +4,7 @@ import Main from '@/components/layout/main/main';
 import React from 'react';
 import Footer from '@/components/layout/footer/footer';
 import { Html } from 'next/document';
+import Message from '@/components/layout/message';
 
 export default function Layout({ children }) {
   return (
@@ -11,6 +12,7 @@ export default function Layout({ children }) {
       <Header />
       <Main>{children}</Main>
       <Footer />
+      <Message />
     </div>
   );
 }

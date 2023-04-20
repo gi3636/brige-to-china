@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './id.module.scss';
 import Image from 'next/image';
 import type { TabsProps } from 'antd';
-import { Form, message, Modal, Tabs } from 'antd';
+import { Button, Form, message, Modal, Tabs } from 'antd';
 import { useRouter } from 'next/router';
 import useRequest from '@/hooks/useRequest';
 import { editUserInfo, getUserDetail } from '@/api/user';
@@ -14,6 +14,7 @@ import { updateUser } from '@/store/user/slice';
 import ProForm from '@/components/pro-form';
 import { fields } from '@/pages/user/tableData';
 import UserAction from '@/page-components/user/user-action';
+import { addDialog } from '@/api/message';
 
 function UserDetailPage() {
   const router = useRouter();
@@ -32,6 +33,19 @@ function UserDetailPage() {
       }
     });
   }, []);
+
+  const handleAddDialog = () => {
+    if (!user.token) {
+      message.error('请先登录');
+      return;
+    }
+    addDialog({ toUserId: id }).then((res) => {
+      console.log('res', res);
+      if (res.code == 200) {
+        message.success('添加成功');
+      }
+    });
+  };
   const handleUploadImage = (file) => {
     return new Promise((resolve, reject) => {
       //限制图片大小5M
@@ -144,7 +158,11 @@ function UserDetailPage() {
               <div className={styles.editBtn} onClick={handleOpenEditModal}>
                 编辑个人资料
               </div>
-            ) : null}
+            ) : (
+              <Button type='primary' onClick={handleAddDialog}>
+                发送消息
+              </Button>
+            )}
           </div>
           <div className={styles.userAvatar}>
             <Image
