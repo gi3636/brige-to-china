@@ -3,12 +3,20 @@ import styles from './index.module.scss';
 import Image from 'next/image';
 import { CloseOutlined, MinusOutlined, SendOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
+import { useDispatch } from 'react-redux';
+import { deleteDialog } from '@/store/dialog/slice';
+import { convertFileUrl } from '@/utils';
 
-function MessageBox(props) {
+function MessageBox({ item }) {
   const [show, setShow] = useState(true);
+  const dispatch = useDispatch();
+  const handleCloseBox = (item) => {
+    dispatch(deleteDialog(item));
+  };
 
+  console.log('item', item);
   return (
-    <div className={styles.messageBox} style={{ height: show ? 450 : 50, cursor: show ? 'default' : 'pointer' }}>
+    <div className={styles.messageBox} style={{ height: show ? 450 : 45, cursor: show ? 'default' : 'pointer' }}>
       <div
         className={styles.header}
         onClick={() => {
@@ -17,9 +25,9 @@ function MessageBox(props) {
           }
         }}>
         <div className={styles.avatar}>
-          <Image src='http://img.headjia.com/2022/0528205227134881.jpg' alt='' width={34} height={34} />
+          <Image src={convertFileUrl(item.toUserAvatar)} alt='' width={34} height={34} />
         </div>
-        <div className={styles.name}>测试名字</div>
+        <div className={styles.name}>{item.toUserNickname}</div>
         <div className={styles.actionBox}>
           {show ? (
             <MinusOutlined
@@ -30,7 +38,7 @@ function MessageBox(props) {
               }}
             />
           ) : null}
-          <CloseOutlined style={{ color: 'white' }} />
+          <CloseOutlined style={{ color: 'white' }} onClick={handleCloseBox.bind(null, item)} />
         </div>
       </div>
       {show ? (

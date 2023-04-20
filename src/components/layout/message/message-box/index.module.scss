@@ -33,7 +33,9 @@
       flex: .3;
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      gap: 15px;
+      padding-right: 10px;
+      justify-content: flex-end;
 
       .action {
         margin: 5px;
@@ -67,6 +69,7 @@
       .message {
         padding: 8px;
         display: flex;
+
         .avatar {
           img {
             border-radius: 50%;

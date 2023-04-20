@@ -17,9 +17,6 @@ const UserSlice = createSlice({
         ...state,
         ...data,
       };
-      console.log('data', data);
-      console.log('state', state);
-      console.log('userInfo', userInfo);
       localStorage.setItem(USER_INFO, JSON.stringify(userInfo));
       return {
         ...userInfo,
