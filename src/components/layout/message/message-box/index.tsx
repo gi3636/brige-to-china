@@ -21,6 +21,9 @@ function MessageBox({ item }) {
   const { run, loading } = useRequest();
   const dispatch = useDispatch();
 
+  const friends = useSelector((state: any) => state.friends);
+
+  console.log('friends', friends);
   const handleCloseBox = (item) => {
     dispatch(deleteDialog(item));
   };
@@ -51,11 +54,43 @@ function MessageBox({ item }) {
       message.error('请输入内容');
     }
     let msg = createTextMsg(item.toUserId, text, item.dialogId);
-    let list = [...messageList, msg];
-    setMessageList(list);
+    console.log('msg', msg);
     webSocket.send(msg);
+    let list = [...messageList, formatMessage(msg.chatMsg)];
+    setMessageList(list);
     clearText();
+    scrollToBottom();
   };
+
+  function formatMessage(chatMessage) {
+    chatMessage.senderNickname = user.nickname;
+    chatMessage.senderAvatar = user.avatar;
+    chatMessage.receiverNickname = friends[chatMessage.receiverId]?.nickname;
+    chatMessage.receiverAvatar = friends[chatMessage.receiverId]?.avatar;
+    chatMessage.createdTime = new Date().getTime();
+    console.log('chatMessage', chatMessage);
+    return chatMessage;
+
+    // {
+    //   "id": "1649037428603998210",
+    //     "dialogId": "1648649199543304194",
+    //     "msgId": "KzBpnQcXVBjQsT9rdDqXb",
+    //     "senderId": "2",
+    //     "senderNickname": "于娜1",
+    //     "senderAvatar": "test/2023/4/9/测试3.jpeg",
+    //     "receiverId": "6",
+    //     "receiverNickname": "franky",
+    //     "receiverAvatar": "https://avatars1.githubusercontent.com/u/933",
+    //     "chatType": 1,
+    //     "messageType": 1,
+    //     "content": "1",
+    //     "isRead": false,
+    //     "signed": false,
+    //     "extend": null,
+    //     "createdTime": 1681996135000,
+    //     "updatedTime": 1681996135000
+    // }
+  }
   const clearText = () => {
     setText('');
   };

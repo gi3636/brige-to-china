@@ -35,3 +35,11 @@ export function getUserAction(param) {
     data: param,
   };
 }
+
+/**
+ * 获取多个用户详情
+ * @param param
+ */
+export function getBatchUserDetail(param) {
+  return api.post('/user/getBatchUserInfo', param);
+}

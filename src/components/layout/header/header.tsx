@@ -9,7 +9,7 @@ import Image from 'next/image';
 import SearchBar from '@/components/search-bar/SearchBar';
 import LoginModal from '@/components/modal/login/LoginModal';
 import { colors } from '@/styles/colors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginAvatar from '@/components/layout/header/component/login-avatar/LoginAvatar';
 import { BellOutlined, MessageOutlined } from '@ant-design/icons';
 import NotificationList from '@/components/layout/header/component/notification-list';
@@ -17,6 +17,8 @@ import { getNotificationList } from '@/api/notification';
 import useRequest from '@/hooks/useRequest';
 import { getDialogList } from '@/api/message';
 import DialogList from '@/components/layout/header/component/dialog-list';
+import { getBatchUserDetail } from '@/api/user';
+import { initFriendInfo } from '@/store/friend/slice';
 
 const { Search } = Input;
 function Header(props) {
@@ -24,7 +26,10 @@ function Header(props) {
   const router = useRouter();
   const { run, loading } = useRequest();
   const [notificationList, setNotificationList] = useState<any[]>([]);
-  const [dialogList, setDialogList] = useState([]);
+  const [dialogList, setDialogList] = useState<any[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const user = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getNotificationList({
@@ -47,10 +52,17 @@ function Header(props) {
     });
   }, []);
 
-  const user = useSelector((state: any) => state.user);
-
-  const [isOpen, setIsOpen] = useState(false);
-
+  useEffect(() => {
+    handleAddFriendInfo();
+  }, [dialogList]);
+  const handleAddFriendInfo = () => {
+    let userIds = dialogList.map((item) => item.toUserId);
+    if (!userIds.length) return;
+    getBatchUserDetail(userIds).then((res) => {
+      dispatch(initFriendInfo(res.data));
+      console.log('res', res);
+    });
+  };
   const showModal = () => {
     setIsOpen(true);
   };
