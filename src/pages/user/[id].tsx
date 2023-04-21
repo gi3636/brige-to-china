@@ -15,6 +15,7 @@ import ProForm from '@/components/pro-form';
 import { fields } from '@/pages/user/tableData';
 import UserAction from '@/page-components/user/user-action';
 import { addDialog } from '@/api/message';
+import { addDialogItem } from '@/store/dialog/slice';
 
 function UserDetailPage() {
   const router = useRouter();
@@ -24,6 +25,7 @@ function UserDetailPage() {
   const [userDetail, setUserDetail] = React.useState({} as any);
   const { run, loading } = useRequest();
   const { run: runFile, loading: loadingFile } = useRequest();
+  const { run: runAddDialog, loading: addDialogLoading } = useRequest();
   const form = Form.useForm()[0];
   const [openEditModal, setOpenEditModal] = React.useState(false);
   useEffect(() => {
@@ -39,10 +41,10 @@ function UserDetailPage() {
       message.error('请先登录');
       return;
     }
-    addDialog({ toUserId: id }).then((res) => {
-      console.log('res', res);
+    runAddDialog(addDialog({ toUserId: id })).then((res) => {
       if (res.code == 200) {
-        message.success('添加成功');
+        console.log(res.data);
+        dispatch(addDialogItem(res.data));
       }
     });
   };
@@ -159,7 +161,7 @@ function UserDetailPage() {
                 编辑个人资料
               </div>
             ) : (
-              <Button type='primary' onClick={handleAddDialog}>
+              <Button type='primary' onClick={handleAddDialog} loading={addDialogLoading}>
                 发送消息
               </Button>
             )}

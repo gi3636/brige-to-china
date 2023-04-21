@@ -3,12 +3,12 @@ import styles from './index.module.scss';
 import Image from 'next/image';
 import { convertFileUrl, formatToDateTime } from '@/utils';
 import { useDispatch } from 'react-redux';
-import { addDialog } from '@/store/dialog/slice';
+import { addDialogItem } from '@/store/dialog/slice';
 
 function DialogList({ dialogList }) {
   const dispatch = useDispatch();
   const handleClick = (item) => {
-    dispatch(addDialog(item));
+    dispatch(addDialogItem(item));
   };
 
   const renderDialogList = dialogList?.map((item) => {
@@ -28,7 +28,7 @@ function DialogList({ dialogList }) {
     );
   });
 
-  return <div className={styles.container}>{renderDialogList}</div>;
+  return <div className={styles.container}>{dialogList.length > 0 ? renderDialogList : <div>暂无对话</div>}</div>;
 }
 
 export default DialogList;

@@ -1,7 +1,6 @@
 /** @format */
 import { globalConfig } from '@/globalConfig';
 import { createMessage, MessageActionEnum } from '@/socket/message';
-import { set } from 'immutable';
 
 export enum SocketEvent {
   open,
@@ -50,6 +49,9 @@ export class ImWebSocket {
 
   send = (message) => {
     try {
+      if (typeof message === 'object') {
+        message = JSON.stringify(message);
+      }
       this.connection.send(message);
     } catch (e) {
       console.error('[Websocket] catch socket send error:', e);
@@ -91,6 +93,7 @@ export const webSocket = new ImWebSocket((type) => {
       };
     case SocketEvent.close:
       return (res) => {
+        webSocket.reconnect();
         console.log('close');
       };
     case SocketEvent.error:

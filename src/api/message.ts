@@ -5,7 +5,11 @@ import { api } from '@/api/api';
  * @param param
  */
 export function addDialog(param) {
-  return api.post('/message/dialog/add', param);
+  return {
+    url: '/message/dialog/add',
+    method: 'post',
+    data: param,
+  };
 }
 
 /**
@@ -14,4 +18,16 @@ export function addDialog(param) {
  */
 export function getDialogList(param) {
   return api.post('/message/dialog/list', param);
+}
+
+/**
+ * 获取信息列表
+ * @param param
+ */
+export function getMessageList(param) {
+  return {
+    url: '/message/list',
+    method: 'post',
+    data: param,
+  };
 }

@@ -9,6 +9,7 @@ function Message(props) {
   const renderDialogList = dialogList?.map((item) => {
     return <MessageBox item={item} key={item.id} />;
   });
+
   return (
     <div className={styles.container}>
       <div className={styles.messageBoxList}>{renderDialogList}</div>

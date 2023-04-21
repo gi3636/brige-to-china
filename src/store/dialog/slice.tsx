@@ -8,7 +8,7 @@ const DialogSlice = createSlice({
   name: 'dialog',
   initialState,
   reducers: {
-    addDialog: (state, action) => {
+    addDialogItem: (state, action) => {
       const data = action.payload as any;
       //有就更新，没有就添加
       const index = state.findIndex((item) => item.id === data.id);
@@ -27,5 +27,5 @@ const DialogSlice = createSlice({
     },
   },
 });
-export const { addDialog, deleteDialog } = DialogSlice.actions;
+export const { addDialogItem, deleteDialog } = DialogSlice.actions;
 export default DialogSlice.reducer;

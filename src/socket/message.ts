@@ -35,23 +35,44 @@ export enum MessageChatMessageTypeEnum {
 }
 export interface Message {
   action: MessageActionEnum;
-  chatMsg: ChatMsg;
+  chatMsg: ChatMsg | undefined;
   extend: string;
 }
 
 export interface ChatMsg {
   senderId: string;
   receiverId: string;
+  dialogId?: string;
   content: string;
   msgId: string;
   chatType: MessageChatTypeEnum;
   messageType: MessageChatMessageTypeEnum;
 }
 
+export function createTextMsg(toUserId: string, content: string, dialogId?: string) {
+  let userInfo: any = localStorage.getItem(USER_INFO) || '{}';
+  userInfo = JSON.parse(userInfo);
+  const msg: ChatMsg = {
+    senderId: userInfo?.id + '',
+    receiverId: toUserId,
+    content: content,
+    dialogId: dialogId,
+    msgId: nanoid(),
+    chatType: MessageChatTypeEnum.single,
+    messageType: MessageChatMessageTypeEnum.text,
+  };
+  return createMessage(MessageActionEnum.chat, msg);
+}
 export function createMessage(type: MessageActionEnum, content?: ChatMsg, extend?: string): Message {
   let userInfo: any = localStorage.getItem(USER_INFO) || '{}';
   userInfo = JSON.parse(userInfo);
   switch (type) {
+    case MessageActionEnum.chat:
+      return {
+        action: MessageActionEnum.chat,
+        chatMsg: content,
+        extend: extend || '',
+      };
     case MessageActionEnum.connect:
       return {
         action: MessageActionEnum.connect,
