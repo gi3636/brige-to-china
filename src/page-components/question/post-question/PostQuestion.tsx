@@ -93,7 +93,7 @@ function PostQuestion(props) {
       let obj = JSON.parse(res.data);
       let text = obj?.choices[0]?.text;
       let index = text.lastIndexOf('\n');
-      let tagText = text.slice(index + 2, text.length);
+      let tagText = text.slice(index + 1, text.length);
       let tagList = tagText.split(',');
       form.setFieldValue('tags', tagList);
     }
