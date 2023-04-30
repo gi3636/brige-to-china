@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  .mainContent {
+    margin-top: 10px;
+    border-radius: 10px;
+    width: $main-width;
+    background-color: white;
+    padding: 20px;
+    .title {
+      margin-top: 20px;
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    .info{
+      margin: 20px 0;
+      display: flex;
+      font-size: 14px;
+      color: #8590A6;
+      .comeFrom{
+
+      }
+      .date{
+        margin-left: 10px;
+      }
+      .view{
+        margin-left: 10px;
+      }
+    }
+  }
+}

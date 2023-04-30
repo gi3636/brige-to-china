@@ -88,19 +88,6 @@ function Header(props) {
     },
   ];
 
-  const avatarItems: MenuProps['items'] = [
-    {
-      key: 'zh',
-      label: <span>登出</span>,
-      onClick: () => changeLanguage('zh'),
-    },
-    {
-      key: 'en',
-      label: <span>English</span>,
-      onClick: () => changeLanguage('en'),
-    },
-  ];
-
   const navItems = [
     {
       key: 'home',

@@ -1,0 +1,80 @@
+.newsBox {
+  width: 330px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: 0 0 10px #ccc;
+  &:hover {
+    cursor: pointer;
+    background-color: #f5f5f5;
+  }
+
+  .cover {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .infoBox {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+
+    .dateBox {
+      display: flex;
+      align-items: center;
+
+      .date {
+        margin-left: 5px;
+        font-size: 12px;
+        color: #8590A6;
+      }
+
+      &:after {
+        content: '';
+        display: block;
+        width: 1px;
+        height: 10px;
+        background-color: #8590A6;
+        margin: 0 5px;
+      }
+    }
+
+    .viewBox {
+      display: flex;
+      align-items: center;
+
+      .count {
+        margin-left: 5px;
+        font-size: 12px;
+        color: #8590A6;
+      }
+    }
+
+  }
+
+  .body {
+    margin-top: 10px;
+
+    .title {
+      font-size: 17px;
+      font-weight: bold;
+      color: #FF5050;
+    }
+
+    .content {
+      margin-top: 10px;
+      font-size: 14px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+    }
+
+    .comeFrom {
+      margin-top: 14px;
+      text-align: end;
+      font-size: 13px;
+    }
+  }
+
+}

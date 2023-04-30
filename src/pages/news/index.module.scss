@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .mainContent {
+    margin-top: 10px;
+    width: $main-width;
+
+
+
+    .normalZone {
+      border-radius: 10px;
+      margin-top: 20px;
+      padding: 20px;
+      background-color: white;
+      position: relative;
+
+      .title{
+        top: 20px;
+        position: absolute;
+        font-size: 20px;
+        font-weight: bold;
+        color: #FF5050;
+      }
+      .navigation {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .navigationItem {
+          margin: 0 10px;
+          font-size: 20px;
+          font-weight: bold;
+          color: #FF5050;
+        }
+      }
+
+      .newsList{
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+      }
+    }
+  }
+
+}
