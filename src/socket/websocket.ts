@@ -1,6 +1,7 @@
 /** @format */
 import { globalConfig } from '@/globalConfig';
-import { createMessage, MessageActionEnum } from '@/socket/message';
+import { createMessage, MessageActionEnum, receiveMessage } from '@/socket/message';
+import { parse } from '@/utils';
 
 export enum SocketEvent {
   open,
@@ -85,6 +86,11 @@ export const webSocket = new ImWebSocket((type) => {
     case SocketEvent.message:
       return (res) => {
         console.log('ws message事件->', res.data);
+        // 心跳检测
+        if (res.data === 'pong') {
+          return;
+        }
+        receiveMessage(parse(res.data) as any);
       };
     case SocketEvent.open:
       return (res) => {

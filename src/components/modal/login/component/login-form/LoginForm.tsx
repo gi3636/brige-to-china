@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { updateUser } from '@/store/user/slice';
 import { emitter } from '@/utils/app-emitter';
 import useRequest from '@/hooks/useRequest';
+import { addFriend } from '@/store/friend/slice';
 type RequiredMark = boolean | 'optional';
 interface Props {
   isLogin: boolean;
@@ -15,16 +16,12 @@ function LoginForm({ isLogin }: Props) {
   const dispatch = useDispatch();
   let { run, loading } = useRequest();
 
-  const initialValues = {
-    username: 'test',
-    password: '123456',
-  };
-
   const onFinish = async (values: any) => {
     let res = await run(isLogin ? login(values) : register(values));
     console.log(res);
     if (isLogin && res.code == 200) {
       dispatch(updateUser(res.data));
+      dispatch(addFriend(res.data));
       localStorage.setItem('token', res?.data?.token);
       message.success('登录成功');
       emitter.fire('closeLoginModal');

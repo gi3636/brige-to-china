@@ -1,4 +1,4 @@
-import React, { LegacyRef, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.module.scss';
 import Image from 'next/image';
 import { CloseOutlined, MinusOutlined, SendOutlined } from '@ant-design/icons';
@@ -10,6 +10,7 @@ import { webSocket } from '@/socket/websocket';
 import { createTextMsg } from '@/socket/message';
 import useRequest from '@/hooks/useRequest';
 import { getMessageList } from '@/api/message';
+import { emitter, EmitterType } from '@/utils/app-emitter';
 
 function MessageBox({ item }) {
   const [show, setShow] = useState(true);
@@ -22,7 +23,6 @@ function MessageBox({ item }) {
   const dispatch = useDispatch();
 
   const friends = useSelector((state: any) => state.friends);
-
   console.log('friends', friends);
   const handleCloseBox = (item) => {
     dispatch(deleteDialog(item));
@@ -33,8 +33,12 @@ function MessageBox({ item }) {
       if (messageBoxRef?.current) {
         messageBoxRef.current.scrollTop = messageBoxRef.current?.scrollHeight;
       }
-    });
+    }, 50);
   };
+
+  useEffect(() => {
+    emitter.singleton(EmitterType.receiveMsg + item?.dialogId, receiveMsg);
+  }, []);
 
   useEffect(() => {
     loadMessage();
@@ -49,12 +53,16 @@ function MessageBox({ item }) {
     scrollToBottom();
   };
 
+  const receiveMsg = (data) => {
+    setMessageList((list) => [...list, formatMessage(data)]);
+    scrollToBottom();
+  };
+
   const handleSendMsg = () => {
     if (!text) {
       message.error('请输入内容');
     }
     let msg = createTextMsg(item.toUserId, text, item.dialogId);
-    console.log('msg', msg);
     webSocket.send(msg);
     let list = [...messageList, formatMessage(msg.chatMsg)];
     setMessageList(list);
@@ -63,33 +71,12 @@ function MessageBox({ item }) {
   };
 
   function formatMessage(chatMessage) {
-    chatMessage.senderNickname = user.nickname;
-    chatMessage.senderAvatar = user.avatar;
+    chatMessage.senderNickname = friends[chatMessage.senderId]?.nickname;
+    chatMessage.senderAvatar = friends[chatMessage.senderId]?.avatar;
     chatMessage.receiverNickname = friends[chatMessage.receiverId]?.nickname;
     chatMessage.receiverAvatar = friends[chatMessage.receiverId]?.avatar;
     chatMessage.createdTime = new Date().getTime();
-    console.log('chatMessage', chatMessage);
     return chatMessage;
-
-    // {
-    //   "id": "1649037428603998210",
-    //     "dialogId": "1648649199543304194",
-    //     "msgId": "KzBpnQcXVBjQsT9rdDqXb",
-    //     "senderId": "2",
-    //     "senderNickname": "于娜1",
-    //     "senderAvatar": "test/2023/4/9/测试3.jpeg",
-    //     "receiverId": "6",
-    //     "receiverNickname": "franky",
-    //     "receiverAvatar": "https://avatars1.githubusercontent.com/u/933",
-    //     "chatType": 1,
-    //     "messageType": 1,
-    //     "content": "1",
-    //     "isRead": false,
-    //     "signed": false,
-    //     "extend": null,
-    //     "createdTime": 1681996135000,
-    //     "updatedTime": 1681996135000
-    // }
   }
   const clearText = () => {
     setText('');
@@ -100,7 +87,7 @@ function MessageBox({ item }) {
   };
 
   const renderMessage = useMemo(() => {
-    return messageList.map((item) => {
+    return messageList?.map((item) => {
       return (
         <div className={styles.messageItem} key={item.msgId}>
           <div className={styles.date}>{formatToDateTime(item.createdTime)}</div>
@@ -122,6 +109,7 @@ function MessageBox({ item }) {
         onClick={() => {
           if (!show) {
             setShow(true);
+            scrollToBottom();
           }
         }}>
         <div className={styles.avatar}>
@@ -133,7 +121,6 @@ function MessageBox({ item }) {
             <MinusOutlined
               style={{ color: 'white' }}
               onClick={() => {
-                console.log('点击');
                 setShow(false);
               }}
             />

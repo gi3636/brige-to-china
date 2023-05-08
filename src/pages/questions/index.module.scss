@@ -4,7 +4,7 @@
   justify-content: center;
 
   .mainContent {
-    width: $main-width;
+    @include main-content();
     display: flex;
 
     .leftContainer, .rightContainer {

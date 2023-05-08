@@ -41,4 +41,10 @@ export function convertFileUrl(url) {
   return `${globalConfig.fileUrl}${url}`;
 }
 
+export function parse(json: string) {
+  //先将长整型转换为字符串
+  json = json.replace(/:s*([0-9]{15,})s*(,?)/g, ': "$1" $2');
+  return JSON.parse(json);
+}
+
 export const dateUtil = dayjs;

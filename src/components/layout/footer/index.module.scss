@@ -1,0 +1,27 @@
+.container {
+  height: 120px;
+  @include flex-center;
+  .mainContent {
+    width: $main-width;
+  }
+  .nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 70px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  }
+
+  .copyright {
+    color: #ACACAC;
+    text-align: center;
+    font-size: 14px;
+  }
+}

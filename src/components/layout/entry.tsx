@@ -6,6 +6,7 @@ import Layout from '@/components/layout/layout';
 import { USER_INFO } from '@/constants';
 import { updateUser } from '@/store/user/slice';
 import { webSocket } from '@/socket/websocket';
+import { addFriend } from '@/store/friend/slice';
 
 // darkAlgorithm为暗色主题，defaultAlgorithm为亮色（默认）主题
 // 注意这里的theme是来自于Ant Design的，而不是store
@@ -31,6 +32,7 @@ function Entry({ Component, pageProps }) {
         webSocket.connect();
       }
       dispatch(updateUser(JSON.parse(userInfo)));
+      dispatch(addFriend(JSON.parse(userInfo)));
     }
   }, []);
 

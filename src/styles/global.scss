@@ -22,5 +22,21 @@ $font-xxl: 24px;
   backgroundColorBase: $background-color-base;
   backgroundColorLight: $background-color-light;
   icon-default-color: $icon-default-color;
-
 }
+
+
+//通用类
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin main-content {
+  margin-top: 10px;
+  width: $main-width;
+  min-height: calc(100vh - 200px);
+}
+
+
+

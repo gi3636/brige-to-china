@@ -5,9 +5,7 @@
 
   .mainContent {
     margin-top: 10px;
-    width: $main-width;
-
-
+    @include main-content();
 
     .normalZone {
       border-radius: 10px;
