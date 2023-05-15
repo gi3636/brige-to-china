@@ -10,7 +10,9 @@ const FriendSlice = createSlice({
   reducers: {
     initFriendInfo: (state, action) => {
       const data = action.payload as any;
-      return data;
+      Object.keys(data).forEach((key) => {
+        state[key] = data[key];
+      });
     },
     addFriend: (state, action) => {
       const data = action.payload as any;

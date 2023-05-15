@@ -59,6 +59,10 @@
       font-size: 17px;
       font-weight: bold;
       color: #FF5050;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
     }
 
     .content {
@@ -68,6 +72,11 @@
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 3;
       overflow: hidden;
+      min-height: 62px;
+      img{
+        display: none;
+      }
+
     }
 
     .comeFrom {

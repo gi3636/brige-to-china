@@ -38,7 +38,7 @@ function NewsItem({ item }) {
         </div>
         <div className={styles.body}>
           <div className={styles.title}>{item?.title}</div>
-          <div className={styles.content}>{item?.content}</div>
+          <div className={styles.content} dangerouslySetInnerHTML={{ __html: item.content }}></div>
           <div className={styles.comeFrom}>{`来源：${item?.comeFrom}` || '来源：微信公众号'}</div>
         </div>
       </Link>

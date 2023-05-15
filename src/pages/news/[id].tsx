@@ -24,7 +24,7 @@ function NewsDetailPage({ item }) {
           <div className={styles.date}>{formatToDateTime(item?.createdTime)}</div>
           <div className={styles.view}>阅读 {item.viewCount}</div>
         </div>
-        <div>{item?.content}</div>
+        <div className={styles.content} dangerouslySetInnerHTML={{ __html: item.content }}></div>
       </div>
     </div>
   );

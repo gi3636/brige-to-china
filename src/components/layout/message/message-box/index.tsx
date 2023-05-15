@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styles from './index.module.scss';
 import Image from 'next/image';
 import { CloseOutlined, MinusOutlined, SendOutlined } from '@ant-design/icons';
-import { Button, Input, message } from 'antd';
+import { Button, Input, message, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteDialog } from '@/store/dialog/slice';
 import { convertFileUrl, formatToDateTime } from '@/utils';
@@ -131,7 +131,8 @@ function MessageBox({ item }) {
       {show ? (
         <>
           <div className={styles.main} ref={messageBoxRef}>
-            {renderMessage}
+            <Spin tip='Loading' className={styles.spin} spinning={loading}></Spin>
+            {messageList.length ? renderMessage : null}
           </div>
           <div className={styles.input}>
             <Input

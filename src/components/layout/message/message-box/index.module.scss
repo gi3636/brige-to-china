@@ -7,6 +7,7 @@
   flex-direction: column;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   margin-top: auto;
+
   .header {
     height: 50px;
     display: flex;
@@ -56,6 +57,14 @@
     flex: 1;
     overflow-y: auto;
     background-color: #F0F2F5;
+    position: relative;
+
+    .spin {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
     .messageItem {
 

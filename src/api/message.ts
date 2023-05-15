@@ -16,8 +16,15 @@ export function addDialog(param) {
  * 获取对话列表
  * @param param
  */
+// export function getDialogList(param) {
+//   return api.post('/message/dialog/list', param);
+// }
 export function getDialogList(param) {
-  return api.post('/message/dialog/list', param);
+  return {
+    url: '/message/dialog/list',
+    method: 'post',
+    data: param,
+  };
 }
 
 /**

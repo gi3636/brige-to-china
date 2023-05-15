@@ -4,8 +4,22 @@
   padding-top: 10px;
   padding-bottom: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  .noData{
+    padding: 5px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .loading {
+    padding: 5px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   .item {
+    width: 280px;
     padding: 5px 20px;
     display: flex;
     align-items: center;
@@ -22,20 +36,33 @@
       background-color: #F0F2F5;
     }
 
-    .title {
-      font-size: 14px;
-      font-weight: 500;
-      color: #333333;
+    .right {
+      margin-left: 8px;
+      width: 80%;
+      .title {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333333;
+      }
+
+      .content {
+        //一行显示,省略号
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12px;
+        color: #999999;
+      }
+
+      .date {
+        font-size: 12px;
+        color: #999999;
+      }
     }
 
-    .content {
-      font-size: 12px;
-      color: #999999;
-    }
 
-    .date {
-      font-size: 12px;
-      color: #999999;
-    }
   }
 }

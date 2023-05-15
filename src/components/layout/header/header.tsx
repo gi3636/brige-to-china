@@ -41,11 +41,13 @@ function Header(props) {
       setNotificationList(res?.data?.list);
     });
 
-    getDialogList({
-      currentPage: 1,
-      pageSize: 10,
-      channelType: 1,
-    }).then((res) => {
+    run(
+      getDialogList({
+        currentPage: 1,
+        pageSize: 10,
+        channelType: 1,
+      }),
+    ).then((res) => {
       console.log('res', res);
       if (res.code != 200) return;
       setDialogList(res?.data?.list);
@@ -111,6 +113,8 @@ function Header(props) {
     },
   ];
 
+  const hasUnreadMessage = dialogList.some((item) => item.unreadCount > 0);
+
   return (
     <header className={styles.header}>
       <div className={styles.centerContainer}>
@@ -153,9 +157,9 @@ function Header(props) {
             placement='bottom'
             arrow
             dropdownRender={() => {
-              return <DialogList dialogList={dialogList} />;
+              return <DialogList dialogList={dialogList} loading={loading} />;
             }}>
-            <Badge dot={true}>
+            <Badge dot={hasUnreadMessage}>
               <MessageOutlined style={{ fontSize: 25, color: colors.iconDefaultColor, marginLeft: 20 }} />
             </Badge>
           </Dropdown>
