@@ -20,11 +20,11 @@ import DialogList from '@/components/layout/header/component/dialog-list';
 import { getBatchUserDetail } from '@/api/user';
 import { initFriendInfo } from '@/store/friend/slice';
 
-const { Search } = Input;
-function Header(props) {
+function Header() {
   const { t, changeLanguage } = useLanguage();
   const router = useRouter();
   const { run, loading } = useRequest();
+  const { run: runNotification, loading: notificationLoading } = useRequest();
   const [notificationList, setNotificationList] = useState<any[]>([]);
   const [dialogList, setDialogList] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -32,11 +32,13 @@ function Header(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getNotificationList({
-      currentPage: 1,
-      pageSize: 10,
-      channelType: 1,
-    }).then((res) => {
+    runNotification(
+      getNotificationList({
+        currentPage: 1,
+        pageSize: 10,
+        channelType: 1,
+      }),
+    ).then((res) => {
       if (res.code != 200) return;
       setNotificationList(res?.data?.list);
     });
@@ -114,6 +116,7 @@ function Header(props) {
   ];
 
   const hasUnreadMessage = dialogList.some((item) => item.unreadCount > 0);
+  const hasUnreadNotification = notificationList.some((item) => item.isRead != 0);
 
   return (
     <header className={styles.header}>
@@ -147,9 +150,9 @@ function Header(props) {
             placement='bottom'
             arrow
             dropdownRender={() => {
-              return <NotificationList notificationList={notificationList} />;
+              return <NotificationList notificationList={notificationList} loading={notificationLoading} />;
             }}>
-            <Badge dot={true}>
+            <Badge dot={hasUnreadNotification}>
               <BellOutlined style={{ fontSize: 28, color: colors.iconDefaultColor }} />
             </Badge>
           </Dropdown>
