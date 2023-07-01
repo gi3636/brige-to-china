@@ -10,3 +10,7 @@ export function getNotificationList(param) {
     data: param,
   };
 }
+
+export function readNotification(param) {
+  return api.post('/message/notify/read', param);
+}

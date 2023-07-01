@@ -59,6 +59,7 @@ function Header() {
   useEffect(() => {
     handleAddFriendInfo();
   }, [dialogList]);
+
   const handleAddFriendInfo = () => {
     let userIds = dialogList.map((item) => item.toUserId);
     if (!userIds.length) return;
@@ -67,6 +68,12 @@ function Header() {
       console.log('res', res);
     });
   };
+
+  const changeReadStatus = (id) => {
+    notificationList.find((i) => i.id == id).isRead = true;
+    setNotificationList([...notificationList]);
+  };
+
   const showModal = () => {
     setIsOpen(true);
   };
@@ -116,7 +123,7 @@ function Header() {
   ];
 
   const hasUnreadMessage = dialogList.some((item) => item.unreadCount > 0);
-  const hasUnreadNotification = notificationList.some((item) => item.isRead != 0);
+  const hasUnreadNotification = notificationList.some((item) => !item.isRead);
 
   return (
     <header className={styles.header}>
@@ -150,7 +157,13 @@ function Header() {
             placement='bottom'
             arrow
             dropdownRender={() => {
-              return <NotificationList notificationList={notificationList} loading={notificationLoading} />;
+              return (
+                <NotificationList
+                  notificationList={notificationList}
+                  loading={notificationLoading}
+                  changeReadStatus={changeReadStatus}
+                />
+              );
             }}>
             <Badge dot={hasUnreadNotification}>
               <BellOutlined style={{ fontSize: 28, color: colors.iconDefaultColor }} />

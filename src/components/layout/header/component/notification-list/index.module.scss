@@ -4,8 +4,12 @@
   padding-top: 10px;
   padding-bottom: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+
   .item {
-    padding: 5px 20px;
+    width: 350px;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
 
@@ -21,10 +25,22 @@
       background-color: #F0F2F5;
     }
 
-    .title {
-      font-size: 14px;
-      font-weight: 500;
-      color: #333333;
+    .right{
+      width: 100%;
+      padding-right: 30px;
+      .title {
+        //只要一行,超出部分用省略号代替
+        width: 100%;
+        padding-right: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 17px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333333;
+      }
+
     }
 
     .date {
