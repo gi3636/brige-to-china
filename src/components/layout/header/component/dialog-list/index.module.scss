@@ -4,6 +4,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  width: 280px;
   .noData{
     padding: 5px 20px;
     display: flex;
@@ -19,7 +20,6 @@
   }
 
   .item {
-    width: 280px;
     padding: 5px 20px;
     display: flex;
     align-items: center;

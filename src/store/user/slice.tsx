@@ -25,6 +25,7 @@ const UserSlice = createSlice({
     userLogout: (state) => {
       localStorage.removeItem(USER_INFO);
       localStorage.removeItem('token');
+      //刷新
       return {
         ...initialState,
       };

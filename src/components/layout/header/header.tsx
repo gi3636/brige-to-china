@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoginAvatar from '@/components/layout/header/component/login-avatar/LoginAvatar';
 import { BellOutlined, MessageOutlined } from '@ant-design/icons';
 import NotificationList from '@/components/layout/header/component/notification-list';
-import { getNotificationList } from '@/api/notification';
+import { getNotificationList, readAllNotification, readNotification } from '@/api/notification';
 import useRequest from '@/hooks/useRequest';
 import { getDialogList } from '@/api/message';
 import DialogList from '@/components/layout/header/component/dialog-list';
@@ -30,8 +30,38 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (user?.id) {
+      requestNotificationList();
+      requestDialogList();
+    }
+  }, [user]);
 
   useEffect(() => {
+    handleAddFriendInfo();
+  }, [dialogList]);
+
+  const handleReadAll = () => {
+    const ids = notificationList?.filter((item) => !item.isRead).map((item) => item.id);
+    // 如果没有未读的消息
+    if (!ids?.length) {
+      return;
+    }
+    // 更新状态
+    updateNotification(ids);
+    // 请求接口
+    readAllNotification({
+      ids,
+    });
+  };
+  const updateNotification = (ids) => {
+    ids.forEach((id) => {
+      notificationList.find((i) => i.id == id).isRead = true;
+    });
+    setNotificationList([...notificationList]);
+  };
+
+  const requestNotificationList = () => {
     runNotification(
       getNotificationList({
         currentPage: 1,
@@ -42,7 +72,9 @@ function Header() {
       if (res.code != 200) return;
       setNotificationList(res?.data?.list);
     });
+  };
 
+  const requestDialogList = () => {
     run(
       getDialogList({
         currentPage: 1,
@@ -50,16 +82,12 @@ function Header() {
         channelType: 1,
       }),
     ).then((res) => {
-      console.log('res', res);
       if (res.code != 200) return;
       setDialogList(res?.data?.list);
     });
-  }, []);
+  };
 
-  useEffect(() => {
-    handleAddFriendInfo();
-  }, [dialogList]);
-
+  // 获取好友信息
   const handleAddFriendInfo = () => {
     let userIds = dialogList.map((item) => item.toUserId);
     if (!userIds.length) return;
@@ -152,34 +180,46 @@ function Header() {
         <div className={styles.searchContainer}>
           <SearchBar />
         </div>
-        <div style={{ marginLeft: 30, display: 'flex', justifyContent: 'space-around' }}>
-          <Dropdown
-            placement='bottom'
-            arrow
-            dropdownRender={() => {
-              return (
-                <NotificationList
-                  notificationList={notificationList}
-                  loading={notificationLoading}
-                  changeReadStatus={changeReadStatus}
+        {user.token ? (
+          <div style={{ marginLeft: 30, display: 'flex', justifyContent: 'space-around' }}>
+            <Dropdown
+              placement='bottom'
+              arrow
+              trigger={['click']}
+              onOpenChange={(open) => {
+                // 关闭时，将所有消息标记为已读
+                if (!open) {
+                  handleReadAll();
+                }
+              }}
+              dropdownRender={() => {
+                return (
+                  <NotificationList
+                    notificationList={notificationList}
+                    loading={notificationLoading}
+                    changeReadStatus={changeReadStatus}
+                  />
+                );
+              }}>
+              <Badge dot={hasUnreadNotification}>
+                <BellOutlined style={{ fontSize: 28, color: colors.iconDefaultColor, cursor: 'pointer' }} />
+              </Badge>
+            </Dropdown>
+            <Dropdown
+              trigger={['click']}
+              placement='bottom'
+              arrow
+              dropdownRender={() => {
+                return <DialogList dialogList={dialogList} loading={loading} />;
+              }}>
+              <Badge dot={hasUnreadMessage}>
+                <MessageOutlined
+                  style={{ fontSize: 25, color: colors.iconDefaultColor, marginLeft: 20, cursor: 'pointer' }}
                 />
-              );
-            }}>
-            <Badge dot={hasUnreadNotification}>
-              <BellOutlined style={{ fontSize: 28, color: colors.iconDefaultColor }} />
-            </Badge>
-          </Dropdown>
-          <Dropdown
-            placement='bottom'
-            arrow
-            dropdownRender={() => {
-              return <DialogList dialogList={dialogList} loading={loading} />;
-            }}>
-            <Badge dot={hasUnreadMessage}>
-              <MessageOutlined style={{ fontSize: 25, color: colors.iconDefaultColor, marginLeft: 20 }} />
-            </Badge>
-          </Dropdown>
-        </div>
+              </Badge>
+            </Dropdown>
+          </div>
+        ) : null}
         <div>
           <Dropdown menu={{ items }}>
             <div className={styles.languageContainer}>

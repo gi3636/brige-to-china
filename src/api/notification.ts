@@ -14,3 +14,7 @@ export function getNotificationList(param) {
 export function readNotification(param) {
   return api.post('/message/notify/read', param);
 }
+
+export function readAllNotification(param) {
+  return api.post('/message/notify/readAll', param);
+}
