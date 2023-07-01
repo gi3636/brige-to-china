@@ -19,6 +19,7 @@ import { getDialogList } from '@/api/message';
 import DialogList from '@/components/layout/header/component/dialog-list';
 import { getBatchUserDetail } from '@/api/user';
 import { initFriendInfo } from '@/store/friend/slice';
+import { emitter, EmitterType } from '@/utils/app-emitter';
 
 function Header() {
   const { t, changeLanguage } = useLanguage();
@@ -30,6 +31,13 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    emitter.singleton(EmitterType.addNotification, (data) => {
+      addNotification(data);
+    });
+  }, [notificationList]);
+
   useEffect(() => {
     if (user?.id) {
       requestNotificationList();
@@ -100,6 +108,10 @@ function Header() {
   const changeReadStatus = (id) => {
     notificationList.find((i) => i.id == id).isRead = true;
     setNotificationList([...notificationList]);
+  };
+
+  const addNotification = (data) => {
+    setNotificationList([data, ...notificationList]);
   };
 
   const showModal = () => {

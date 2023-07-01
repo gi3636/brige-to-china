@@ -55,17 +55,7 @@ export enum ReceiveType {
   ack = 1, //消息回执
   chat = 2, //聊天消息
   pong = 3, //心跳回执
-}
-
-export interface ReceiveMsg {
-  dataType: ReceiveType;
-  dialogId: string; // 会话id
-  senderId: string; // 发送者id
-  receiverId: string; // 接收者id
-  msgId: string; // 消息id
-  chatType: MessageChatTypeEnum;
-  messageType: MessageChatMessageTypeEnum;
-  content: string; // 消息内容
+  notice = 4, //通知消息
 }
 
 // 创建文本消息
@@ -138,7 +128,7 @@ export function createMessage(type: MessageActionEnum, content?: ChatMsg, extend
 }
 
 // 接收消息
-export function receiveMessage(receiveMsg: ReceiveMsg) {
+export function receiveMessage(receiveMsg: any) {
   console.log('接收到消息', receiveMsg);
   switch (receiveMsg.dataType) {
     case ReceiveType.ack:
@@ -147,6 +137,11 @@ export function receiveMessage(receiveMsg: ReceiveMsg) {
     case ReceiveType.chat:
       emitter.fire(EmitterType.receiveMsg + receiveMsg?.dialogId, receiveMsg);
       console.log('聊天消息');
+      break;
+    case ReceiveType.notice:
+      console.log('通知消息', receiveMsg);
+      emitter.fire(EmitterType.addNotification, receiveMsg?.notifyVO);
+      // console.log('通知消息');
       break;
     case ReceiveType.pong:
       console.log('心跳回执');

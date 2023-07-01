@@ -23,7 +23,6 @@ function MessageBox({ item }) {
   const dispatch = useDispatch();
 
   const friends = useSelector((state: any) => state.friends);
-  console.log('friends', friends);
   const handleCloseBox = (item) => {
     dispatch(deleteDialog(item));
   };
