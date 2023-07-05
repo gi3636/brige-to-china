@@ -1,7 +1,6 @@
 import { nanoid } from 'nanoid';
 import { USER_INFO } from '@/constants';
 import { emitter, EmitterType } from '@/utils/app-emitter';
-import { parse, stringify } from 'lossless-json';
 export enum MessageType {
   open,
   message,
