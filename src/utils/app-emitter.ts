@@ -9,6 +9,7 @@ export enum EmitterType {
   searchQuestion,
   receiveMsg,
   addNotification,
+  updateDialogList,
 }
 class AppEmitter extends Emitter {
   type = EmitterType;

@@ -5,11 +5,17 @@ import { convertFileUrl, formatToDateTime } from '@/utils';
 import { useDispatch } from 'react-redux';
 import { addDialogItem } from '@/store/dialog/slice';
 import { Badge, Empty, Skeleton, Spin } from 'antd';
+import { emitter, EmitterType } from '@/utils/app-emitter';
+import { DialogActionEnum } from '@/components/layout/header/header';
+import useStorageListener from '@/hooks/useStorageListener';
+import { MESSAGE_LIST } from '@/constants';
 
 function DialogList({ dialogList, loading }) {
   const dispatch = useDispatch();
+
   const handleClick = (item) => {
     dispatch(addDialogItem(item));
+    emitter.emit(EmitterType.updateDialogList, item, DialogActionEnum.read);
   };
 
   const renderEmpty = () => {
@@ -39,7 +45,7 @@ function DialogList({ dialogList, loading }) {
                       <span>{item.toUserNickname}</span>
                     </div>
                     <div className={styles.content}>{item?.content || '暂无消息'}</div>
-                    <div className={styles.date}>{formatToDateTime(item.createdTime)}</div>
+                    <div className={styles.date}>{formatToDateTime(item.updatedTime)}</div>
                   </div>
                 </div>
               )}

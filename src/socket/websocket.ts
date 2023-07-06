@@ -85,11 +85,6 @@ export const webSocket = new ImWebSocket((type) => {
   switch (type) {
     case SocketEvent.message:
       return (res) => {
-        console.log('ws message事件->', res.data);
-        // 心跳检测
-        if (res.data === 'pong') {
-          return;
-        }
         receiveMessage(parse(res.data) as any);
       };
     case SocketEvent.open:

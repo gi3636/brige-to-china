@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Badge, Button, Dropdown, Input, MenuProps } from 'antd';
+import { Badge, Button, Dropdown, MenuProps } from 'antd';
 import { EarthIcon } from '@/components/icons/EarthIcon';
 import useLanguage from '@/hooks/useLanguage';
 import { DownIcon } from '@/components/icons/DownIcon';
@@ -13,13 +13,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoginAvatar from '@/components/layout/header/component/login-avatar/LoginAvatar';
 import { BellOutlined, MessageOutlined } from '@ant-design/icons';
 import NotificationList from '@/components/layout/header/component/notification-list';
-import { getNotificationList, readAllNotification, readNotification } from '@/api/notification';
+import { getNotificationList, readAllNotification } from '@/api/notification';
 import useRequest from '@/hooks/useRequest';
 import { getDialogList } from '@/api/message';
 import DialogList from '@/components/layout/header/component/dialog-list';
 import { getBatchUserDetail } from '@/api/user';
 import { initFriendInfo } from '@/store/friend/slice';
 import { emitter, EmitterType } from '@/utils/app-emitter';
+import useStorageListener from '@/hooks/useStorageListener';
+import { MESSAGE_LIST, RECEIVE_MESSAGE } from '@/constants';
+
+export enum DialogActionEnum {
+  read,
+  send,
+  receive,
+}
 
 function Header() {
   const { t, changeLanguage } = useLanguage();
@@ -31,12 +39,107 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
+  const { listen } = useStorageListener();
+
+  const navItems = [
+    {
+      key: 'home',
+      label: t.header.home,
+      href: '/home',
+    },
+    {
+      key: 'questions',
+      label: t.header.question,
+      href: '/questions',
+    },
+    {
+      key: 'activity',
+      label: t.header.activity,
+      href: '/activity',
+    },
+    {
+      key: 'news',
+      label: t.header.news,
+      href: '/news',
+    },
+  ];
 
   useEffect(() => {
     emitter.singleton(EmitterType.addNotification, (data) => {
       addNotification(data);
     });
   }, [notificationList]);
+
+  useEffect(() => {
+    emitter.singleton(EmitterType.updateDialogList, (data, type) => {
+      switch (type) {
+        case DialogActionEnum.read:
+          handleClearUnreadCount(data.dialogId);
+          break;
+        case DialogActionEnum.send:
+          setDialogList((prevDialogList) => {
+            return prevDialogList.map((item) => {
+              if (item.dialogId === data.dialogId) {
+                return {
+                  ...item,
+                  content: data.content,
+                  updatedTime: data.createdTime,
+                };
+              }
+              return item;
+            });
+          });
+          break;
+      }
+    });
+  }, [dialogList]);
+
+  useEffect(() => {
+    emitter.singleton(EmitterType.receiveMsg, (data) => {
+      handleReceiveMessage(data);
+      saveReceiveMessage(data);
+    });
+  }, [dialogList]);
+
+  useEffect(() => {
+    //处理别人发来的消息
+    listen(RECEIVE_MESSAGE, (e: any) => {
+      let newValue = JSON.parse(e?.newValue);
+      handleReceiveMessage(newValue);
+    });
+  }, []);
+  const saveReceiveMessage = (data) => {
+    localStorage.setItem(RECEIVE_MESSAGE, JSON.stringify(data));
+  };
+  const handleReceiveMessage = (data) => {
+    setDialogList((prevDialogList) => {
+      return prevDialogList.map((item) => {
+        if (item.dialogId === data.dialogId) {
+          return {
+            ...item,
+            content: data.content,
+            updatedTime: data.createdTime || new Date().getTime(),
+            unreadCount: item.unreadCount + 1,
+          };
+        }
+        return item;
+      });
+    });
+  };
+
+  const handleClearUnreadCount = (dialogId) => {
+    setDialogList((prevDialogList) => {
+      return prevDialogList.map((item) => {
+        if (item.dialogId === dialogId) {
+          return {
+            ...item,
+            unreadCount: 0,
+          };
+        }
+        return item;
+      });
+    });
+  };
 
   useEffect(() => {
     if (user?.id) {
@@ -61,12 +164,6 @@ function Header() {
     readAllNotification({
       ids,
     });
-  };
-  const updateNotification = (ids) => {
-    ids.forEach((id) => {
-      notificationList.find((i) => i.id == id).isRead = true;
-    });
-    setNotificationList([...notificationList]);
   };
 
   const requestNotificationList = () => {
@@ -93,6 +190,17 @@ function Header() {
       if (res.code != 200) return;
       setDialogList(res?.data?.list);
     });
+  };
+  const updateNotification = (ids) => {
+    ids.forEach((id) => {
+      notificationList.find((i) => i.id == id).isRead = true;
+    });
+    setNotificationList([...notificationList]);
+  };
+
+  const updateDialog = (data) => {
+    console.log('data', data);
+    // const index = dialogList.findIndex((item) => item.toUserId == data.toUserId);
   };
 
   // 获取好友信息
@@ -136,29 +244,6 @@ function Header() {
       key: 'en',
       label: <span>English</span>,
       onClick: () => changeLanguage('en'),
-    },
-  ];
-
-  const navItems = [
-    {
-      key: 'home',
-      label: t.header.home,
-      href: '/home',
-    },
-    {
-      key: 'questions',
-      label: t.header.question,
-      href: '/questions',
-    },
-    {
-      key: 'activity',
-      label: t.header.activity,
-      href: '/activity',
-    },
-    {
-      key: 'news',
-      label: t.header.news,
-      href: '/news',
     },
   ];
 
@@ -236,7 +321,15 @@ function Header() {
           <Dropdown menu={{ items }}>
             <div className={styles.languageContainer}>
               <EarthIcon width={20} height={20} color='#8590A6' />
-              <span style={{ color: '#8590A6', padding: 2, marginRight: 4, minWidth: 40 }}>{t.header.language}</span>
+              <span
+                style={{
+                  color: '#8590A6',
+                  padding: 2,
+                  marginRight: 4,
+                  minWidth: 40,
+                }}>
+                {t.header.language}
+              </span>
               <DownIcon width={13} height={13} color='#8590A6'></DownIcon>
             </div>
           </Dropdown>

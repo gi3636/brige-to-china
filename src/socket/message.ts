@@ -129,11 +129,17 @@ export function createMessage(type: MessageActionEnum, content?: ChatMsg, extend
 
 // 接收消息
 export function receiveMessage(receiveMsg: any) {
+  console.log('ws 收到消息->', receiveMsg);
+  // 心跳检测
+  if (receiveMsg === 'pong') {
+    return;
+  }
   switch (receiveMsg.dataType) {
     case ReceiveType.ack:
       break;
     case ReceiveType.chat:
       emitter.fire(EmitterType.receiveMsg + receiveMsg?.dialogId, receiveMsg);
+      emitter.fire(EmitterType.receiveMsg, receiveMsg);
       console.log('聊天消息');
       break;
     case ReceiveType.notice:

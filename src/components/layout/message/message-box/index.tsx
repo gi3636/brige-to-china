@@ -13,8 +13,8 @@ import { getMessageList } from '@/api/message';
 import { emitter, EmitterType } from '@/utils/app-emitter';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useStorageListener from '@/hooks/useStorageListener';
-import { list } from 'postcss';
 import { MESSAGE_LIST } from '@/constants';
+import { DialogActionEnum } from '@/components/layout/header/header';
 
 function MessageBox({ item }) {
   const [show, setShow] = useState(true);
@@ -38,7 +38,6 @@ function MessageBox({ item }) {
   useEffect(() => {
     loadMessage();
   }, [page]);
-
   const loadMessage = async () => {
     const res = await run(getMessageList({ dialogId: item.dialogId, currentPage: page, pageSize: 10 }));
     if (res.code != 200) {
@@ -46,6 +45,10 @@ function MessageBox({ item }) {
     }
     setMessageList(res.data.list || []);
     scrollToBottom();
+  };
+
+  const updateDialogList = (message, type: DialogActionEnum) => {
+    emitter.emit(EmitterType.updateDialogList, message, type);
   };
 
   const handleCloseBox = (item) => {
@@ -73,7 +76,6 @@ function MessageBox({ item }) {
   }
 
   function saveMessageList(messageList) {
-    console.log('saveMessageList', messageList);
     setMessageList(messageList);
     let map = localStorage.getItem(MESSAGE_LIST) as any;
     if (map) {
@@ -86,9 +88,8 @@ function MessageBox({ item }) {
   }
 
   const receiveMsg = (data) => {
-    console.log('messageList', messageList);
-    let list = [...messageList, formatMessage(data)];
-    console.log('receiveMsg', list);
+    let formatMsg = formatMessage(data);
+    let list = [...messageList, formatMsg];
     saveMessageList(list);
     scrollToBottom();
   };
@@ -98,9 +99,10 @@ function MessageBox({ item }) {
       message.error('请输入内容');
     }
     let msg = createTextMsg(item.toUserId, text, item.dialogId);
-    console.log('messageList', messageList);
     webSocket.send(msg);
-    let list = [...messageList, formatMessage(msg.chatMsg)];
+    let formatMsg = formatMessage(msg.chatMsg);
+    let list = [...messageList, formatMsg];
+    updateDialogList(formatMsg, DialogActionEnum.send);
     saveMessageList(list);
     clearText();
     scrollToBottom();
