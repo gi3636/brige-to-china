@@ -77,6 +77,7 @@ export function createTextMsg(toUserId: string, content: string, dialogId?: stri
 export function createMessage(type: MessageActionEnum, content?: ChatMsg, extend?: string): Message {
   let userInfo: any = localStorage.getItem(USER_INFO) || '{}';
   userInfo = JSON.parse(userInfo);
+  let senderId = userInfo?.id || '' + '';
   switch (type) {
     case MessageActionEnum.chat:
       return {
@@ -88,7 +89,7 @@ export function createMessage(type: MessageActionEnum, content?: ChatMsg, extend
       return {
         action: MessageActionEnum.connect,
         chatMsg: {
-          senderId: userInfo?.id + '',
+          senderId: senderId,
           receiverId: '',
           content: '',
           msgId: '',
@@ -101,7 +102,7 @@ export function createMessage(type: MessageActionEnum, content?: ChatMsg, extend
       return {
         action: MessageActionEnum.heart,
         chatMsg: {
-          senderId: userInfo?.id + '',
+          senderId: senderId,
           receiverId: '',
           content: 'ping',
           msgId: '',
@@ -128,10 +129,8 @@ export function createMessage(type: MessageActionEnum, content?: ChatMsg, extend
 
 // 接收消息
 export function receiveMessage(receiveMsg: any) {
-  console.log('接收到消息', receiveMsg);
   switch (receiveMsg.dataType) {
     case ReceiveType.ack:
-      console.log('消息回执');
       break;
     case ReceiveType.chat:
       emitter.fire(EmitterType.receiveMsg + receiveMsg?.dialogId, receiveMsg);
@@ -143,7 +142,6 @@ export function receiveMessage(receiveMsg: any) {
       // console.log('通知消息');
       break;
     case ReceiveType.pong:
-      console.log('心跳回执');
       break;
   }
 }

@@ -17,7 +17,11 @@ const UserSlice = createSlice({
         ...state,
         ...data,
       };
-      localStorage.setItem(USER_INFO, JSON.stringify(userInfo));
+      //判断是否需要更新
+      let oldValue = localStorage.getItem(USER_INFO);
+      if (oldValue !== userInfo) {
+        localStorage.setItem(USER_INFO, JSON.stringify(userInfo));
+      }
       return {
         ...userInfo,
       };

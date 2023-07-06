@@ -99,7 +99,11 @@ export const webSocket = new ImWebSocket((type) => {
       };
     case SocketEvent.close:
       return (res) => {
-        webSocket.reconnect();
+        setTimeout(() => {
+          if (localStorage.getItem('token')) {
+            webSocket.reconnect();
+          }
+        }, 3000);
         console.log('close');
       };
     case SocketEvent.error:

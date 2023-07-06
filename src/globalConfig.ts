@@ -25,7 +25,7 @@ export const globalConfig = {
   downloadUrl: 'https://video.sakuraoy.top/',
   devBaseUrl: 'http://127.0.0.1:9999',
   prodBaseUrl: 'http://36.26.69.161:9999',
-  devWsUrl: 'ws://127.0.0.1:9000/ws',
-  prodWsUrl: 'ws://36.26.69.161:9000/ws',
+  devWsUrl: 'ws://127.0.0.1:9500/ws',
+  prodWsUrl: 'ws://36.26.69.161:9500/ws',
   fileUrl: 'http://36.26.69.161:9000/',
 };

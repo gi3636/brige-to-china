@@ -11,6 +11,7 @@ import { createTextMsg } from '@/socket/message';
 import useRequest from '@/hooks/useRequest';
 import { getMessageList } from '@/api/message';
 import { emitter, EmitterType } from '@/utils/app-emitter';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 function MessageBox({ item }) {
   const [show, setShow] = useState(true);
@@ -21,7 +22,7 @@ function MessageBox({ item }) {
   const user = useSelector((state: any) => state.user);
   const { run, loading } = useRequest();
   const dispatch = useDispatch();
-
+  const localStorage = useLocalStorage();
   const friends = useSelector((state: any) => state.friends);
   const handleCloseBox = (item) => {
     dispatch(deleteDialog(item));
@@ -42,6 +43,13 @@ function MessageBox({ item }) {
   useEffect(() => {
     loadMessage();
   }, [page]);
+
+  useEffect(() => {
+    //监听localStorage的变化
+    console.log('监听localStorage的变化');
+
+    localStorage.setItem('chat', Math.random());
+  }, []);
 
   const loadMessage = async () => {
     const res = await run(getMessageList({ dialogId: item.dialogId, currentPage: page, pageSize: 10 }));
