@@ -31,16 +31,12 @@ function Entry({ Component, pageProps }) {
   // 监听localStorage.为了让其他页面能够监听到
   function listenUserInfo(e) {
     let newValue = e.newValue;
-    switch (e.key) {
-      case USER_INFO:
-        if (newValue) {
-          setTimeout(() => {
-            dispatch(updateUser(JSON.parse(e.newValue) || {}));
-          }, 500);
-        } else {
-          dispatch(userLogout());
-        }
-        break;
+    if (newValue) {
+      setTimeout(() => {
+        dispatch(updateUser(JSON.parse(e.newValue) || {}));
+      }, 500);
+    } else {
+      dispatch(userLogout());
     }
     // 如果是删除操作
     if (!newValue) {
@@ -58,7 +54,7 @@ function Entry({ Component, pageProps }) {
 
   useEffect(() => {
     // new StorageListener().listen();
-    listen(listenUserInfo);
+    listen(USER_INFO, listenUserInfo);
     let userInfo = localStorage.getItem(USER_INFO);
     if (userInfo) {
       if (!webSocket.connection) {

@@ -12,6 +12,9 @@ import useRequest from '@/hooks/useRequest';
 import { getMessageList } from '@/api/message';
 import { emitter, EmitterType } from '@/utils/app-emitter';
 import useLocalStorage from '@/hooks/useLocalStorage';
+import useStorageListener from '@/hooks/useStorageListener';
+import { list } from 'postcss';
+import { MESSAGE_LIST } from '@/constants';
 
 function MessageBox({ item }) {
   const [show, setShow] = useState(true);
@@ -22,8 +25,29 @@ function MessageBox({ item }) {
   const user = useSelector((state: any) => state.user);
   const { run, loading } = useRequest();
   const dispatch = useDispatch();
+  const { listen } = useStorageListener();
   const localStorage = useLocalStorage();
   const friends = useSelector((state: any) => state.friends);
+
+  useEffect(() => {
+    //监听消息
+    listen(MESSAGE_LIST, listenMessage);
+    emitter.singleton(EmitterType.receiveMsg + item?.dialogId, receiveMsg);
+  }, [messageList]);
+
+  useEffect(() => {
+    loadMessage();
+  }, [page]);
+
+  const loadMessage = async () => {
+    const res = await run(getMessageList({ dialogId: item.dialogId, currentPage: page, pageSize: 10 }));
+    if (res.code != 200) {
+      return;
+    }
+    setMessageList(res.data.list || []);
+    scrollToBottom();
+  };
+
   const handleCloseBox = (item) => {
     dispatch(deleteDialog(item));
   };
@@ -36,32 +60,36 @@ function MessageBox({ item }) {
     }, 50);
   };
 
-  useEffect(() => {
-    emitter.singleton(EmitterType.receiveMsg + item?.dialogId, receiveMsg);
-  }, []);
-
-  useEffect(() => {
-    loadMessage();
-  }, [page]);
-
-  useEffect(() => {
-    //监听localStorage的变化
-    console.log('监听localStorage的变化');
-
-    localStorage.setItem('chat', Math.random());
-  }, []);
-
-  const loadMessage = async () => {
-    const res = await run(getMessageList({ dialogId: item.dialogId, currentPage: page, pageSize: 10 }));
-    if (res.code != 200) {
-      return;
+  function listenMessage(e) {
+    console.log('listenMessage', e);
+    let newValue = e.newValue;
+    if (newValue) {
+      let value = JSON.parse(newValue);
+      if (value[item.dialogId]) {
+        setMessageList(value[item.dialogId]);
+        scrollToBottom();
+      }
     }
-    setMessageList(res.data.list || []);
-    scrollToBottom();
-  };
+  }
+
+  function saveMessageList(messageList) {
+    console.log('saveMessageList', messageList);
+    setMessageList(messageList);
+    let map = localStorage.getItem(MESSAGE_LIST) as any;
+    if (map) {
+      map = JSON.parse(map);
+    } else {
+      map = {};
+    }
+    map[item.dialogId] = messageList;
+    localStorage.setItem(MESSAGE_LIST, JSON.stringify(map));
+  }
 
   const receiveMsg = (data) => {
-    setMessageList((list) => [...list, formatMessage(data)]);
+    console.log('messageList', messageList);
+    let list = [...messageList, formatMessage(data)];
+    console.log('receiveMsg', list);
+    saveMessageList(list);
     scrollToBottom();
   };
 
@@ -70,9 +98,10 @@ function MessageBox({ item }) {
       message.error('请输入内容');
     }
     let msg = createTextMsg(item.toUserId, text, item.dialogId);
+    console.log('messageList', messageList);
     webSocket.send(msg);
     let list = [...messageList, formatMessage(msg.chatMsg)];
-    setMessageList(list);
+    saveMessageList(list);
     clearText();
     scrollToBottom();
   };
