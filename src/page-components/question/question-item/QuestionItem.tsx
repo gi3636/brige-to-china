@@ -38,7 +38,7 @@ function QuestionItem({ question, isLast }: QuestionItemProps) {
       <Link
         className={styles.questionBody}
         href={{
-          pathname: '/questions/[questionId]',
+          pathname: '/home/[questionId]',
           query: {
             questionId: question.id,
           },

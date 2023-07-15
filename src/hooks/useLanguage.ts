@@ -19,7 +19,6 @@ function useLanguage() {
 
   function changeLanguage(locale) {
     changeLocale(locale);
-    // 存储本地
     setItem('language', locale);
   }
 

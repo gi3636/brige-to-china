@@ -42,19 +42,19 @@ function Header() {
   const { listen } = useStorageListener();
 
   const navItems = [
+    // {
+    //   key: 'home',
+    //   label: t.header.home,
+    //   href: '/home',
+    // },
     {
       key: 'home',
-      label: t.header.home,
+      label: t.header.question,
       href: '/home',
     },
     {
-      key: 'questions',
-      label: t.header.question,
-      href: '/questions',
-    },
-    {
       key: 'activity',
-      label: t.header.activity,
+      label: t.header.school,
       href: '/activity',
     },
     {
