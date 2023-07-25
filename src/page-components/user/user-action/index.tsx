@@ -30,7 +30,7 @@ function UserAction({ userId }) {
         <div>
           {item.actionName}了
           <span className={styles.title} onClick={navigateTo.bind(null, item)}>
-            问题—{item.question.title}
+            问题—{item?.question?.title}
           </span>
         </div>
       );
@@ -39,7 +39,7 @@ function UserAction({ userId }) {
         <div>
           {item.actionName}了
           <span className={styles.title} onClick={navigateTo.bind(null, item)}>
-            用户-{item.user.nickname}
+            用户-{item?.user?.nickname}
           </span>
         </div>
       );
@@ -47,6 +47,7 @@ function UserAction({ userId }) {
     return <div>111</div>;
   };
   const renderAction = useMemo(() => {
+    console.log('actionList', actionList);
     return actionList?.map((item) => {
       return (
         <>

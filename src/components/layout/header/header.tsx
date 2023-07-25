@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './index.module.scss';
 import { Badge, Button, Dropdown, MenuProps } from 'antd';
 import { EarthIcon } from '@/components/icons/EarthIcon';
@@ -33,13 +33,14 @@ function Header() {
   const { t, changeLanguage } = useLanguage();
   const router = useRouter();
   const { run, loading } = useRequest();
-  const { run: runNotification, loading: notificationLoading } = useRequest();
+  const { run: runNotification, loading: notificationLoading } = useRequest(null, false);
   const [notificationList, setNotificationList] = useState<any[]>([]);
   const [dialogList, setDialogList] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   const { listen } = useStorageListener();
+  const notificationListTotal = useRef(0);
 
   const navItems = [
     // {
@@ -143,7 +144,7 @@ function Header() {
 
   useEffect(() => {
     if (user?.id) {
-      requestNotificationList();
+      requestNotificationList(1, 5, true);
       requestDialogList();
     }
   }, [user]);
@@ -166,17 +167,32 @@ function Header() {
     });
   };
 
-  const requestNotificationList = () => {
-    runNotification(
+  const requestNotificationList = async (currentPage, pageSize, isRefresh) => {
+    if (isRefresh) {
+      notificationListTotal.current = 0;
+    } else {
+      if (notificationList.length >= notificationListTotal.current) {
+        console.log('没有更多数据了');
+        throw new Error('没有更多数据了');
+      }
+    }
+
+    let res: any = await runNotification(
       getNotificationList({
-        currentPage: 1,
-        pageSize: 10,
+        currentPage: currentPage,
+        pageSize: pageSize,
         channelType: 1,
       }),
-    ).then((res) => {
-      if (res.code != 200) return;
+    );
+    if (res.code != 200) return;
+    console.log('res', res);
+    notificationListTotal.current = +res?.data?.total;
+    if (isRefresh) {
       setNotificationList(res?.data?.list);
-    });
+    } else {
+      setNotificationList([...notificationList, ...res?.data?.list]);
+    }
+    console.log('notificationList', notificationList);
   };
 
   const requestDialogList = () => {
@@ -292,6 +308,7 @@ function Header() {
               dropdownRender={() => {
                 return (
                   <NotificationList
+                    requestNotificationList={requestNotificationList}
                     notificationList={notificationList}
                     loading={notificationLoading}
                     changeReadStatus={changeReadStatus}

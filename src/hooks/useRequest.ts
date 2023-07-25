@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { api } from '@/api/api';
 import axios, { AxiosRequestConfig } from 'axios';
 
-function useRequest(axiosConfig?: AxiosRequestConfig) {
+function useRequest(axiosConfig?: AxiosRequestConfig | null, cancelRepeatRequest = true) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any>(null);
   const [err, setErr] = useState<any>(null);
@@ -20,7 +20,7 @@ function useRequest(axiosConfig?: AxiosRequestConfig) {
   }
 
   async function handleRequest(config: AxiosRequestConfig) {
-    if (previousRequest.current) {
+    if (cancelRepeatRequest && previousRequest.current) {
       previousRequest.current?.cancel('取消前一个请求');
       previousRequest.current = null;
     }
