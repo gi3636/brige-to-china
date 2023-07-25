@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './index.module.scss';
 import Image from 'next/image';
 import { convertFileUrl, formatToDateTime } from '@/utils';
@@ -10,12 +10,37 @@ import { DialogActionEnum } from '@/components/layout/header/header';
 import useStorageListener from '@/hooks/useStorageListener';
 import { MESSAGE_LIST } from '@/constants';
 
-function DialogList({ dialogList, loading }) {
+function DialogList({ dialogList, loading, requestDialogList }) {
   const dispatch = useDispatch();
+  const scrollRef = React.useRef(null) as any;
+  const state = useRef({
+    currentPage: 1,
+    pageSize: 5,
+    lock: false,
+  });
 
   const handleClick = (item) => {
     dispatch(addDialogItem(item));
     emitter.emit(EmitterType.updateDialogList, item, DialogActionEnum.read);
+  };
+
+  const onScrollHandle = async () => {
+    if (state.current.lock) return;
+    const scrollTop = scrollRef.current.scrollTop;
+    const clientHeight = scrollRef.current.clientHeight;
+    const scrollHeight = scrollRef.current.scrollHeight;
+    const isBottom = scrollTop + clientHeight === scrollHeight;
+    try {
+      if (isBottom && !state.current.lock) {
+        state.current.lock = true;
+        state.current.currentPage += 1;
+        await requestDialogList(state.current.currentPage, state.current.pageSize);
+      }
+    } catch (error) {
+      state.current.currentPage -= 1;
+    } finally {
+      state.current.lock = false;
+    }
   };
 
   const renderEmpty = () => {
@@ -63,13 +88,15 @@ function DialogList({ dialogList, loading }) {
         <div className={styles.item}>
           <Skeleton avatar paragraph={{ rows: 2 }} title={false} />
         </div>
-        <div className={styles.item}>
-          <Skeleton avatar paragraph={{ rows: 2 }} title={false} />
-        </div>
       </>
     );
   };
-  return <div className={styles.container}>{loading ? renderSkeleton() : renderDialogList}</div>;
+  return (
+    <div ref={scrollRef} className={styles.container} onScrollCapture={onScrollHandle}>
+      {renderDialogList}
+      {loading ? renderSkeleton() : null}
+    </div>
+  );
 }
 
 export default DialogList;

@@ -41,6 +41,7 @@ function Header() {
   const dispatch = useDispatch();
   const { listen } = useStorageListener();
   const notificationListTotal = useRef(0);
+  const dialogListTotal = useRef(0);
 
   const navItems = [
     // {
@@ -145,7 +146,7 @@ function Header() {
   useEffect(() => {
     if (user?.id) {
       requestNotificationList(1, 5, true);
-      requestDialogList();
+      requestDialogList(1, 5, true);
     }
   }, [user]);
 
@@ -172,7 +173,6 @@ function Header() {
       notificationListTotal.current = 0;
     } else {
       if (notificationList.length >= notificationListTotal.current) {
-        console.log('没有更多数据了');
         throw new Error('没有更多数据了');
       }
     }
@@ -185,27 +185,38 @@ function Header() {
       }),
     );
     if (res.code != 200) return;
-    console.log('res', res);
     notificationListTotal.current = +res?.data?.total;
+    let newList = res.data.list || [];
     if (isRefresh) {
-      setNotificationList(res?.data?.list);
+      setNotificationList(newList);
     } else {
-      setNotificationList([...notificationList, ...res?.data?.list]);
+      setNotificationList([...notificationList, newList]);
     }
-    console.log('notificationList', notificationList);
   };
 
-  const requestDialogList = () => {
-    run(
+  const requestDialogList = async (currentPage, pageSize, isRefresh) => {
+    if (isRefresh) {
+      dialogListTotal.current = 0;
+    } else {
+      if (dialogList.length >= dialogListTotal.current) {
+        throw new Error('没有更多数据了');
+      }
+    }
+    let res: any = await run(
       getDialogList({
-        currentPage: 1,
-        pageSize: 10,
+        currentPage: currentPage,
+        pageSize: pageSize,
         channelType: 1,
       }),
-    ).then((res) => {
-      if (res.code != 200) return;
-      setDialogList(res?.data?.list);
-    });
+    );
+    if (res.code != 200) return;
+    dialogListTotal.current = +res?.data?.total;
+    let newList = res.data.list || [];
+    if (isRefresh) {
+      setDialogList(newList);
+    } else {
+      setDialogList([...dialogList, ...newList]);
+    }
   };
   const updateNotification = (ids) => {
     ids.forEach((id) => {
@@ -324,7 +335,7 @@ function Header() {
               placement='bottom'
               arrow
               dropdownRender={() => {
-                return <DialogList dialogList={dialogList} loading={loading} />;
+                return <DialogList dialogList={dialogList} loading={loading} requestDialogList={requestDialogList} />;
               }}>
               <Badge dot={hasUnreadMessage}>
                 <MessageOutlined

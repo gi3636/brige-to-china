@@ -85,9 +85,6 @@ function NotificationList({ notificationList, loading, changeReadStatus, request
         <div className={styles.item}>
           <Skeleton avatar paragraph={{ rows: 2 }} title={false} />
         </div>
-        <div className={styles.item}>
-          <Skeleton avatar paragraph={{ rows: 2 }} title={false} />
-        </div>
       </>
     );
   };
