@@ -145,15 +145,15 @@ function PostQuestion(props) {
               <Form.Item name='title' rules={[{ required: true, message: '请输入标题' }]} noStyle>
                 <Input className={styles.titleInput} placeholder='请输入标题' />
               </Form.Item>
-              <Popover placement='top' content={'自动生成问题标题'} trigger='hover'>
-                <Button
-                  loading={genTitleLoading}
-                  icon={<QuestionCircleOutlined />}
-                  onClick={handleGenerateTitle}
-                  style={{ marginTop: 8, marginLeft: 10 }}>
-                  生成
-                </Button>
-              </Popover>
+              {/*<Popover placement='top' content={'自动生成问题标题'} trigger='hover'>*/}
+              {/*  <Button*/}
+              {/*    loading={genTitleLoading}*/}
+              {/*    icon={<QuestionCircleOutlined />}*/}
+              {/*    onClick={handleGenerateTitle}*/}
+              {/*    style={{ marginTop: 8, marginLeft: 10 }}>*/}
+              {/*    生成*/}
+              {/*  </Button>*/}
+              {/*</Popover>*/}
             </div>
           </Form.Item>
           <Form.Item name='content' rules={[{ required: true, message: '请输入问题' }]}>
@@ -181,15 +181,15 @@ function PostQuestion(props) {
                   }}
                 />
               </Form.Item>
-              <Popover placement='top' content={'自动生成标签'} trigger='hover'>
-                <Button
-                  loading={genTagLoading}
-                  icon={<QuestionCircleOutlined />}
-                  onClick={handleGenerateTags}
-                  style={{ marginLeft: 10 }}>
-                  生成
-                </Button>
-              </Popover>
+              {/*<Popover placement='top' content={'自动生成标签'} trigger='hover'>*/}
+              {/*  <Button*/}
+              {/*    loading={genTagLoading}*/}
+              {/*    icon={<QuestionCircleOutlined />}*/}
+              {/*    onClick={handleGenerateTags}*/}
+              {/*    style={{ marginLeft: 10 }}>*/}
+              {/*    生成*/}
+              {/*  </Button>*/}
+              {/*</Popover>*/}
             </div>
           </Form.Item>
         </Form>
@@ -198,11 +198,11 @@ function PostQuestion(props) {
             <Image.PreviewGroup>{renderImagesList()}</Image.PreviewGroup>
           </div>
         ) : null}
-        <div className={styles.actionContainer}>
-          <div className={styles.uploadBtn}>
-            <ImageOutlineIcon width={22} height={22} color={colors.iconDefaultColor} />
-          </div>
-        </div>
+        {/*<div className={styles.actionContainer}>*/}
+        {/*  <div className={styles.uploadBtn}>*/}
+        {/*    <ImageOutlineIcon width={22} height={22} color={colors.iconDefaultColor} />*/}
+        {/*  </div>*/}
+        {/*</div>*/}
       </div>
       <Button type='primary' className={styles.postBtn} loading={loading} onClick={handlePostQuestion}>
         发布问题
