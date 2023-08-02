@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const id = params?.id;
   let appEnv = process.env.APP_ENV;
-  let baseUrl = appEnv === 'development' ? globalConfig.devBaseUrl : globalConfig.prodBaseUrl;
+  let baseUrl = appEnv === 'dev' ? globalConfig.devBaseUrl : globalConfig.prodBaseUrl;
   const res = await axios(`${baseUrl}/news/detail/${id}`, {
     method: 'GET',
   });

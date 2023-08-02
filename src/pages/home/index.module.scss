@@ -61,10 +61,17 @@
         padding: 20px;
         display: flex;
         flex-direction: column;
-
-
+        min-height: calc(100vh - 200px);
       }
 
+      .noData {
+        margin-top: auto;
+        margin-bottom: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
 
 
       .loadMore {
@@ -147,6 +154,7 @@
             display: flex;
             margin-top: 10px;
             overflow-x: auto;
+
             & > div {
               margin-right: 8px;
             }
@@ -179,7 +187,7 @@
           }
         }
 
-        .postBtn{
+        .postBtn {
           margin-top: 4px;
         }
       }

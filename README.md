@@ -42,8 +42,8 @@
 │  └─globalConfig.ts: 全局配置
 ├─.babelrc: babel配置
 ├─.env: 环境变量
-├─.env.development: 开发环境变量
-├─.env.production: 生产环境变量
+├─.env.dev: 开发环境变量
+├─.env.prod: 生产环境变量
 ├─.eslintignore: eslint忽略文件
 ├─.eslintrc.js: eslint配置
 ├─.gitignore: git忽略文件

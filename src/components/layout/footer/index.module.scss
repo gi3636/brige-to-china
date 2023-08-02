@@ -1,5 +1,5 @@
 .container {
-  height: 120px;
+  height: 80px;
   @include flex-center;
   .mainContent {
     width: $main-width;
@@ -8,9 +8,9 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 70px;
+    height: 50px;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
 
     a {

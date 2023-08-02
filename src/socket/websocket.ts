@@ -24,9 +24,7 @@ export class ImWebSocket {
   constructor(public handler) {}
 
   init = () => {
-    this.connection = new WebSocket(
-      process.env.APP_ENV === 'development' ? globalConfig.devWsUrl : globalConfig.prodWsUrl,
-    );
+    this.connection = new WebSocket(process.env.APP_ENV === 'dev' ? globalConfig.devWsUrl : globalConfig.prodWsUrl);
     let { handler, connection } = this;
     //重新定义各个事件的回调函数
     connection.onmessage = handler(SocketEvent.message);

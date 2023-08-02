@@ -9,7 +9,7 @@ import { globalConfig } from '@/globalConfig';
 import { useRouter } from 'next/router';
 import { getQuestionList } from '@/api/question';
 import useRequest from '@/hooks/useRequest';
-import { Skeleton, Spin } from 'antd';
+import { Empty, Skeleton, Spin } from 'antd';
 import Pagination from '@/components/pagination';
 const navList = [
   {
@@ -20,14 +20,14 @@ const navList = [
     id: 2,
     name: '最新提问',
   },
-  {
-    id: 3,
-    name: '等我回答',
-  },
-  {
-    id: 4,
-    name: '我的关注',
-  },
+  // {
+  //   id: 3,
+  //   name: '等我回答',
+  // },
+  // {
+  //   id: 4,
+  //   name: '我的关注',
+  // },
 ];
 function QuestionsPage({ list }) {
   const router = useRouter();
@@ -65,16 +65,16 @@ function QuestionsPage({ list }) {
 
   const handleTabChange = (index) => {
     setCurrentIndex(index);
-    router.push(`/questions?type=${index}&page=1`, undefined, { shallow: true });
+    router.push(`/home?type=${index}&page=1`, undefined, { shallow: true });
   };
 
   const nextPage = () => {
     setPage(page + 1);
-    router.push(`/questions?type=${currentIndex}&page=${page + 1}`, undefined, { shallow: true });
+    router.push(`/home?type=${currentIndex}&page=${page + 1}`, undefined, { shallow: true });
   };
   const prevPage = () => {
     setPage(page - 1);
-    router.push(`/questions?type=${currentIndex}&page=${page - 1}`, undefined, { shallow: true });
+    router.push(`/home?type=${currentIndex}&page=${page - 1}`, undefined, { shallow: true });
   };
 
   const handleSortByTime = () => {
@@ -89,9 +89,15 @@ function QuestionsPage({ list }) {
   };
 
   const renderQuestionList = useMemo(() => {
-    return questionList?.map((item, index) => {
-      return <QuestionItem question={item} key={index} isLast={index == questionList.length - 1} />;
-    });
+    return questionList.length > 0 ? (
+      questionList?.map((item, index) => {
+        return <QuestionItem question={item} key={index} isLast={index == questionList.length - 1} />;
+      })
+    ) : (
+      <div className={styles.noData}>
+        <Empty description='暂无数据' />
+      </div>
+    );
   }, [questionList]);
 
   return (
@@ -148,7 +154,7 @@ function QuestionsPage({ list }) {
 export async function getServerSideProps(context) {
   const { page, type } = context.query;
   let appEnv = process.env.APP_ENV;
-  let baseUrl = appEnv === 'development' ? globalConfig.devBaseUrl : globalConfig.prodBaseUrl;
+  let baseUrl = appEnv === 'dev' ? globalConfig.devBaseUrl : globalConfig.prodBaseUrl;
   const res = await axios.post(`${baseUrl}/question/seoList`, {
     currentPage: page || 1,
     type: type || 1,

@@ -2,8 +2,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:prod": "APP_ENV=production next dev",
-    "build:prod": "APP_ENV=production next build",
+    "dev:prod": "APP_ENV=prod next dev",
+    "build:prod": "APP_ENV=prod next build",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix --quiet ./"

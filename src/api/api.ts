@@ -8,7 +8,7 @@ export let api;
 let appEnv = process.env.APP_ENV;
 
 api = axios.create({
-  baseURL: appEnv === 'development' ? globalConfig.devBaseUrl : globalConfig.prodBaseUrl,
+  baseURL: appEnv === 'dev' ? globalConfig.devBaseUrl : globalConfig.prodBaseUrl,
 });
 
 // 请求拦截器
