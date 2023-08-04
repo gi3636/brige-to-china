@@ -54,6 +54,12 @@ module.exports = {
         port: '9000',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '9000',
+        pathname: '/**',
+      },
     ],
   },
   //添加语言环境
