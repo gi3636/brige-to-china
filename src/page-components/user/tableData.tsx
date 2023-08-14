@@ -31,3 +31,5 @@ export const fields: IField[] = [
     component: <Input.TextArea placeholder='placeholder' rows={4} />,
   },
 ];
+
+export default fields;

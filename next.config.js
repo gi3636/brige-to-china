@@ -63,7 +63,8 @@ module.exports = {
     ],
   },
   //添加语言环境
-  // i18n,
+  // i18n
+
   i18n: {
     // The locales you want to support in your app
     locales: ['en', 'zh'],

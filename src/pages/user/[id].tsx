@@ -12,7 +12,7 @@ import { uploadFile } from '@/api/file';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '@/store/user/slice';
 import ProForm from '@/components/pro-form';
-import { fields } from '@/pages/user/tableData';
+import { fields } from '@/page-components/user/tableData';
 import UserAction from '@/page-components/user/user-action';
 import { addDialog } from '@/api/message';
 import { addDialogItem } from '@/store/dialog/slice';
