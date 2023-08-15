@@ -38,6 +38,8 @@ export function convertFileUrl(url) {
   if (url.startsWith('http')) {
     return url;
   }
+
+  console.log('`${globalConfig.fileUrl}/${url}`', `${globalConfig.fileUrl}${url}`);
   return `${globalConfig.fileUrl}${url}`;
 }
 

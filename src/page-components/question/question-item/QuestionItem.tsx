@@ -1,12 +1,11 @@
 import React from 'react';
 import styles from './index.module.scss';
-import Image from 'next/image';
 import Tag from '@/components/tag/tag';
 import { EyeOutlineIcon } from '@/components/icons/EyeOutlineIcon';
 import { colors } from '@/styles/colors';
 import { CommentOutlineIcon } from '@/components/icons/CommentOutlineIcon';
 import { LikeOutlineIcon } from '@/components/icons/LikeOutlineIcon';
-import { Divider } from 'antd';
+import { Divider, Image } from 'antd';
 import BestAnswerItem from '@/page-components/question/best-answer-item/BestAnswerItem';
 import { convertFileUrl, formatToDateTime } from '@/utils';
 import Link from 'next/link';
@@ -20,7 +19,7 @@ function QuestionItem({ question, isLast }: QuestionItemProps) {
     <div className={styles.questionItem}>
       <div className={styles.questionHeader}>
         <div className={styles.questionAvatar}>
-          <Image src={convertFileUrl(question?.avatar) || ''} alt='' width={40} height={40} />
+          <Image src={convertFileUrl(question?.avatar) || ''} preview={false} alt='' width={40} height={40} />
         </div>
         <Link
           className={styles.questionAuthor}

@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './id.module.scss';
-import Image from 'next/image';
 import type { TabsProps } from 'antd';
-import { Button, Form, message, Modal, Tabs } from 'antd';
+import { Button, Form, message, Modal, Tabs, Image } from 'antd';
 import { useRouter } from 'next/router';
 import useRequest from '@/hooks/useRequest';
 import { editUserInfo, getUserDetail } from '@/api/user';
