@@ -12,6 +12,9 @@ export default function App({ Component, pageProps }) {
       <Head>
         <title>{t.projectName}</title>
         <meta property='og:title' content={t.projectName} key='title' />
+        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+        {/*让https 可以访问http*/}
+        <meta httpEquiv='Content-Security-Policy' content='upgrade-insecure-requests' />
         <link rel='icon' href='/favicon.ico' />
         <meta name='description' content='Learn how to build a personal website using Next.js' />
       </Head>
